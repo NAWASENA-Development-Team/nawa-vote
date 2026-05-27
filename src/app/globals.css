@@ -1,0 +1,76 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --background: #fafafa;
+  --foreground: #0f172a;
+}
+
+body {
+  color: var(--foreground);
+  background-color: var(--background);
+  font-family: var(--font-inter), sans-serif;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-plus-jakarta-sans), sans-serif;
+  font-weight: 700;
+  letter-spacing: -0.025em;
+}
+
+/* ========================================
+   MODERN ELEGANT UTILITIES
+======================================= */
+.glass-card {
+  background: white;
+  border: 1px solid rgba(226, 232, 240, 0.6);
+  border-radius: 1.5rem;
+  box-shadow: 0 20px 25px -5px rgba(226, 232, 240, 0.5), 0 8px 10px -6px rgba(226, 232, 240, 0.5);
+  transition: all 0.3s ease-out;
+}
+
+.primary-button {
+  background: linear-gradient(to right, #4f46e5, #7c3aed);
+  color: white;
+  border-radius: 1rem;
+  font-weight: 600;
+  transition: all 0.3s ease-out;
+  box-shadow: 0 4px 6px -1px rgba(124, 58, 237, 0.2), 0 2px 4px -2px rgba(124, 58, 237, 0.2);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+.primary-button:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 15px -3px rgba(124, 58, 237, 0.3), 0 4px 6px -4px rgba(124, 58, 237, 0.3);
+}
+.primary-button:active:not(:disabled) {
+  transform: translateY(0);
+}
+.primary-button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.modern-input {
+  background-color: white;
+  border: 1px solid #e2e8f0;
+  border-radius: 1rem;
+  color: #0f172a;
+  font-weight: 500;
+  transition: all 0.3s ease-out;
+}
+.modern-input:focus {
+  outline: none;
+  border-color: #7c3aed;
+  box-shadow: 0 0 0 4px rgba(124, 58, 237, 0.1);
+}
+
+::selection {
+  background-color: rgba(124, 58, 237, 0.2);
+  color: #7c3aed;
+}
