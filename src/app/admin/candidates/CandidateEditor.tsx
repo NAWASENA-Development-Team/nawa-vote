@@ -20,9 +20,8 @@ interface CandidateEditorProps {
   initialCandidates: Candidate[];
 }
 
-export default function CandidateEditor({ initialCandidates }: CandidateEditorProps) {
+export default function CandidateEditor({ initialCandidates: candidates }: CandidateEditorProps) {
   const router = useRouter();
-  const [candidates] = useState<Candidate[]>(initialCandidates);
   const [isLoading, setIsLoading] = useState(false);
   
   // Editor Modal States
