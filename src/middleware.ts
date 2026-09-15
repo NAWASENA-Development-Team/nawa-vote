@@ -43,8 +43,9 @@ export async function middleware(request: NextRequest) {
 
   // 1. Protect Admin Routes (/admin/*)
   if (path.startsWith('/admin')) {
-    // Refresh admin auth session if expired - required for Server Components
-    const { data: { user } } = await supabase.auth.getUser();
+    // Gunakan getSession() alih-alih getUser() di Edge Middleware untuk menghindari timeout jaringan
+    const { data: { session } } = await supabase.auth.getSession();
+    const user = session?.user;
     const adminRole = user?.app_metadata?.role || '';
 
     if (!user) {
@@ -74,7 +75,8 @@ export async function middleware(request: NextRequest) {
 
   // 3. Redirect authenticated admins away from admin login (/login)
   if (path === '/login') {
-    const { data: { user } } = await supabase.auth.getUser();
+    const { data: { session } } = await supabase.auth.getSession();
+    const user = session?.user;
     const adminRole = user?.app_metadata?.role || '';
     
     if (user && (adminRole === 'admin' || adminRole === 'supervisor')) {
