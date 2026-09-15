@@ -41,12 +41,12 @@ export async function middleware(request: NextRequest) {
   const url = request.nextUrl.clone();
   const path = url.pathname;
 
-  // Refresh admin auth session if expired - required for Server Components
-  const { data: { user } } = await supabase.auth.getUser();
-  const adminRole = user?.app_metadata?.role || '';
-
   // 1. Protect Admin Routes (/admin/*)
   if (path.startsWith('/admin')) {
+    // Refresh admin auth session if expired - required for Server Components
+    const { data: { user } } = await supabase.auth.getUser();
+    const adminRole = user?.app_metadata?.role || '';
+
     if (!user) {
       url.pathname = '/login';
       url.searchParams.set('redirect', path);
@@ -107,9 +107,13 @@ export async function middleware(request: NextRequest) {
   }
 
   // 3. Redirect authenticated admins away from admin login (/login)
-  if (path === '/login' && user && adminRole === 'admin') {
-    url.pathname = '/admin/dashboard';
-    return NextResponse.redirect(url);
+  if (path === '/login') {
+    const { data: { user } } = await supabase.auth.getUser();
+    const adminRole = user?.app_metadata?.role || '';
+    if (user && adminRole === 'admin') {
+      url.pathname = '/admin/dashboard';
+      return NextResponse.redirect(url);
+    }
   }
 
   // 4. Redirect active voter sessions from landing page (/) to vote/success
