@@ -53,7 +53,7 @@ export async function middleware(request: NextRequest) {
       return NextResponse.redirect(url);
     }
 
-    if (adminRole !== 'admin') {
+    if (adminRole !== 'admin' && adminRole !== 'supervisor') {
       url.pathname = '/login';
       url.searchParams.set('error', 'unauthorized');
       return NextResponse.redirect(url);
@@ -70,76 +70,28 @@ export async function middleware(request: NextRequest) {
       url.searchParams.set('error', 'unauthorized');
       return NextResponse.redirect(url);
     }
-
-    // Direct check in voters database using service role/public API
-    const { data: voter, error } = await supabase
-      .from('voters')
-      .select('id, token, has_voted, vote_token')
-      .eq('id', voterId)
-      .eq('token', voterToken)
-      .maybeSingle();
-
-    if (error || !voter) {
-      // Invalid session cookies, clear them and redirect to landing page
-      url.pathname = '/';
-      url.searchParams.set('error', 'unauthorized');
-      const errorResponse = NextResponse.redirect(url);
-      errorResponse.cookies.delete('nawa_voter_token');
-      errorResponse.cookies.delete('nawa_voter_id');
-      return errorResponse;
-    }
-
-    // Voter flow redirects:
-    // If voter has already voted, they cannot go to /vote, they are routed to /success
-    if (voter.has_voted && path === '/vote') {
-      url.pathname = '/success';
-      if (voter.vote_token) {
-        url.searchParams.set('token', voter.vote_token);
-      }
-      return NextResponse.redirect(url);
-    }
-
-    // If voter hasn't voted yet, they cannot go to /success, they are routed to /vote
-    if (!voter.has_voted && path === '/success') {
-      url.pathname = '/vote';
-      return NextResponse.redirect(url);
-    }
   }
 
   // 3. Redirect authenticated admins away from admin login (/login)
   if (path === '/login') {
     const { data: { user } } = await supabase.auth.getUser();
     const adminRole = user?.app_metadata?.role || '';
-    if (user && adminRole === 'admin') {
+    
+    if (user && (adminRole === 'admin' || adminRole === 'supervisor')) {
       url.pathname = '/admin/dashboard';
       return NextResponse.redirect(url);
     }
   }
 
-  // 4. Redirect active voter sessions from landing page (/) to vote/success
+  // 4. Redirect active voter sessions from landing page (/) to vote
+  // Note: /vote page handles the double-vote check and redirects to /success if already voted.
   if (path === '/' && !url.searchParams.has('error')) {
     const voterToken = request.cookies.get('nawa_voter_token')?.value;
     const voterId = request.cookies.get('nawa_voter_id')?.value;
 
     if (voterToken && voterId) {
-      const { data: voter } = await supabase
-        .from('voters')
-        .select('has_voted, vote_token')
-        .eq('id', voterId)
-        .eq('token', voterToken)
-        .maybeSingle();
-
-      if (voter) {
-        if (voter.has_voted) {
-          url.pathname = '/success';
-          if (voter.vote_token) {
-            url.searchParams.set('token', voter.vote_token);
-          }
-        } else {
-          url.pathname = '/vote';
-        }
-        return NextResponse.redirect(url);
-      }
+      url.pathname = '/vote';
+      return NextResponse.redirect(url);
     }
   }
 
