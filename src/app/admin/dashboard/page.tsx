@@ -12,7 +12,7 @@ export default async function AdminDashboardPage() {
 
   // Get admin session
   const { data: { user } } = await supabase.auth.getUser();
-  if (!user || user.app_metadata?.role !== 'admin') {
+  if (!user || (user.app_metadata?.role !== 'admin' && user.app_metadata?.role !== 'supervisor')) {
     redirect('/login');
   }
 
