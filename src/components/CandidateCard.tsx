@@ -65,13 +65,13 @@ export default function CandidateCard({
     >
       {/* Ordinal Number Glow Badge */}
       <div className="absolute top-4 left-4 z-10">
-        <div className={`flex items-center justify-center rounded-full bg-white/95 backdrop-blur-md text-brand-navy-900 font-black border border-brand-navy-100 shadow-sm ${isCompact ? 'w-8 h-8 text-sm' : 'w-10 h-10 text-lg'}`}>
+        <div className="flex items-center justify-center rounded-full bg-white/95 backdrop-blur-md text-brand-navy-900 font-black border border-brand-navy-100 shadow-sm w-10 h-10 text-lg">
           {formattedNumber}
         </div>
       </div>
 
       {/* Candidate Image Container */}
-      <div className={`relative w-full bg-brand-navy-50 overflow-hidden group transition-all duration-500 aspect-[4/3]`}>
+      <div className="relative w-full bg-brand-navy-50 overflow-hidden group transition-all duration-500 aspect-[4/3]">
         {candidate.photo_url ? (
           <Image
             src={candidate.photo_url}
@@ -96,18 +96,18 @@ export default function CandidateCard({
         <div className="absolute inset-0 bg-gradient-to-t from-brand-navy-950/90 via-brand-navy-900/30 to-transparent" />
 
         {/* Absolute Titles on Image */}
-        <div className={`absolute left-5 right-5 transition-all duration-300 ${isCompact ? 'bottom-3' : 'bottom-5'}`}>
+        <div className="absolute left-5 right-5 transition-all duration-300 bottom-5">
           <p className="text-[10px] font-bold text-brand-amber-400 uppercase tracking-widest mb-1.5 drop-shadow-md">
             {getCategoryLabel(candidate.category)}
           </p>
-          <h3 className={`font-heading font-black leading-tight text-white line-clamp-2 drop-shadow-lg transition-all duration-300 ${isCompact ? 'text-xl' : 'text-2xl'}`}>
+          <h3 className="font-heading font-black leading-tight text-white line-clamp-2 drop-shadow-lg transition-all duration-300 text-2xl">
             {candidate.name}
           </h3>
         </div>
       </div>
 
       {/* Content Details */}
-      <div className={`flex flex-col flex-grow transition-all duration-300 ${isCompact ? 'p-4' : 'p-6'}`}>
+      <div className="flex flex-col flex-grow transition-all duration-300 p-6">
         
         {/* Compact Mode: View Details Link */}
         {isCompact && (
@@ -182,9 +182,7 @@ export default function CandidateCard({
         {showVoteButton && onSelect && (
           <button
             onClick={() => onSelect(candidate)}
-            className={`w-full px-4 rounded-xl font-bold uppercase tracking-widest text-xs transition-all duration-300 flex items-center justify-center gap-2 mt-auto ${
-              compact ? 'py-3' : 'py-4'
-            } ${
+            className={`w-full px-4 rounded-xl font-bold uppercase tracking-widest text-xs transition-all duration-300 flex items-center justify-center gap-2 mt-auto py-4 ${
               isSelected
                 ? 'bg-gradient-to-r from-brand-amber-400 to-brand-amber-500 text-brand-amber-950 shadow-brand-gold border-none'
                 : 'bg-white border-2 border-brand-navy-100 text-brand-navy-600 hover:border-brand-amber-300 hover:bg-brand-amber-50'
