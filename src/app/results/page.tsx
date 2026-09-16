@@ -2,7 +2,7 @@ import { createClient } from '@/lib/supabase/server';
 import React from 'react';
 import LeaderboardClient from './LeaderboardClient';
 
-export const revalidate = 0;
+export const revalidate = 1200; // ponytail: Next.js ISR cache acts as the delay. Updates every 20m instead of rolling delay.
 
 export default async function PublicResultsPage() {
   const supabase = createClient();
