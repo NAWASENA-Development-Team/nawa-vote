@@ -38,19 +38,17 @@ function LandingForm() {
   const handleTokenChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     let val = e.target.value.toUpperCase();
 
-    // Auto-prepend 'NW-' if the user starts typing alphanumeric without it
     if (val && !val.startsWith('NW-') && val.length <= 6) {
-      // If they type NW directly
       if ('NW'.startsWith(val)) {
-        // Let them type NW
+        // Allow typing
       } else if ('NW-'.startsWith(val)) {
-        // Let them type NW-
+        // Allow typing
       } else {
         val = 'NW-' + val;
       }
     }
 
-    setToken(val.slice(0, 9)); // Max length for 'NW-XXXXXX' is 9 characters
+    setToken(val.slice(0, 9)); 
     setErrorMsg(null);
   };
 
@@ -86,17 +84,17 @@ function LandingForm() {
   };
 
   return (
-    <div className="w-full max-w-md relative z-10">
-
-      {/* Brand Header Logo */}
-      <div className="text-center mb-8 flex flex-col items-center">
+    <div className="w-full max-w-md relative z-10 mx-auto">
+      {/* Brand Header */}
+      <div className="text-center mb-10 flex flex-col items-center">
         <motion.div
-          initial={{ scale: 0.9, opacity: 0 }}
-          animate={{ scale: 1, opacity: 1 }}
-          transition={{ type: 'spring', stiffness: 200, damping: 20 }}
-          className="inline-flex items-center justify-center w-24 h-24 rounded-2xl bg-gradient-to-br from-blue-500/80 to-indigo-600/80 backdrop-blur-md shadow-xl shadow-blue-500/20 mb-6 text-white p-5 border border-white/20"
+          initial={{ scale: 0.9, opacity: 0, y: 10 }}
+          animate={{ scale: 1, opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
+          className="inline-flex items-center justify-center w-20 h-20 rounded-2xl bg-brand-navy-900 shadow-brand mb-6 text-white p-4 border border-brand-navy-700/50 relative overflow-hidden"
         >
-          <div className="w-full h-full drop-shadow-md">
+          <div className="absolute inset-0 bg-glass-dark-grad opacity-50"></div>
+          <div className="w-full h-full drop-shadow-md relative z-10 flex items-center justify-center">
             <NawaLogo />
           </div>
         </motion.div>
@@ -104,52 +102,50 @@ function LandingForm() {
         <motion.h1
           initial={{ y: 10, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
-          transition={{ delay: 0.1 }}
-          className="font-heading text-4xl text-slate-900 tracking-tight mb-2"
+          transition={{ delay: 0.1, duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
+          className="font-heading text-4xl font-black text-brand-navy-900 tracking-tight mb-3"
         >
           Nawa Vote
         </motion.h1>
 
-        <motion.p
+        <motion.div
           initial={{ y: 10, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
-          transition={{ delay: 0.2 }}
-          className="text-sm font-medium text-slate-500 bg-white border border-slate-200 px-4 py-1.5 inline-flex items-center justify-center gap-2 rounded-full shadow-sm"
+          transition={{ delay: 0.2, duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
+          className="inline-flex items-center justify-center gap-1.5 px-3 py-1 rounded-md bg-brand-amber-50 text-brand-amber-700 text-xs font-bold uppercase tracking-widest border border-brand-amber-100/50"
         >
-          <Sparkles className="w-4 h-4 text-indigo-500" />
+          <Sparkles className="w-3.5 h-3.5" />
           Sistem Digital Terverifikasi
-        </motion.p>
+        </motion.div>
       </div>
 
       {/* Main Glass Card Form */}
       <motion.div
         initial={{ y: 20, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
-        transition={{ delay: 0.3 }}
-        className="glass-card p-8 flex flex-col"
+        transition={{ delay: 0.3, duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+        className="glass-card p-8 sm:p-10 flex flex-col bg-white/80 backdrop-blur-xl"
       >
-        <div className="flex flex-col items-center text-center mb-6">
-          <div className="w-12 h-12 rounded-full bg-indigo-50 flex items-center justify-center mb-3">
-            <Ticket className="w-6 h-6 text-indigo-600" />
-          </div>
-          <h2 className="text-lg font-semibold text-slate-900">Autentikasi Pemilih</h2>
-          <p className="text-sm text-slate-500 mt-1">Masukkan token akses Anda untuk masuk ke bilik suara.</p>
+        <div className="flex flex-col items-center text-center mb-8">
+          <h2 className="text-xl font-bold text-brand-navy-900 font-heading">Autentikasi Pemilih</h2>
+          <p className="text-sm text-brand-navy-500 mt-2 font-medium">Masukkan token akses Anda untuk masuk ke bilik suara.</p>
         </div>
 
-        {/* Error Alert Display Box */}
+        {/* Error Alert */}
         <AnimatePresence mode="wait">
           {errorMsg && (
             <motion.div
-              initial={{ height: 0, opacity: 0 }}
-              animate={{ height: 'auto', opacity: 1 }}
-              exit={{ height: 0, opacity: 0 }}
-              className="overflow-hidden mb-5"
+              initial={{ height: 0, opacity: 0, scale: 0.95 }}
+              animate={{ height: 'auto', opacity: 1, scale: 1 }}
+              exit={{ height: 0, opacity: 0, scale: 0.95 }}
+              transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
+              className="overflow-hidden mb-6"
             >
               <div className="flex items-start gap-3 p-4 rounded-xl bg-red-50 border border-red-100 text-red-600 text-sm leading-relaxed">
                 <ShieldAlert className="w-5 h-5 flex-shrink-0 mt-0.5" />
                 <div>
-                  <span className="font-semibold block mb-0.5">Akses Ditolak</span>
-                  <span className="text-red-500">{errorMsg}</span>
+                  <span className="font-bold block mb-0.5">Akses Ditolak</span>
+                  <span className="text-red-600/90 font-medium">{errorMsg}</span>
                 </div>
               </div>
             </motion.div>
@@ -158,9 +154,9 @@ function LandingForm() {
 
         {/* Token Form */}
         <form onSubmit={handleLogin} className="space-y-6">
-          <div>
-            <div className="relative">
-              <Ticket className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400 z-10" />
+          <div className="space-y-2">
+            <div className="relative group">
+              <Ticket className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-brand-navy-400 z-10 transition-colors group-focus-within:text-brand-amber-500" />
               <input
                 id="token"
                 type="text"
@@ -171,19 +167,19 @@ function LandingForm() {
                 disabled={isLoading}
                 autoFocus
                 required
-                className="w-full pl-12 pr-5 py-3.5 modern-input text-lg text-center font-mono placeholder-slate-300 tracking-wider uppercase"
+                className="w-full pl-12 pr-5 py-4 modern-input text-lg text-center font-mono placeholder:text-brand-navy-300 tracking-[0.2em] uppercase"
                 style={{ fontFamily: 'var(--font-jetbrains-mono), monospace' }}
               />
             </div>
-            <p className="text-xs text-slate-500 mt-3 text-center">
-              Token unik ini dibagikan oleh Panitia Penyelenggara.
+            <p className="text-xs text-brand-navy-400 font-medium text-center">
+              Token unik dibagikan oleh Panitia Penyelenggara.
             </p>
           </div>
 
           <button
             type="submit"
             disabled={isLoading || !token}
-            className="w-full py-3.5 px-5 primary-button text-sm uppercase tracking-wider"
+            className="w-full py-4 px-6 primary-button text-sm uppercase tracking-widest mt-2"
           >
             {isLoading ? (
               <>
@@ -191,40 +187,47 @@ function LandingForm() {
               </>
             ) : (
               <>
-                Masuk Bilik Suara <Sparkles className="w-4 h-4 ml-2" />
+                Masuk Bilik Suara <Sparkles className="w-4 h-4 ml-2 opacity-80" />
               </>
             )}
           </button>
         </form>
-
-        {/* Link to Admin Login */}
-        <div className="mt-8 pt-6 border-t border-slate-100 flex justify-center">
-          <Link
-            href="/login"
-            className="inline-flex items-center gap-2 text-xs font-medium text-slate-400 hover:text-indigo-600 transition-colors duration-200"
-          >
-            <KeyRound className="w-4 h-4" /> Portal Panitia
-          </Link>
-        </div>
       </motion.div>
 
-      {/* Watermark institutional note */}
-      <div className="mt-8 text-center">
-        <p className="text-xs text-slate-400 font-medium">
-          Hak Suara Anda Menentukan Masa Depan.
+      {/* Admin Link & Watermark */}
+      <motion.div 
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ delay: 0.6, duration: 1 }}
+        className="mt-10 flex flex-col items-center gap-4"
+      >
+        <Link
+          href="/login"
+          className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-brand-navy-400 hover:text-brand-navy-700 transition-colors duration-200"
+        >
+          <KeyRound className="w-3.5 h-3.5" /> Portal Panitia
+        </Link>
+        <p className="text-[11px] text-brand-navy-300 font-bold uppercase tracking-widest">
+          Hak Suara Anda Menentukan Masa Depan
         </p>
-      </div>
+      </motion.div>
     </div>
   );
 }
 
 export default function LandingPage() {
   return (
-    <div className="flex-grow flex items-center justify-center p-4 min-h-screen z-10 relative overflow-hidden">
+    <div className="flex-grow flex items-center justify-center p-4 sm:p-6 min-h-screen bg-brand-navy-50 relative overflow-hidden">
+      {/* Premium Background Accents */}
+      <div className="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none z-0">
+        <div className="absolute -top-[20%] -right-[10%] w-[50%] h-[50%] rounded-full bg-brand-amber-100/40 blur-[120px]"></div>
+        <div className="absolute -bottom-[20%] -left-[10%] w-[50%] h-[50%] rounded-full bg-brand-navy-200/30 blur-[120px]"></div>
+      </div>
+
       <Suspense fallback={
         <div className="text-center py-10 flex flex-col items-center z-10">
-          <Loader2 className="w-10 h-10 animate-spin text-indigo-500 mb-4" />
-          <p className="text-sm font-medium text-slate-500">Memuat bilik suara...</p>
+          <Loader2 className="w-10 h-10 animate-spin text-brand-navy-400 mb-4" />
+          <p className="text-sm font-bold uppercase tracking-widest text-brand-navy-500">Memuat bilik suara...</p>
         </div>
       }>
         <LandingForm />
