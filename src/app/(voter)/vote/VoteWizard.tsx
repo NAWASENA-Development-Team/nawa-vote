@@ -175,18 +175,7 @@ export default function VoteWizard({ candidates, voterToken }: VoteWizardProps) 
         </div>
       </div>
 
-      {/* Main Title Section */}
-      <div className="text-center mb-10 max-w-xl mx-auto mt-8">
-        <span className="inline-flex items-center gap-1.5 py-1.5 px-3 rounded-full bg-brand-amber-50 text-brand-amber-700 text-[10px] font-bold uppercase tracking-widest mb-4 border border-brand-amber-100/50">
-          <Flame className="w-3.5 h-3.5" /> Tahap {step} dari 3
-        </span>
-        <h1 className="font-heading text-4xl font-black text-brand-navy-900 tracking-tight leading-tight mb-3">
-          Pilih {stepLabels[step - 1].name}
-        </h1>
-        <p className="text-brand-navy-500 text-sm font-medium">
-          Pilih kandidat terbaik menurut Anda. Anda dapat melihat visi dan misi tiap kandidat dengan mengklik detail.
-        </p>
-      </div>
+      {/* Removed redundant Main Title Section */}
 
       {/* Candidates Selection Grid layout */}
       <AnimatePresence mode="wait">
