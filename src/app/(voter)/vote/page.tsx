@@ -21,13 +21,29 @@ export default async function VotePage() {
 
   const supabase = createClient();
 
-  // Verify voter in database
-  const { data: voter, error: voterError } = await supabase
-    .from('voters')
-    .select('id, token, has_voted, vote_token')
-    .eq('id', voterId)
-    .eq('token', voterToken)
-    .maybeSingle();
+  // Execute all queries in parallel (voter verification, system config, and candidates list)
+  const [
+    { data: voter, error: voterError },
+    { data: config },
+    { data: candidates, error: candError }
+  ] = await Promise.all([
+    supabase
+      .from('voters')
+      .select('id, token, has_voted, vote_token')
+      .eq('id', voterId)
+      .eq('token', voterToken)
+      .maybeSingle(),
+    supabase
+      .from('system_config')
+      .select('value')
+      .eq('key', 'voting_status')
+      .single(),
+    supabase
+      .from('candidates')
+      .select('id, ordinal_number, name, photo_url, vision, mission, category')
+      .order('category', { ascending: true })
+      .order('ordinal_number', { ascending: true })
+  ]);
 
   if (voterError || !voter) {
     redirect('/?error=unauthorized');
@@ -37,13 +53,6 @@ export default async function VotePage() {
   if (voter.has_voted) {
     redirect(`/success?token=${voter.vote_token || ''}`);
   }
-
-  // Fetch voting status system config
-  const { data: config } = await supabase
-    .from('system_config')
-    .select('value')
-    .eq('key', 'voting_status')
-    .single();
 
   const votingStatus = config?.value || 'closed';
 
@@ -70,13 +79,6 @@ export default async function VotePage() {
       </div>
     );
   }
-
-  // Fetch candidates sorted by category and ordinal number
-  const { data: candidates, error: candError } = await supabase
-    .from('candidates')
-    .select('id, ordinal_number, name, photo_url, vision, mission, category')
-    .order('category', { ascending: true })
-    .order('ordinal_number', { ascending: true });
 
   if (candError) {
     console.error('Failed to load candidates:', candError);
