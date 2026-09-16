@@ -29,24 +29,27 @@ export async function loginVoterToken(token: string): Promise<AuthResponse> {
 
     const supabase = createClient();
 
-    // Check system status config first
-    const { data: config } = await supabase
-      .from('system_config')
-      .select('value')
-      .eq('key', 'voting_status')
-      .single();
+    // Fetch config and voter in parallel
+    const [
+      { data: config },
+      { data: voter, error: voterError }
+    ] = await Promise.all([
+      supabase
+        .from('system_config')
+        .select('value')
+        .eq('key', 'voting_status')
+        .single(),
+      supabase
+        .from('voters')
+        .select('*')
+        .eq('token', cleanToken)
+        .maybeSingle()
+    ]);
 
     const votingStatus = config?.value || 'closed';
     if (votingStatus !== 'open') {
       return { success: false, error: 'Pemilihan suara saat ini sedang ditutup atau belum dimulai' };
     }
-
-    // Query token from database
-    const { data: voter, error: voterError } = await supabase
-      .from('voters')
-      .select('*')
-      .eq('token', cleanToken)
-      .maybeSingle();
 
     if (voterError || !voter) {
       return { success: false, error: 'Token voting tidak terdaftar di sistem' };
@@ -73,13 +76,13 @@ export async function loginVoterToken(token: string): Promise<AuthResponse> {
       maxAge: 60 * 30,
     });
 
-    // Record login in audit log
+    // Record login in audit log (fire and forget, no await)
     const ip = headers().get('x-forwarded-for') || headers().get('x-real-ip') || 'unknown';
-    await supabase.from('audit_log').insert({
+    supabase.from('audit_log').insert({
       voter_id: voter.id,
       action: 'VOTER_LOGIN',
       ip_address: ip,
-    });
+    }).then();
 
     return { success: true, role: 'voter' };
   } catch (error: any) {
