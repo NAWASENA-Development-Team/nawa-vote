@@ -1,73 +1,98 @@
-# Nawa Vote
+<div align="center">
+  <img src="https://via.placeholder.com/1200x300/0f172a/f59e0b?text=NAWA+VOTE+%E2%9C%A8" alt="Nawa Vote Banner" />
+  
+  <br />
+  <br />
 
-![Nawa Vote Banner](https://via.placeholder.com/1200x300/003366/FFFFFF?text=NAWA+VOTE+-+SECURE+DIGITAL+VOTING+PLATFORM)
+  <h1>🗳️ NAWA VOTE</h1>
+  
+  <p>
+    <b>Platform Pemilihan Digital OSIS yang Modern, Aman, dan Super Cepat! 🎉</b>
+  </p>
 
-**Nawa Vote** is a state-of-the-art, secure digital voting platform designed to streamline elections and voting processes with uncompromised integrity, transparency, and a premium user experience. Built with modern web technologies, it offers a seamless interface for both administrators and voters.
+  <p>
+    <a href="https://nextjs.org/"><img src="https://img.shields.io/badge/Next.js-14-0f172a?style=flat-square&logo=next.js" alt="Next.js" /></a>
+    <a href="https://tailwindcss.com/"><img src="https://img.shields.io/badge/Tailwind_CSS-38bdf8?style=flat-square&logo=tailwind-css&logoColor=white" alt="Tailwind CSS" /></a>
+    <a href="https://supabase.com/"><img src="https://img.shields.io/badge/Supabase-3ecf8e?style=flat-square&logo=supabase&logoColor=white" alt="Supabase" /></a>
+    <a href="https://www.typescriptlang.org/"><img src="https://img.shields.io/badge/TypeScript-3178c6?style=flat-square&logo=typescript&logoColor=white" alt="TypeScript" /></a>
+  </p>
+</div>
 
 ---
 
-## 🚀 Key Features
+Selamat datang di **Nawa Vote**! 👋 
 
-* **Secure Authentication:** Multi-layered security using modern authentication protocols.
-* **Real-time Analytics Dashboard:** Comprehensive administrative panel for monitoring election progress and statistics in real-time.
-* **Glassmorphic UI Design:** Elegant, responsive, and intuitive interface that provides a premium user experience.
-* **Voter Anonymity & Data Integrity:** Ensuring all votes are securely recorded and tabulated without compromising voter privacy.
+Nawa Vote adalah platform *e-voting* yang dirancang khusus untuk membawa pengalaman pemilihan Ketua dan Wakil Ketua OSIS ke level berikutnya. Dengan memadukan desain antarmuka kualitas premium (*museum-quality*) dan performa *real-time* secepat kilat, kami memastikan setiap hak suara tersalurkan secara LUBER JURDIL (Langsung, Umum, Bebas, Rahasia, Jujur, dan Adil). 
 
-## 🏗️ Architecture & Technology Stack
+Tinggalkan cara lama, mari beralih ke digital yang lebih menyenangkan! 🚀
 
-Nawa Vote is engineered using industry-leading technologies:
+## ✨ Fitur Unggulan
 
-* **Framework:** [Next.js](https://nextjs.org/) (React Framework)
-* **Language:** TypeScript
-* **Styling:** Tailwind CSS & Framer Motion
-* **Database & Auth:** Supabase
-* **Data Visualization:** Recharts
+* 🎨 **Desain Premium & Menawan** — UI/UX dirancang ekstra detail dengan *glassmorphism*, tipografi *bold*, dan palet warna Navy-Amber yang elegan.
+* ⚡ **Voting Instan Tanpa Lemot** — Perpindahan halaman super cepat tanpa *reload* berkat teknologi *App Router* dan optimasi Next.js.
+* 🔒 **Kerahasiaan Terjamin 100%** — Setiap suara yang masuk dienkripsi dan dipecah ke dalam sistem tanpa melacak atau membocorkan identitas pemilih. 
+* 📊 **Live Leaderboard** — Pantau hasil perolehan suara secara *real-time* dari *dashboard* yang cantik!
+* 📱 **Responsif & Fleksibel** — Tampil sempurna dan mulus di layar laptop, tablet, maupun *smartphone* Anda.
 
-## ⚙️ Getting Started
+## 🛠️ Teknologi di Balik Layar
 
-To set up the project locally for development or testing, follow these steps:
+Nawa Vote dibangun menggunakan *stack* teknologi modern kelas industri:
 
-### Prerequisites
+* **Framework:** [Next.js 14](https://nextjs.org/) (App Router)
+* **Bahasa:** [TypeScript](https://www.typescriptlang.org/)
+* **Styling & Animasi:** [Tailwind CSS](https://tailwindcss.com/) & [Framer Motion](https://www.framer.com/motion/)
+* **Database & Auth:** [Supabase](https://supabase.com/)
+* **Ikon:** [Lucide React](https://lucide.dev/)
 
-Ensure you have the following installed:
-* Node.js (v18 or higher)
-* npm, yarn, or pnpm
-* A Supabase account and project for the database
+## 🚀 Memulai Proyek (Getting Started)
 
-### Installation
+Ingin mencoba menjalankan Nawa Vote di mesin lokal Anda? Ikuti langkah-langkah mudah berikut:
 
-1. **Clone the repository:**
+### Prasyarat 📋
+Pastikan Anda sudah menginstal:
+* Node.js (v18 ke atas)
+* npm, yarn, atau pnpm
+* Akun [Supabase](https://supabase.com/) (untuk pengaturan *database*)
+
+### Langkah Instalasi 💻
+
+1. **Clone repositori ini:**
    ```bash
-   git clone https://github.com/your-org/nawa-vote.git
+   git clone https://github.com/NAWASENA-Development-Team/nawa-vote.git
    cd nawa-vote
    ```
 
-2. **Install dependencies:**
+2. **Instal dependensi:**
    ```bash
    npm install
    ```
 
-3. **Configure Environment Variables:**
-   Create a `.env.local` file in the root directory and add the required environment variables:
+3. **Atur Variabel Lingkungan (*Environment Variables*):**
+   Buat file `.env.local` di *root directory* dan isi dengan kredensial Supabase Anda:
    ```env
-   NEXT_PUBLIC_SUPABASE_URL=your_supabase_url
-   NEXT_PUBLIC_SUPABASE_ANON_KEY=your_supabase_anon_key
+   NEXT_PUBLIC_SUPABASE_URL=url_supabase_anda
+   NEXT_PUBLIC_SUPABASE_ANON_KEY=anon_key_supabase_anda
    ```
 
-4. **Run the Development Server:**
+4. **Jalankan *Development Server*:**
    ```bash
    npm run dev
    ```
-   Navigate to `http://localhost:3000` to view the application.
+   Buka `http://localhost:3000` di *browser* Anda dan nikmati keindahannya! ✨
 
-## 📚 Documentation
+## 📚 Dokumentasi Lebih Lanjut
 
-For more detailed information regarding our processes, please refer to the following documents:
+Kami memiliki beberapa panduan untuk membantu Anda berkontribusi atau sekadar memahami struktur proyek ini:
 
-* [Contributing Guidelines](CONTRIBUTING.md) - Learn how to contribute to Nawa Vote.
-* [Code of Conduct](CODE_OF_CONDUCT.md) - Our expectations for community behavior.
-* [Security Policy](SECURITY.md) - Information on reporting vulnerabilities and security practices.
+* [Panduan Berkontribusi (Contributing)](CONTRIBUTING.md) 🤝 — Pelajari cara ikut mengembangkan Nawa Vote.
+* [Kode Etik (Code of Conduct)](CODE_OF_CONDUCT.md) 💛 — Harapan kami untuk lingkungan komunitas yang suportif.
+* [Kebijakan Keamanan (Security)](SECURITY.md) 🛡️ — Informasi pelaporan celah dan praktik keamanan.
 
-## 📄 License
+## 📄 Lisensi
 
-Copyright © 2026 Nawa Vote Inc. All rights reserved.
+Copyright © 2026 NAWASENA Development Team. All rights reserved.
+
+<div align="center">
+  <br />
+  <sub>Dibuat dengan ❤️ oleh Tim NAWASENA</sub>
+</div>
