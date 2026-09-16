@@ -204,6 +204,7 @@ export default function VoteWizard({ candidates, voterToken }: VoteWizardProps) 
               candidate={cand}
               onSelect={handleSelect}
               isSelected={currentSelection?.id === cand.id}
+              compact={true}
             />
           ))}
         </motion.div>

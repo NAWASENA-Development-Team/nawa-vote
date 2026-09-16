@@ -19,8 +19,10 @@ export interface Candidate {
 interface CandidateCardProps {
   candidate: Candidate;
   onSelect?: (candidate: Candidate) => void;
+  onViewDetails?: (candidate: Candidate) => void;
   isSelected?: boolean;
   showVoteButton?: boolean;
+  compact?: boolean;
 }
 
 export default function CandidateCard({
@@ -28,8 +30,13 @@ export default function CandidateCard({
   onSelect,
   isSelected = false,
   showVoteButton = true,
+  compact = false,
 }: CandidateCardProps) {
   const [showMissions, setShowMissions] = React.useState(false);
+  const [isExpanded, setIsExpanded] = React.useState(false);
+
+  // If local expansion is triggered, override compact mode
+  const isCompact = compact && !isExpanded;
 
   const formattedNumber = String(candidate.ordinal_number).padStart(2, '0');
 
@@ -58,13 +65,13 @@ export default function CandidateCard({
     >
       {/* Ordinal Number Glow Badge */}
       <div className="absolute top-4 left-4 z-10">
-        <div className="flex items-center justify-center w-10 h-10 rounded-full bg-white/95 backdrop-blur-md text-brand-navy-900 font-black text-lg border border-brand-navy-100 shadow-sm">
+        <div className={`flex items-center justify-center rounded-full bg-white/95 backdrop-blur-md text-brand-navy-900 font-black border border-brand-navy-100 shadow-sm ${isCompact ? 'w-8 h-8 text-sm' : 'w-10 h-10 text-lg'}`}>
           {formattedNumber}
         </div>
       </div>
 
       {/* Candidate Image Container */}
-      <div className="relative aspect-[4/3] w-full bg-brand-navy-50 overflow-hidden group">
+      <div className={`relative w-full bg-brand-navy-50 overflow-hidden group transition-all duration-500 ${isCompact ? 'aspect-[16/9]' : 'aspect-[4/3]'}`}>
         {candidate.photo_url ? (
           <Image
             src={candidate.photo_url}
@@ -89,20 +96,41 @@ export default function CandidateCard({
         <div className="absolute inset-0 bg-gradient-to-t from-brand-navy-950/90 via-brand-navy-900/30 to-transparent" />
 
         {/* Absolute Titles on Image */}
-        <div className="absolute bottom-5 left-5 right-5">
+        <div className={`absolute left-5 right-5 transition-all duration-300 ${isCompact ? 'bottom-3' : 'bottom-5'}`}>
           <p className="text-[10px] font-bold text-brand-amber-400 uppercase tracking-widest mb-1.5 drop-shadow-md">
             {getCategoryLabel(candidate.category)}
           </p>
-          <h3 className="font-heading font-black text-2xl leading-tight text-white line-clamp-2 drop-shadow-lg">
+          <h3 className={`font-heading font-black leading-tight text-white line-clamp-2 drop-shadow-lg transition-all duration-300 ${isCompact ? 'text-xl' : 'text-2xl'}`}>
             {candidate.name}
           </h3>
         </div>
       </div>
 
       {/* Content Details */}
-      <div className="flex flex-col flex-grow p-6">
+      <div className={`flex flex-col flex-grow transition-all duration-300 ${isCompact ? 'p-4' : 'p-6'}`}>
+        
+        {/* Compact Mode: View Details Link */}
+        {isCompact && (
+          <button
+            onClick={() => setIsExpanded(true)}
+            className="text-[10px] uppercase tracking-widest font-bold text-brand-navy-400 hover:text-brand-navy-700 mb-4 flex items-center justify-center gap-1 transition-colors"
+          >
+            <Sparkles className="w-3 h-3 text-brand-amber-500" /> Lihat Visi & Misi
+          </button>
+        )}
+
+        {/* Expanded View: Hide Button */}
+        {!isCompact && compact && (
+           <button
+            onClick={() => setIsExpanded(false)}
+            className="text-[10px] uppercase tracking-widest font-bold text-brand-navy-400 hover:text-brand-navy-700 mb-4 flex items-center justify-center gap-1 transition-colors"
+          >
+            Sembunyikan
+          </button>
+        )}
+
         {/* Vision Section */}
-        {candidate.vision && (
+        {!isCompact && candidate.vision && (
           <div className="mb-4 flex-grow bg-brand-navy-50/50 border border-brand-navy-100 p-4 rounded-2xl relative overflow-hidden">
             <div className="absolute top-0 left-0 w-1 h-full bg-brand-amber-400"></div>
             <h4 className="text-[11px] uppercase tracking-widest font-bold text-brand-navy-400 mb-2 flex items-center gap-1.5">
@@ -115,7 +143,7 @@ export default function CandidateCard({
         )}
 
         {/* Mission Section (Accordion) */}
-        {candidate.mission && candidate.mission.length > 0 && (
+        {!isCompact && candidate.mission && candidate.mission.length > 0 && (
           <div className="mb-6 bg-white border border-brand-navy-100 rounded-2xl overflow-hidden shadow-sm transition-all hover:border-brand-navy-200">
             <button
               onClick={() => setShowMissions(!showMissions)}
@@ -154,7 +182,9 @@ export default function CandidateCard({
         {showVoteButton && onSelect && (
           <button
             onClick={() => onSelect(candidate)}
-            className={`w-full py-4 px-4 rounded-xl font-bold uppercase tracking-widest text-xs transition-all duration-300 flex items-center justify-center gap-2 ${
+            className={`w-full px-4 rounded-xl font-bold uppercase tracking-widest text-xs transition-all duration-300 flex items-center justify-center gap-2 mt-auto ${
+              compact ? 'py-3' : 'py-4'
+            } ${
               isSelected
                 ? 'bg-gradient-to-r from-brand-amber-400 to-brand-amber-500 text-brand-amber-950 shadow-brand-gold border-none'
                 : 'bg-white border-2 border-brand-navy-100 text-brand-navy-600 hover:border-brand-amber-300 hover:bg-brand-amber-50'
