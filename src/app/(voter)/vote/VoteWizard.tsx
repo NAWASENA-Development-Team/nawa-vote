@@ -34,15 +34,6 @@ export default function VoteWizard({ candidates, voterToken }: VoteWizardProps) 
   const [isConfirmOpen, setIsConfirmOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
-  const [clientIp, setClientIp] = useState('127.0.0.1');
-
-  // Fetch client IP on mount
-  useEffect(() => {
-    fetch('https://api.ipify.org?format=json')
-      .then((res) => res.json())
-      .then((data) => setClientIp(data.ip))
-      .catch(() => setClientIp('127.0.0.1'));
-  }, []);
 
   const getFilteredCandidates = () => {
     if (step === 1) return candidates.filter(c => c.category === 'ketua');
@@ -80,7 +71,7 @@ export default function VoteWizard({ candidates, voterToken }: VoteWizardProps) 
     setIsLoading(true);
     setErrorMessage(null);
 
-    const res = await castSplitVote(selectedKetua.id, selectedWakil1.id, selectedWakil2.id, clientIp);
+    const res = await castSplitVote(selectedKetua.id, selectedWakil1.id, selectedWakil2.id);
 
     if (res.success && res.token) {
       setIsConfirmOpen(false);

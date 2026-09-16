@@ -13,7 +13,7 @@ interface AuthResponse {
 /**
  * Log in a voter using their alphanumeric Token (e.g. NW-XXXXXX)
  */
-export async function loginVoterToken(token: string, ipAddress?: string): Promise<AuthResponse> {
+export async function loginVoterToken(token: string): Promise<AuthResponse> {
   try {
     const cleanToken = String(token).toUpperCase().trim();
 
@@ -74,10 +74,11 @@ export async function loginVoterToken(token: string, ipAddress?: string): Promis
     });
 
     // Record login in audit log
+    const ip = headers().get('x-forwarded-for') || headers().get('x-real-ip') || 'unknown';
     await supabase.from('audit_log').insert({
       voter_id: voter.id,
       action: 'VOTER_LOGIN',
-      ip_address: ipAddress || 'unknown',
+      ip_address: ip,
     });
 
     return { success: true, role: 'voter' };

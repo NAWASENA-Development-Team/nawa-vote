@@ -1,7 +1,7 @@
 'use server';
 
 import { createClient, createAdminClient } from '@/lib/supabase/server';
-import { cookies } from 'next/headers';
+import { cookies, headers } from 'next/headers';
 import { revalidatePath } from 'next/cache';
 
 interface VoteResponse {
@@ -24,12 +24,12 @@ interface VerificationResponse {
 export async function castSplitVote(
   ketuaId: string,
   wakil1Id: string,
-  wakil2Id: string,
-  ipAddress?: string
+  wakil2Id: string
 ): Promise<VoteResponse> {
   try {
     const voterToken = cookies().get('nawa_voter_token')?.value;
     const voterId = cookies().get('nawa_voter_id')?.value;
+    const ip = headers().get('x-forwarded-for') || headers().get('x-real-ip') || 'unknown';
 
     if (!voterToken || !voterId) {
       return { success: false, error: 'Sesi voting tidak valid atau telah berakhir.' };
@@ -43,7 +43,7 @@ export async function castSplitVote(
       p_ketua_id: ketuaId,
       p_wakil1_id: wakil1Id,
       p_wakil2_id: wakil2Id,
-      p_ip_address: ipAddress || 'unknown',
+      p_ip_address: ip,
     });
 
     if (rpcError) {

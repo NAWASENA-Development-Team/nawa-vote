@@ -70,6 +70,7 @@ export default function CandidateCard({
             src={candidate.photo_url}
             alt={`Kandidat ${formattedNumber}`}
             fill
+            priority={true}
             sizes="(max-width: 768px) 100vw, 33vw"
             className="object-cover object-top transition-transform duration-700 group-hover:scale-105"
           />
@@ -78,6 +79,7 @@ export default function CandidateCard({
             src={defaultAvatar}
             alt={`Kandidat ${formattedNumber}`}
             fill
+            priority={true}
             sizes="(max-width: 768px) 100vw, 33vw"
             className="object-cover object-top transition-transform duration-700 group-hover:scale-105"
           />

@@ -15,15 +15,6 @@ function LandingForm() {
   const [token, setToken] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
-  const [clientIp, setClientIp] = useState('127.0.0.1');
-
-  // Fetch client IP on mount for auditing
-  useEffect(() => {
-    fetch('https://api.ipify.org?format=json')
-      .then((res) => res.json())
-      .then((data) => setClientIp(data.ip))
-      .catch(() => setClientIp('127.0.0.1'));
-  }, []);
 
   // Display URL parameters errors
   useEffect(() => {
@@ -72,7 +63,7 @@ function LandingForm() {
       return;
     }
 
-    const res = await loginVoterToken(cleanToken, clientIp);
+    const res = await loginVoterToken(cleanToken);
 
     if (res.success) {
       router.push('/vote');
