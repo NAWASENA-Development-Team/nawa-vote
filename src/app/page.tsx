@@ -67,7 +67,6 @@ function LandingForm() {
 
     if (res.success) {
       router.push('/vote');
-      router.refresh();
     } else {
       setErrorMsg(res.error || 'Gagal masuk bilik suara');
       setIsLoading(false);
