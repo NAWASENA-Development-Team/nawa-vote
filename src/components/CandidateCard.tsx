@@ -71,7 +71,7 @@ export default function CandidateCard({
       </div>
 
       {/* Candidate Image Container */}
-      <div className="relative w-full bg-brand-navy-50 overflow-hidden group transition-all duration-500 aspect-[4/3]">
+      <div className="relative w-full bg-brand-navy-50 overflow-hidden group transition-all duration-500 aspect-[3/4]">
         {candidate.photo_url ? (
           <Image
             src={candidate.photo_url}
