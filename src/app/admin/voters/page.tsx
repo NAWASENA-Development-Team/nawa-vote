@@ -16,15 +16,36 @@ export default async function AdminVotersPage() {
     redirect('/login');
   }
 
-  // Fetch DPT voters tokens list
-  const { data: voters, error } = await supabase
-    .from('voters')
-    .select('id, token, has_voted, voted_at, vote_token')
-    .order('token', { ascending: true });
+  // Fetch DPT voters tokens list with pagination to get all records
+  const pageSize = 1000;
+  let allVoters: any[] = [];
+  let offset = 0;
+  let hasMore = true;
 
-  if (error) {
-    console.error('Error fetching voters for admin DPT page:', error);
+  while (hasMore) {
+    const { data: voters, error } = await supabase
+      .from('voters')
+      .select('id, token, has_voted, voted_at, vote_token')
+      .order('token', { ascending: true })
+      .range(offset, offset + pageSize - 1);
+
+    if (error) {
+      console.error('Error fetching voters for admin DPT page:', error);
+      break;
+    }
+
+    if (voters && voters.length > 0) {
+      allVoters = allVoters.concat(voters);
+    }
+
+    if (voters && voters.length < pageSize) {
+      hasMore = false;
+    } else {
+      offset += pageSize;
+    }
   }
+
+  const voters = allVoters;
 
   return (
     <div className="space-y-8">
