@@ -30,8 +30,7 @@ To set up the project locally for development or testing, follow these steps:
 ### Prerequisites
 
 Ensure you have the following installed:
-* Node.js (v18 or higher)
-* npm, yarn, or pnpm
+* [Bun](https://bun.sh/) (v1.0 or higher) or Node.js (v18+)
 * A Supabase account and project for the database
 
 ### Installation
@@ -44,7 +43,7 @@ Ensure you have the following installed:
 
 2. **Install dependencies:**
    ```bash
-   npm install
+   bun install
    ```
 
 3. **Configure Environment Variables:**
@@ -56,9 +55,16 @@ Ensure you have the following installed:
 
 4. **Run the Development Server:**
    ```bash
-   npm run dev
+   bun run dev
    ```
    Navigate to `http://localhost:3000` to view the application.
+
+## 🚀 Deployment
+
+The project is preconfigured for deployment on both **Vercel** and **Netlify**:
+
+* **Vercel:** Connect the repository in Vercel. Build settings will auto-detect Next.js and Bun. Add environment variables `NEXT_PUBLIC_SUPABASE_URL` and `NEXT_PUBLIC_SUPABASE_ANON_KEY`.
+* **Netlify:** Connect the repository in Netlify. The included `netlify.toml` automatically configures the `@netlify/plugin-nextjs` runtime and Bun build command. Add environment variables `NEXT_PUBLIC_SUPABASE_URL` and `NEXT_PUBLIC_SUPABASE_ANON_KEY`.
 
 ## 📚 Documentation
 
