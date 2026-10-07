@@ -47,7 +47,7 @@ export default function VotersManager({ initialVoters }: VotersManagerProps) {
 
   const handleGenerate = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (tokenCount <= 0) return;
+    if (!Number.isSafeInteger(tokenCount) || tokenCount <= 0) return;
 
     setIsGenerating(true);
     setFeedbackMsg(null);
@@ -166,10 +166,9 @@ export default function VotersManager({ initialVoters }: VotersManagerProps) {
                 id="count"
                 type="number"
                 min={1}
-                max={1000}
                 required
                 value={tokenCount}
-                onChange={(e) => setTokenCount(parseInt(e.target.value, 10))}
+                onChange={(e) => setTokenCount(e.target.value === '' ? 0 : Number(e.target.value))}
                 disabled={isGenerating}
                 className="w-full py-3 px-4 rounded-xl border border-slate-200 text-xs focus:outline-none focus:ring-2 focus:ring-brand-navy-500 bg-white font-bold"
               />

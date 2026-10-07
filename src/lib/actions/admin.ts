@@ -20,6 +20,10 @@ function generateSecureToken(): string {
  */
 export async function generateVoterTokens(count: number): Promise<{ success: boolean; count: number; error?: string }> {
   try {
+    if (!Number.isSafeInteger(count) || count <= 0) {
+      return { success: false, count: 0, error: 'Jumlah token harus berupa bilangan bulat positif.' };
+    }
+
     const supabase = createClient();
     
     // Verify admin
@@ -31,9 +35,21 @@ export async function generateVoterTokens(count: number): Promise<{ success: boo
     const adminClient = createAdminClient();
     const uniqueTokens = new Set<string>();
 
-    // Fetch existing tokens to avoid collisions
-    const { data: existingVoters } = await adminClient.from('voters').select('token');
-    const existingTokens = new Set((existingVoters || []).map((v) => v.token));
+    // Supabase limits each response, so read all existing tokens in pages.
+    const existingTokens = new Set<string>();
+    const pageSize = 1000;
+    for (let offset = 0; ; offset += pageSize) {
+      const { data: existingVoters, error } = await adminClient
+        .from('voters')
+        .select('token')
+        .range(offset, offset + pageSize - 1);
+
+      if (error) throw error;
+      for (const voter of existingVoters) {
+        existingTokens.add(voter.token);
+      }
+      if (existingVoters.length < pageSize) break;
+    }
 
     let attempts = 0;
     const maxAttempts = count * 10; // Avoid infinite loop
@@ -55,15 +71,32 @@ export async function generateVoterTokens(count: number): Promise<{ success: boo
       has_voted: false,
     }));
 
-    // Bulk insert
-    const { error } = await adminClient.from('voters').insert(payload);
-    
-    if (error) throw error;
+    // Keep each request small to avoid database/API payload limits.
+    const chunkSize = 500;
+    let insertedCount = 0;
+    for (let offset = 0; offset < payload.length; offset += chunkSize) {
+      const chunk = payload.slice(offset, offset + chunkSize);
+      const { error } = await adminClient.from('voters').insert(chunk);
+
+      if (error) {
+        console.error(`Token generation batch ${offset / chunkSize + 1} error:`, error);
+        if (insertedCount > 0) {
+          revalidatePath('/admin/voters');
+          revalidatePath('/admin/dashboard');
+        }
+        return {
+          success: false,
+          count: insertedCount,
+          error: `Gagal menyimpan batch token. ${insertedCount} token telah tersimpan. ${error.message}`,
+        };
+      }
+      insertedCount += chunk.length;
+    }
 
     revalidatePath('/admin/voters');
     revalidatePath('/admin/dashboard');
 
-    return { success: true, count: payload.length };
+    return { success: true, count: insertedCount };
   } catch (error: any) {
     console.error('Token generation action error:', error);
     return { success: false, count: 0, error: error.message || 'Gagal membuat token baru' };
