@@ -5356,6 +5356,18 @@
     },
     {
       "source": "src_app_voter_vote_votewizard_votewizard",
+      "target": "src_components_candidatecard_candidatecard",
+      "relation": "calls",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": "src/app/(voter)/vote/VoteWizard.tsx",
+      "source_location": "L1008",
+      "weight": 1.0
+    },
+    {
+      "source": "src_app_voter_vote_votewizard_votewizard",
       "target": "src_lib_supabase_client_createclient",
       "relation": "calls",
       "_origin": "ast",
@@ -5375,7 +5387,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "src/app/(voter)/vote/VoteWizard.tsx",
-      "source_location": "L190",
+      "source_location": "L192",
       "weight": 1.0
     },
     {
@@ -5387,7 +5399,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "src/app/(voter)/vote/VoteWizard.tsx",
-      "source_location": "L195",
+      "source_location": "L197",
       "weight": 1.0
     },
     {
@@ -5399,7 +5411,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "src/app/(voter)/vote/VoteWizard.tsx",
-      "source_location": "L272",
+      "source_location": "L276",
       "weight": 1.0
     },
     {
@@ -5411,7 +5423,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "src/app/(voter)/vote/VoteWizard.tsx",
-      "source_location": "L312",
+      "source_location": "L321",
       "weight": 1.0
     },
     {
@@ -5423,7 +5435,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "src/app/(voter)/vote/VoteWizard.tsx",
-      "source_location": "L341",
+      "source_location": "L351",
       "weight": 1.0
     },
     {
@@ -5435,7 +5447,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "src/app/(voter)/vote/VoteWizard.tsx",
-      "source_location": "L416",
+      "source_location": "L429",
       "weight": 1.0
     },
     {
@@ -5447,7 +5459,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "src/app/(voter)/vote/VoteWizard.tsx",
-      "source_location": "L453",
+      "source_location": "L466",
       "weight": 1.0
     },
     {
@@ -5459,7 +5471,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "src/app/(voter)/vote/VoteWizard.tsx",
-      "source_location": "L490",
+      "source_location": "L503",
       "weight": 1.0
     },
     {
@@ -5471,7 +5483,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "src/app/(voter)/vote/VoteWizard.tsx",
-      "source_location": "L500",
+      "source_location": "L513",
       "weight": 1.0
     },
     {
@@ -5496,18 +5508,6 @@
       "context": "call",
       "source_file": "src/app/(voter)/vote/VoteWizard.tsx",
       "source_location": "L56",
-      "weight": 1.0
-    },
-    {
-      "source": "src_app_voter_vote_votewizard_votewizard",
-      "target": "src_components_candidatecard_candidatecard",
-      "relation": "calls",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "context": "call",
-      "source_file": "src/app/(voter)/vote/VoteWizard.tsx",
-      "source_location": "L974",
       "weight": 1.0
     },
     {
@@ -12280,5 +12280,5 @@
     }
   ],
   "hyperedges": [],
-  "built_at_commit": "5f9aa6c43d303e506f11828753c276862ad1ff6d"
+  "built_at_commit": "2db778d983a14e28697edf4de411851b8d9ce09a"
 }

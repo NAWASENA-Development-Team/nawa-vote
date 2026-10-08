@@ -1002,7 +1002,13 @@ export default function VoteWizard({
           animate={{ opacity: 1, y: 0 }}
           exit={{ opacity: 0, y: -10 }}
           transition={{ duration: 0.2 }}
-          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 justify-center items-start mt-4 px-2"
+          className={`grid gap-8 items-start justify-items-stretch mt-4 px-2 mx-auto w-full ${
+            currentCandidates.length === 1
+              ? 'grid-cols-1 max-w-md'
+              : currentCandidates.length === 2
+              ? 'grid-cols-1 md:grid-cols-2 max-w-4xl'
+              : 'grid-cols-1 md:grid-cols-2 lg:grid-cols-3 max-w-6xl'
+          }`}
         >
           {currentCandidates.map((cand) => (
             <CandidateCard

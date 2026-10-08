@@ -77,32 +77,12 @@ export default function CandidateCard({
           onSelect?.(candidate);
         }
       }}
-      className={`group relative flex flex-col rounded-2xl overflow-hidden cursor-pointer select-none transition-all duration-200 text-left bg-white dark:bg-slate-900 focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-brand-amber-400/40 ${
+      className={`group relative flex flex-col w-full rounded-2xl overflow-hidden cursor-pointer select-none transition-all duration-200 text-left bg-white dark:bg-slate-900 focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-brand-amber-400/40 ${
         isSelected
           ? 'border-2 border-brand-amber-500 shadow-xl shadow-brand-amber-500/15 ring-2 ring-brand-amber-400/30'
           : 'border border-brand-navy-100 dark:border-slate-800 shadow-sm hover:border-brand-navy-300 dark:hover:border-slate-700 hover:shadow-md hover:-translate-y-0.5'
       }`}
     >
-      {/* Ordinal Number Badge (Top-left) */}
-      <div className="absolute top-4 left-4 z-10">
-        <div className="flex items-center justify-center rounded-full bg-white/95 dark:bg-slate-900/95 text-brand-navy-900 dark:text-white font-black border border-brand-navy-100 dark:border-slate-800 shadow-sm w-10 h-10 text-lg">
-          {formattedNumber}
-        </div>
-      </div>
-
-      {/* Selection Status Badge (Top-right) */}
-      <div className="absolute top-4 right-4 z-10 transition-transform duration-200 group-hover:scale-105">
-        {isSelected ? (
-          <div className="flex items-center justify-center rounded-full bg-brand-amber-500 text-brand-navy-950 font-black shadow-md border-2 border-white dark:border-slate-900 w-10 h-10">
-            <Check className="w-5 h-5 stroke-[3]" />
-          </div>
-        ) : (
-          <div className="flex items-center justify-center rounded-full bg-black/40 backdrop-blur-sm border-2 border-white/50 text-white opacity-60 group-hover:opacity-100 group-hover:border-brand-amber-400 group-hover:text-brand-amber-400 w-10 h-10 transition-all">
-            <span className="text-[10px] font-bold">PILIH</span>
-          </div>
-        )}
-      </div>
-
       {/* Candidate Photo Container (Fixed aspect ratio) */}
       <div className="relative w-full bg-brand-navy-900 dark:bg-slate-950 overflow-hidden aspect-[3/4]">
         {candidate.photo_url && !imgError ? (
@@ -131,9 +111,9 @@ export default function CandidateCard({
         <div className="absolute inset-0 bg-gradient-to-t from-brand-navy-950/90 via-brand-navy-900/30 to-transparent dark:from-slate-950 dark:via-slate-950/40" />
 
         {/* Candidate Title & Category Overlay */}
-        <div className="absolute left-5 right-5 bottom-5">
-          <p className="text-[11px] font-bold text-brand-amber-400 uppercase tracking-wide mb-1.5 drop-shadow-md">
-            {getCategoryLabel(candidate.category)}
+        <div className="absolute left-5 right-5 bottom-4">
+          <p className="text-[11px] font-bold text-brand-amber-400 uppercase tracking-wide mb-1 drop-shadow-md">
+            Kandidat #{formattedNumber} • {getCategoryLabel(candidate.category)}
           </p>
           <h3 className="font-heading font-black leading-tight text-white line-clamp-2 drop-shadow-lg text-2xl">
             {candidate.name}
@@ -142,7 +122,7 @@ export default function CandidateCard({
       </div>
 
       {/* Card Body & In-Card Visi Misi Accordion */}
-      <div className="flex flex-col p-5 gap-3">
+      <div className="flex flex-col p-5 gap-3 w-full">
         {/* Toggle Button for Inline Visi & Misi */}
         {hasVisiMisi && (
           <button
@@ -170,7 +150,7 @@ export default function CandidateCard({
               animate={{ height: 'auto', opacity: 1 }}
               exit={{ height: 0, opacity: 0 }}
               transition={{ duration: 0.25, ease: 'easeInOut' }}
-              className="overflow-hidden space-y-3 pt-1"
+              className="w-full overflow-hidden space-y-3 pt-1"
               onClick={(e) => e.stopPropagation()}
             >
               {/* Visi */}
@@ -224,10 +204,10 @@ export default function CandidateCard({
           >
             {isSelected ? (
               <>
-                <Check className="w-4 h-4 stroke-[3]" /> Terpilih
+                <Check className="w-4 h-4 stroke-[3]" /> Terpilih (Kandidat #{formattedNumber})
               </>
             ) : (
-              'Pilih Kandidat Ini'
+              `Pilih Kandidat #${formattedNumber}`
             )}
           </button>
         )}
