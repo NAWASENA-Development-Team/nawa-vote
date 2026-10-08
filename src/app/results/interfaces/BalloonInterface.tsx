@@ -24,7 +24,7 @@ interface BalloonInterfaceProps {
 interface BalloonInstance {
   uid: string;
   candidateId: string;
-  tokenCode: string;
+  tokenLabel: string;
   x: number;
   duration: number;
   swayAmount: number;
@@ -48,11 +48,15 @@ interface RevealCandidate {
 let uidCounter = 0;
 function nextUid(): string { return `b-${++uidCounter}-${Date.now()}`; }
 function rnd(min: number, max: number): number { return min + Math.random() * (max - min); }
-function randomToken(): string { return Math.random().toString(36).slice(2, 6).toUpperCase(); }
 function makeBalloon(candidateId: string): BalloonInstance {
   return {
-    uid: nextUid(), candidateId, tokenCode: randomToken(),
-    x: rnd(5, 85), duration: rnd(8, 13), swayAmount: rnd(12, 28), popped: false,
+    uid: nextUid(),
+    candidateId,
+    tokenLabel: '✓ TOKEN',
+    x: rnd(5, 85),
+    duration: rnd(8, 13),
+    swayAmount: rnd(12, 28),
+    popped: false,
   };
 }
 
@@ -351,10 +355,10 @@ function BalloonActor({
           <path d="M 10 0 Q 14 14 8 28 T 10 56" />
         </svg>
         <div
-          className="px-1.5 py-0.5 rounded-md text-[10px] font-mono font-bold shadow border border-black/10 -mt-0.5 whitespace-nowrap"
+          className="px-2 py-0.5 rounded-md text-[10px] font-mono font-bold shadow-xs border border-black/10 -mt-0.5 whitespace-nowrap flex items-center gap-1"
           style={{ backgroundColor: colors.fill, color: tokenTextColor }}
         >
-          {balloon.tokenCode}
+          <span>{balloon.tokenLabel}</span>
         </div>
       </motion.div>
     </motion.div>
@@ -382,14 +386,14 @@ function PoppedBalloon({
         );
       })}
       <motion.div
-        className="absolute px-1.5 py-0.5 rounded-md text-[10px] font-mono font-bold shadow border border-black/10 whitespace-nowrap"
+        className="absolute px-2 py-0.5 rounded-md text-[10px] font-mono font-bold shadow-xs border border-black/10 whitespace-nowrap flex items-center gap-1"
         style={{ backgroundColor: colors.fill, color: tokenTextColor, left: '-20px', top: '8px' }}
         initial={{ y: 0, rotate: 0, opacity: 1 }}
         animate={{ y: 340, rotate: fallRotation, opacity: 0 }}
         transition={{ duration: 1.2, ease: 'easeIn' }}
         onAnimationComplete={() => onComplete(balloon.uid)}
       >
-        {balloon.tokenCode}
+        <span>{balloon.tokenLabel}</span>
       </motion.div>
     </div>
   );
@@ -448,13 +452,13 @@ export default function BalloonInterface({
     playBalloonPop();
   }, []);
 
-  // Mount: welcome balloons
+  // Initialize baseline vote counts on mount — DO NOT spawn any balloons.
+  // Realtime rule: If no new votes come in, there are NO balloons floating.
   useEffect(() => {
     if (initializedRef.current) return;
     initializedRef.current = true;
-    candidates.forEach((cand, idx) => {
+    candidates.forEach((cand) => {
       prevVoteCountsRef.current[cand.id] = cand.vote_count;
-      if (!isRevealed) setTimeout(() => spawnBalloon(cand.id), idx * 350);
     });
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
