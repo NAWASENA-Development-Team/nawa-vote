@@ -34,4 +34,5 @@ See [AGENT.md](file:///C:/Users/Stark/Documents/nawavote/AGENT.md) for full proj
 - **Package Manager**: Use `bun` (`bun run build`, `bun dev`).
 - **Layers**: Server Actions (`src/lib/actions/`), Client components (`'use client'`), Tailwind styling (`src/app/globals.css`).
 - **Verification**: Always run `bun run build` before finishing tasks.
-- **Commits**: Follow conventional commits (`feat:`, `fix:`, `refactor:`).
+- **Commits & Push (Mandatory)**: Follow conventional commits (`feat:`, `fix:`, `refactor:`). Agents MUST ALWAYS commit and `git push` to remote after completing changes—never finish a turn leaving changes uncommitted or unpushed.
+

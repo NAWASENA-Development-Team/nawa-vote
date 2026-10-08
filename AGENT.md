@@ -47,4 +47,4 @@ This document outlines the architectural standards, UI/UX principles, and workfl
 
 - **Package Manager**: Use `bun` for all package scripts (`bun run build`, `bun dev`, etc.).
 - **Build Verification**: Before declaring tasks complete, always execute `bun run build` to verify zero TypeScript errors, syntax breaks, or route compilation issues.
-- **Git Commit Routine**: Always commit changes immediately after completing a functional unit or edit set using conventional commit format (imperative subject, $\le 50$ chars, e.g., `fix(ui): ...`, `feat(admin): ...`).
+- **Git Commit & Push Routine (Mandatory)**: Always commit changes immediately after completing a functional unit or edit set using conventional commit format (imperative subject, $\le 50$ chars, e.g., `fix(ui): ...`, `feat(admin): ...`). Agents MUST ALWAYS push to the remote repository (`git push`) before concluding work—never leave completed changes uncommitted or unpushed.
