@@ -9,7 +9,7 @@
 //   - Network-First for navigations, instantly falling back to cached kiosk shell
 //   - Individual image caching using exact query parameters
 
-const CACHE_VERSION = 'nawa-v7';
+const CACHE_VERSION = 'nawa-v8';
 const STATIC_CACHE  = `${CACHE_VERSION}-static`;
 const PAGE_CACHE    = `${CACHE_VERSION}-pages`;
 const IMAGE_CACHE   = `${CACHE_VERSION}-images`;
@@ -93,11 +93,13 @@ self.addEventListener('fetch', (event) => {
     return;
   }
 
-  // 2. Images (Next.js image optimizer or direct images)
+  // 2. Images (Next.js image optimizer, direct Supabase storage, Dicebear, or raw assets)
   const isImage =
     url.pathname.startsWith('/_next/image') ||
     request.destination === 'image' ||
-    /\.(png|jpg|jpeg|svg|webp|gif|ico)$/i.test(url.pathname);
+    (url.hostname.includes('supabase.co') && url.pathname.includes('/storage/')) ||
+    url.hostname.includes('dicebear.com') ||
+    /\.(png|jpg|jpeg|svg|webp|gif|ico|avif)$/i.test(url.pathname);
 
   if (isImage) {
     event.respondWith(cacheImage(request));
@@ -187,31 +189,88 @@ async function cacheFirstSafe(request, cacheName) {
 }
 
 /**
- * Image Cache: Cache-First with strict URL matching.
- * Preserves query string (?url=...&w=...&q=...) so each candidate's photo is cached individually.
- * NEVER uses ignoreSearch or url.pathname matching for images.
- * If offline and un-cached, returns an SVG placeholder instead of throwing.
+ * Image Cache: Cache-First with underlying target URL matching.
+ * Handles both direct image URLs (unoptimized) and legacy Next.js /_next/image optimizer queries.
+ * If offline or server error, falls back to any cached variant of the target candidate photo.
  */
 async function cacheImage(request) {
   const cache = await caches.open(IMAGE_CACHE);
+  const matchOpts = { ignoreSearch: false, ignoreVary: true };
 
-  // Exact request.url match (NEVER ignoreSearch, NEVER url.pathname)
-  let cached = await cache.match(request.url);
+  // 1. Direct URL match in IMAGE_CACHE
+  let cached = await cache.match(request.url, matchOpts);
   if (cached) return cached;
 
+  const url = new URL(request.url);
+
+  // 2. If it's a /_next/image wrapper, check if the underlying raw URL is cached
+  if (url.pathname.startsWith('/_next/image')) {
+    const targetUrl = url.searchParams.get('url');
+    if (targetUrl) {
+      cached = await cache.match(targetUrl, matchOpts);
+      if (cached) return cached;
+    }
+  }
+
+  // 3. Try network
   try {
     const response = await fetch(request);
     if (response && (response.ok || response.type === 'opaque')) {
       cache.put(request.url, response.clone());
+      // Also cache the raw URL if this was a /_next/image wrapper
+      if (url.pathname.startsWith('/_next/image')) {
+        const targetUrl = url.searchParams.get('url');
+        if (targetUrl) {
+          try {
+            cache.put(targetUrl, response.clone());
+          } catch {}
+        }
+      }
+      return response;
     }
-    return response;
+
+    // If server responded with error (e.g. 500 when offline), check cache for ANY version of this image
+    if (url.pathname.startsWith('/_next/image')) {
+      const targetUrl = url.searchParams.get('url');
+      if (targetUrl) {
+        cached = await cache.match(targetUrl, matchOpts);
+        if (cached) return cached;
+
+        const keys = await cache.keys();
+        for (const k of keys) {
+          if (k.url.includes(encodeURIComponent(targetUrl)) || (targetUrl && k.url.includes(targetUrl))) {
+            const fallback = await cache.match(k);
+            if (fallback) return fallback;
+          }
+        }
+      }
+    }
   } catch {
-    const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="300" height="400" viewBox="0 0 300 400" fill="#0f172a"><rect width="300" height="400" fill="#1e293b"/><circle cx="150" cy="160" r="50" fill="#334155"/><path d="M75 320c0-41.4 33.6-75 75-75s75 33.6 75 75" fill="#334155"/></svg>`;
-    return new Response(svg, {
-      status: 200,
-      headers: { 'Content-Type': 'image/svg+xml', 'Cache-Control': 'no-store' },
-    });
+    // Network failed (offline or network error)
+    // Check if any matching version exists in cache
+    if (url.pathname.startsWith('/_next/image')) {
+      const targetUrl = url.searchParams.get('url');
+      if (targetUrl) {
+        cached = await cache.match(targetUrl, matchOpts);
+        if (cached) return cached;
+
+        const keys = await cache.keys();
+        for (const k of keys) {
+          if (k.url.includes(encodeURIComponent(targetUrl)) || (targetUrl && k.url.includes(targetUrl))) {
+            const fallback = await cache.match(k);
+            if (fallback) return fallback;
+          }
+        }
+      }
+    }
   }
+
+  // 4. Fallback placeholder SVG
+  const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="300" height="400" viewBox="0 0 300 400" fill="#0f172a"><rect width="300" height="400" fill="#1e293b"/><circle cx="150" cy="160" r="50" fill="#334155"/><path d="M75 320c0-41.4 33.6-75 75-75s75 33.6 75 75" fill="#334155"/></svg>`;
+  return new Response(svg, {
+    status: 200,
+    headers: { 'Content-Type': 'image/svg+xml', 'Cache-Control': 'no-store' },
+  });
 }
 
 /**

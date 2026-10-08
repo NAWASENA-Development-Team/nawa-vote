@@ -36,6 +36,19 @@ export default function CandidateCard({
   const [isExpanded, setIsExpanded] = React.useState(false);
   const [imgError, setImgError] = React.useState(false);
 
+  // Auto-recover image when candidate changes or browser goes back online
+  React.useEffect(() => {
+    setImgError(false);
+  }, [candidate.id, candidate.photo_url]);
+
+  React.useEffect(() => {
+    const handleOnline = () => {
+      setImgError(false);
+    };
+    window.addEventListener('online', handleOnline);
+    return () => window.removeEventListener('online', handleOnline);
+  }, []);
+
   // If local expansion is triggered, override compact mode
   const isCompact = compact && !isExpanded;
 
@@ -81,6 +94,7 @@ export default function CandidateCard({
             src={candidate.photo_url}
             alt={`Kandidat ${formattedNumber}`}
             fill
+            unoptimized={true}
             priority={true}
             sizes="(max-width: 768px) 100vw, 33vw"
             className="object-cover object-top transition-transform duration-700 group-hover:scale-105"

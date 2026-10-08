@@ -1,12 +1,12 @@
 {
   "0": "createClient",
-  "1": "offlineQueue.ts",
+  "1": "syncVotes.ts",
   "2": "package.json",
   "3": "VoteWizard.tsx",
   "4": "Nawa Vote Platform Overview",
   "5": "compilerOptions",
   "6": "app/layout.tsx",
-  "7": "dependencies",
+  "7": "devDependencies",
   "8": "BalloonInterface.tsx",
   "9": "generate-tokens.js",
   "10": "manifest.json",
@@ -24,5 +24,6 @@
   "22": "Modular & Dynamic Code Architecture",
   "23": "UX Excellence & Attention to Detail",
   "24": "Workflow & Commitment Protocol",
-  "25": "Arcane Vote Glow Icon"
+  "25": "Arcane Vote Glow Icon",
+  "26": "route.ts"
 }

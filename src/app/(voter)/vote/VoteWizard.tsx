@@ -119,7 +119,7 @@ export default function VoteWizard({
           })
         );
       } catch {}
-    } else if (candidates.length === 0 && isOnline) {
+    } else if (isOnline) {
       (async () => {
         try {
           const supabase = createClient();
@@ -136,7 +136,7 @@ export default function VoteWizard({
         } catch {}
       })();
     }
-  }, [propCandidates, isOnline, candidates.length, voterToken, voterId]);
+  }, [propCandidates, isOnline, voterToken, voterId]);
 
   // Pre-cache candidate photos into browser & service worker cache when online
   useEffect(() => {
@@ -144,10 +144,11 @@ export default function VoteWizard({
       candidates.forEach((c) => {
         const photoUrl = c.photo_url;
         if (photoUrl) {
-          [640, 750, 828, 1080].forEach((w) => {
-            const img = new Image();
-            img.src = `/_next/image?url=${encodeURIComponent(photoUrl)}&w=${w}&q=75`;
-          });
+          // Preload direct candidate photo URL into browser and SW cache
+          const img = new Image();
+          img.src = photoUrl;
+          // Background fetch to guarantee Service Worker stores it into IMAGE_CACHE
+          fetch(photoUrl, { mode: 'no-cors' }).catch(() => {});
         }
       });
     }
