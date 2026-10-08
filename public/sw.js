@@ -1,41 +1,60 @@
-// NAWA-VOTE Service Worker (v3) — Complete Offline PWA & Kiosk Support
-// Caching strategies:
-//   - Static assets (/_next/static/**): Cache-First with safe 503 fallback
-//   - Images (/_next/image, candidate photos): Cache-First with SVG placeholder fallback
-//   - Navigations (/, /vote, /success): Network-First with cross-route shell fallback
-//   - Server Actions (POST): Offline intercept returning structured JSON
+// NAWA-VOTE Service Worker (v4) — Complete Offline PWA & Kiosk Support
+// Fixes:
+//   - Pre-caches shell AND all linked JS/CSS chunks on install
+//   - Matches cache by URL string so browser F5/reload (Cache-Control: max-age=0 / cache: 'reload') does not bypass cache
+//   - Never caches redirects (status 3xx or response.redirected) — only clean 200 OK shells
+//   - Safe 200 OK fallbacks for missing assets and images (prevents NS_ERROR in Firefox)
 
-const CACHE_VERSION = 'nawa-v3';
+const CACHE_VERSION = 'nawa-v4';
 const STATIC_CACHE  = `${CACHE_VERSION}-static`;
 const PAGE_CACHE    = `${CACHE_VERSION}-pages`;
 const IMAGE_CACHE   = `${CACHE_VERSION}-images`;
-
-const PRECACHE_ASSETS = [
-  '/',
-  '/vote',
-  '/manifest.json',
-  '/favicon.ico',
-];
 
 // ─── Install ──────────────────────────────────────────────────────────────────
 self.addEventListener('install', (event) => {
   self.skipWaiting();
   event.waitUntil(
-    caches.open(PAGE_CACHE).then(async (cache) => {
-      // Pre-cache core pages gracefully so individual failures don't abort install
-      await Promise.allSettled(
-        PRECACHE_ASSETS.map(async (url) => {
-          try {
-            const res = await fetch(url, { cache: 'no-cache' });
-            if (res && (res.ok || res.type === 'opaque')) {
-              await cache.put(url, res);
-            }
-          } catch {
-            // non-fatal pre-cache failure
-          }
-        })
-      );
-    })
+    (async () => {
+      const pageCache = await caches.open(PAGE_CACHE);
+      const staticCache = await caches.open(STATIC_CACHE);
+
+      try {
+        // Fetch the root landing page shell — always returns 200 OK with full React & script tags
+        const res = await fetch('/', { cache: 'no-cache' });
+        if (res && res.status === 200 && !res.redirected) {
+          const html = await res.clone().text();
+
+          // Pre-cache clean 200 OK shells for all voter routes
+          await pageCache.put('/', res.clone());
+          await pageCache.put('/vote', res.clone());
+          await pageCache.put('/success', res.clone());
+
+          // Extract and pre-cache all JS chunks and CSS stylesheets referenced in the HTML
+          const assetMatches = html.match(/\/(_next\/static\/[a-zA-Z0-9_\-\.\/]+)/g) || [];
+          const uniqueAssets = Array.from(new Set(assetMatches));
+
+          await Promise.allSettled(
+            uniqueAssets.map(async (assetUrl) => {
+              try {
+                const aRes = await fetch(assetUrl);
+                if (aRes && aRes.ok) {
+                  await staticCache.put(assetUrl, aRes);
+                }
+              } catch {
+                // non-fatal asset fetch
+              }
+            })
+          );
+        }
+      } catch {
+        // non-fatal pre-cache failure
+      }
+
+      try {
+        const manifest = await fetch('/manifest.json');
+        if (manifest && manifest.ok) await staticCache.put('/manifest.json', manifest);
+      } catch {}
+    })()
   );
 });
 
@@ -76,13 +95,13 @@ self.addEventListener('fetch', (event) => {
     return;
   }
 
-  // 3. Server Actions / POST to /vote or /: offline intercept
+  // 3. Server Actions / POST: offline intercept
   if (request.method === 'POST') {
     event.respondWith(postOfflineIntercept(request));
     return;
   }
 
-  // 4. Page navigations: Network-First with cross-route shell fallback
+  // 4. Page navigations (including F5 / reload): Network-First with safe shell fallback
   if (request.mode === 'navigate') {
     event.respondWith(networkFirstPage(request));
     return;
@@ -98,51 +117,64 @@ self.addEventListener('fetch', (event) => {
 // ─── Strategies ───────────────────────────────────────────────────────────────
 
 /**
- * Cache-First with safe fallback. NEVER rejects FetchEvent promise.
+ * Cache-First with safe string-based matching so F5 / reload cache flags don't bypass cache.
+ * If offline and un-cached, returns valid empty 200 Response (never rejects FetchEvent).
  */
 async function cacheFirstSafe(request, cacheName) {
-  try {
-    const cached = await caches.match(request);
-    if (cached) return cached;
+  const url = new URL(request.url);
+  const cache = await caches.open(cacheName);
 
+  // 1. Match by URL string (ignores request.cache: 'reload' from browser refresh)
+  let cached = (await cache.match(request.url)) || (await cache.match(url.pathname));
+  if (cached) return cached;
+
+  // 2. Try network if online
+  try {
     const response = await fetch(request);
-    if (response && (response.ok || response.status === 0)) {
-      const cache = await caches.open(cacheName);
-      cache.put(request, response.clone());
+    if (response && response.ok) {
+      cache.put(request.url, response.clone());
+      cache.put(url.pathname, response.clone());
     }
     return response;
   } catch {
-    const cached = await caches.match(request);
+    // 3. Re-check cache with ignoreSearch
+    cached = await cache.match(request.url, { ignoreSearch: true });
     if (cached) return cached;
 
+    // 4. Return valid 200 empty response so browser never throws SyntaxError or NS_ERROR
+    const isCss = url.pathname.endsWith('.css');
+    const isJs = url.pathname.endsWith('.js');
     return new Response('', {
-      status: 503,
-      statusText: 'Service Unavailable (offline)',
-      headers: { 'Content-Type': 'text/plain' },
+      status: 200,
+      headers: {
+        'Content-Type': isCss
+          ? 'text/css'
+          : isJs
+          ? 'application/javascript'
+          : 'text/plain',
+      },
     });
   }
 }
 
 /**
  * Image Cache: Cache-First.
- * If offline and un-cached, returns an SVG placeholder instead of throwing NetworkError.
+ * If offline and un-cached, returns an SVG placeholder instead of throwing.
  */
 async function cacheImage(request) {
-  try {
-    const cached = await caches.match(request);
-    if (cached) return cached;
+  const cache = await caches.open(IMAGE_CACHE);
+  const url = new URL(request.url);
 
+  let cached = (await cache.match(request.url)) || (await cache.match(url.pathname));
+  if (cached) return cached;
+
+  try {
     const response = await fetch(request);
     if (response && (response.ok || response.type === 'opaque')) {
-      const cache = await caches.open(IMAGE_CACHE);
-      cache.put(request, response.clone());
+      cache.put(request.url, response.clone());
     }
     return response;
   } catch {
-    const cached = await caches.match(request);
-    if (cached) return cached;
-
-    // Offline SVG placeholder — matches candidate portrait ratio
     const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="300" height="400" viewBox="0 0 300 400" fill="#0f172a"><rect width="300" height="400" fill="#1e293b"/><circle cx="150" cy="160" r="50" fill="#334155"/><path d="M75 320c0-41.4 33.6-75 75-75s75 33.6 75 75" fill="#334155"/></svg>`;
     return new Response(svg, {
       status: 200,
@@ -153,7 +185,8 @@ async function cacheImage(request) {
 
 /**
  * Network-First for navigations.
- * Offline: falls back to requested page shell, OR any cached shell (/, /vote).
+ * Caches ONLY clean 200 OK responses (no redirects).
+ * On offline refresh (F5), matches by clean URL string so browser reload mode does not bypass cache.
  */
 async function networkFirstPage(request) {
   const cache = await caches.open(PAGE_CACHE);
@@ -161,50 +194,39 @@ async function networkFirstPage(request) {
 
   try {
     const response = await fetch(request);
-    if (response && (response.ok || response.redirected)) {
-      // Cache under exact URL and normalized pathname
-      cache.put(request.clone(), response.clone());
-      cache.put(new Request(url.origin + url.pathname), response.clone());
+    // ONLY cache clean 200 OK responses, NEVER 3xx redirects!
+    if (response && response.status === 200 && !response.redirected) {
+      cache.put('/', response.clone());
+      cache.put(url.pathname, response.clone());
+      cache.put(request.url, response.clone());
     }
     return response;
   } catch {
-    // 1. Try exact URL match
-    let cached = await cache.match(request);
+    // Network failed (OFFLINE or F5 refresh while offline):
+    // Match by URL string so 'reload' mode from F5 does not bypass cache!
+    let cached =
+      (await cache.match(url.pathname)) ||
+      (await cache.match(request.url)) ||
+      (await cache.match('/vote')) ||
+      (await cache.match('/'));
+
     if (cached) return cached;
 
-    // 2. Try normalized pathname match
-    cached = await cache.match(new Request(url.origin + url.pathname));
-    if (cached) return cached;
-
-    // 3. Cross-route fallback:
-    // If requesting /vote, fall back to cached /vote or cached /
-    if (url.pathname.startsWith('/vote')) {
-      cached = (await cache.match(new Request(url.origin + '/vote'))) ||
-               (await cache.match(new Request(url.origin + '/')));
-      if (cached) return cached;
-    }
-
-    // If requesting /, fall back to cached / or cached /vote
-    if (url.pathname === '/' || url.pathname === '') {
-      cached = (await cache.match(new Request(url.origin + '/'))) ||
-               (await cache.match(new Request(url.origin + '/vote')));
-      if (cached) return cached;
-    }
-
-    // 4. Any cached page in PAGE_CACHE
+    // Fallback to ANY 200 OK entry in PAGE_CACHE
     const keys = await cache.keys();
-    if (keys.length > 0) {
-      const anyPage = await cache.match(keys[0]);
-      if (anyPage) return anyPage;
+    for (const key of keys) {
+      const entry = await cache.match(key);
+      if (entry && entry.status === 200) {
+        return entry;
+      }
     }
 
-    // 5. Ultimate fallback if user never loaded the site before
     return offlineFallback();
   }
 }
 
 /**
- * Handle RSC Flight requests. If offline, return 503 or empty so Next.js falls back to navigate.
+ * Handle RSC Flight requests. If offline, return 503 so Next.js router gracefully falls back to navigate.
  */
 async function handleRscRequest(request) {
   try {
