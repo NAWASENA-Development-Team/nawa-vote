@@ -22,7 +22,14 @@ function SuccessView() {
   };
 
   const handleEndSession = async () => {
-    await logout();
+    try {
+      await logout();
+    } catch {
+      document.cookie = 'nawa_voter_token=; path=/; max-age=0; SameSite=Lax';
+      document.cookie = 'nawa_voter_id=; path=/; max-age=0; SameSite=Lax';
+      localStorage.removeItem('nawa_active_voter');
+      window.location.href = '/';
+    }
   };
 
   return (

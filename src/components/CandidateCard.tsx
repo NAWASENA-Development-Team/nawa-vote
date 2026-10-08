@@ -34,6 +34,7 @@ export default function CandidateCard({
 }: CandidateCardProps) {
   const [showMissions, setShowMissions] = React.useState(false);
   const [isExpanded, setIsExpanded] = React.useState(false);
+  const [imgError, setImgError] = React.useState(false);
 
   // If local expansion is triggered, override compact mode
   const isCompact = compact && !isExpanded;
@@ -51,6 +52,13 @@ export default function CandidateCard({
     return 'Kandidat Wakil Ketua 2';
   };
 
+  const initials = candidate.name
+    .split(' ')
+    .filter(Boolean)
+    .slice(0, 2)
+    .map((w) => w[0]?.toUpperCase())
+    .join('');
+
   return (
     <div
       className={`relative flex flex-col h-full rounded-2xl overflow-hidden transition-all duration-300 bg-white dark:bg-slate-900 ${
@@ -67,8 +75,8 @@ export default function CandidateCard({
       </div>
 
       {/* Candidate Image Container */}
-      <div className="relative w-full bg-brand-navy-50 dark:bg-slate-950 overflow-hidden group transition-all duration-500 aspect-[3/4]">
-        {candidate.photo_url ? (
+      <div className="relative w-full bg-brand-navy-900 dark:bg-slate-950 overflow-hidden group transition-all duration-500 aspect-[3/4]">
+        {candidate.photo_url && !imgError ? (
           <Image
             src={candidate.photo_url}
             alt={`Kandidat ${formattedNumber}`}
@@ -76,16 +84,17 @@ export default function CandidateCard({
             priority={true}
             sizes="(max-width: 768px) 100vw, 33vw"
             className="object-cover object-top transition-transform duration-700 group-hover:scale-105"
+            onError={() => setImgError(true)}
           />
         ) : (
-          <Image
-            src={defaultAvatar}
-            alt={`Kandidat ${formattedNumber}`}
-            fill
-            priority={true}
-            sizes="(max-width: 768px) 100vw, 33vw"
-            className="object-cover object-top transition-transform duration-700 group-hover:scale-105"
-          />
+          <div className="w-full h-full flex flex-col items-center justify-center bg-gradient-to-br from-brand-navy-800 via-brand-navy-900 to-slate-950 text-white p-6">
+            <div className="w-20 h-20 rounded-2xl bg-brand-amber-500/10 border-2 border-brand-amber-400/30 flex items-center justify-center font-heading font-black text-2xl text-brand-amber-400 mb-3 shadow-inner">
+              {initials || formattedNumber}
+            </div>
+            <span className="text-[10px] uppercase font-bold tracking-widest text-slate-400 text-center">
+              {getCategoryLabel(candidate.category)}
+            </span>
+          </div>
         )}
         
         {/* Gradient Overlay for Text Readability */}

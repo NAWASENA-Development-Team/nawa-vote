@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import { Plus_Jakarta_Sans, Inter, JetBrains_Mono } from 'next/font/google';
 import { cookies } from 'next/headers';
 import { ThemeProvider } from '@/components/ThemeProvider';
+import { ServiceWorkerRegistration } from '@/components/ServiceWorkerRegistration';
 import './globals.css';
 
 const plusJakartaSans = Plus_Jakarta_Sans({
@@ -71,6 +72,7 @@ export default function RootLayout({
         className={`${plusJakartaSans.variable} ${inter.variable} ${jetbrainsMono.variable} font-body antialiased min-h-screen flex flex-col bg-brand-navy-50 dark:bg-slate-950 text-brand-navy-900 dark:text-slate-100 transition-colors duration-200`}
       >
         <ThemeProvider initialTheme={initialTheme}>
+          <ServiceWorkerRegistration />
           {children}
         </ThemeProvider>
       </body>

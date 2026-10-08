@@ -94,8 +94,40 @@ export async function syncOfflineVotes(): Promise<SyncResult> {
 
     for (const vote of pending) {
       try {
+        let voterId = vote.voterId;
+        const uuidRegex = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
+
+        // If voterId is not a valid UUID (e.g. offline-xxx placeholder), resolve real UUID from voters table
+        if (!voterId || !uuidRegex.test(voterId)) {
+          const { data: voterRecord, error: vErr } = await supabase
+            .from('voters')
+            .select('id, has_voted')
+            .eq('token', vote.voterToken)
+            .maybeSingle();
+
+          if (vErr || !voterRecord) {
+            markSyncError(vote.localId, 'Token voter tidak terdaftar di sistem');
+            result.failed++;
+            result.errors.push({
+              localId: vote.localId,
+              voterToken: vote.voterToken,
+              error: 'Token voter tidak terdaftar di database',
+            });
+            continue;
+          }
+
+          if (voterRecord.has_voted) {
+            // Vote already recorded in database
+            markSynced(vote.localId);
+            result.succeeded++;
+            continue;
+          }
+
+          voterId = voterRecord.id;
+        }
+
         const { error } = await supabase.rpc('submit_split_vote', {
-          p_voter_id: vote.voterId,
+          p_voter_id: voterId,
           p_ketua_id: vote.ketuaId,
           p_wakil1_id: vote.wakil1Id,
           p_wakil2_id: vote.wakil2Id,

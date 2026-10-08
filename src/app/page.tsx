@@ -3,7 +3,10 @@
 import React, { useState, useEffect, Suspense } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { loginVoterToken } from '@/lib/actions/auth';
-import { ShieldAlert, Loader2, KeyRound, Ticket } from 'lucide-react';
+import { createClient } from '@/lib/supabase/client';
+import { getPendingQueue } from '@/lib/offline/offlineQueue';
+import { useOnlineStatus } from '@/hooks/useOnlineStatus';
+import { ShieldAlert, Loader2, KeyRound, Ticket, WifiOff } from 'lucide-react';
 import Link from 'next/link';
 import { motion, AnimatePresence } from 'framer-motion';
 import NawaLogo from '@/components/NawaLogo';
@@ -12,10 +15,30 @@ import { ThemeToggle } from '@/components/ThemeToggle';
 function LandingForm() {
   const router = useRouter();
   const searchParams = useSearchParams();
+  const { isOnline } = useOnlineStatus();
 
   const [token, setToken] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
+
+  // Pre-fetch candidates in background when online to cache in localStorage
+  useEffect(() => {
+    if (typeof window !== 'undefined' && isOnline) {
+      (async () => {
+        try {
+          const supabase = createClient();
+          const { data } = await supabase
+            .from('candidates')
+            .select('id, ordinal_number, name, photo_url, vision, mission, category')
+            .order('category', { ascending: true })
+            .order('ordinal_number', { ascending: true });
+          if (data && data.length > 0) {
+            localStorage.setItem('nawa_candidates', JSON.stringify(data));
+          }
+        } catch {}
+      })();
+    }
+  }, [isOnline]);
 
   // Display URL parameters errors
   useEffect(() => {
@@ -47,12 +70,36 @@ function LandingForm() {
     setErrorMsg(null);
   };
 
+  // Helper for starting an offline voting session
+  const enterOfflineVoteSession = (cleanToken: string) => {
+    const pending = getPendingQueue();
+    if (pending.some((v) => v.voterToken === cleanToken)) {
+      setErrorMsg('Token ini sudah digunakan untuk memberikan suara pada perangkat ini!');
+      setIsLoading(false);
+      return false;
+    }
+
+    // Set active voter in localStorage and client cookie
+    localStorage.setItem(
+      'nawa_active_voter',
+      JSON.stringify({
+        token: cleanToken,
+        id: `offline-${cleanToken}`,
+      })
+    );
+    document.cookie = `nawa_voter_token=${cleanToken}; path=/; max-age=1800; SameSite=Lax`;
+    document.cookie = `nawa_voter_id=offline-${cleanToken}; path=/; max-age=1800; SameSite=Lax`;
+
+    router.push('/vote');
+    return true;
+  };
+
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
     setErrorMsg(null);
 
-    const cleanToken = token.trim();
+    const cleanToken = token.trim().toUpperCase();
 
     if (!cleanToken) {
       setErrorMsg('Token voting wajib diisi');
@@ -67,13 +114,33 @@ function LandingForm() {
       return;
     }
 
-    const res = await loginVoterToken(cleanToken);
+    // ── Offline Path ──
+    if (!isOnline) {
+      enterOfflineVoteSession(cleanToken);
+      return;
+    }
 
-    if (res.success) {
-      router.push('/vote');
-    } else {
-      setErrorMsg(res.error || 'Gagal masuk bilik suara');
-      setIsLoading(false);
+    // ── Online Path ──
+    try {
+      const res = await loginVoterToken(cleanToken);
+
+      if (res.success) {
+        // Also save active voter info in localStorage for offline resilience
+        localStorage.setItem(
+          'nawa_active_voter',
+          JSON.stringify({
+            token: cleanToken,
+            id: cleanToken,
+          })
+        );
+        router.push('/vote');
+      } else {
+        setErrorMsg(res.error || 'Gagal masuk bilik suara');
+        setIsLoading(false);
+      }
+    } catch {
+      // Network threw (dropped during request) — gracefully fall back to offline session
+      enterOfflineVoteSession(cleanToken);
     }
   };
 
@@ -112,6 +179,14 @@ function LandingForm() {
           <h2 className="text-xl font-bold text-brand-navy-900 dark:text-white font-heading">Autentikasi Pemilih</h2>
           <p className="text-sm text-brand-navy-500 dark:text-slate-400 mt-2 font-medium">Masukkan token akses Anda untuk masuk ke bilik suara.</p>
         </div>
+
+        {/* Offline Badge */}
+        {!isOnline && (
+          <div className="mb-6 flex items-center justify-center gap-2 py-2 px-3 rounded-xl bg-amber-100 dark:bg-amber-950/60 text-amber-800 dark:text-amber-300 border border-amber-200 dark:border-amber-800 text-xs font-bold">
+            <WifiOff className="w-4 h-4 flex-shrink-0 text-amber-600 dark:text-amber-400" />
+            Mode Offline — Bilik Kiosk Siap Menerima Suara
+          </div>
+        )}
 
         {/* Error Alert */}
         <AnimatePresence mode="wait">

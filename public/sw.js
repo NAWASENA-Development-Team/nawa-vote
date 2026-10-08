@@ -1,23 +1,42 @@
-// NAWA-VOTE Service Worker — voter offline shell
-// Strategies:
-//   /_next/static/**  → Cache-First + graceful offline fallback (never rejects FetchEvent)
-//   /vote, /success   → Network-First, cache fallback (navigate requests)
-//   POST /vote        → Offline intercept: return JSON error so client falls back to queue
-//   everything else   → Network only (admin, API, supabase)
-//
-// KEY: every respondWith() path returns a Response, never throws.
-// A rejected promise inside respondWith() causes browser-level errors.
+// NAWA-VOTE Service Worker (v3) — Complete Offline PWA & Kiosk Support
+// Caching strategies:
+//   - Static assets (/_next/static/**): Cache-First with safe 503 fallback
+//   - Images (/_next/image, candidate photos): Cache-First with SVG placeholder fallback
+//   - Navigations (/, /vote, /success): Network-First with cross-route shell fallback
+//   - Server Actions (POST): Offline intercept returning structured JSON
 
-const CACHE_VERSION = 'nawa-v2';
+const CACHE_VERSION = 'nawa-v3';
 const STATIC_CACHE  = `${CACHE_VERSION}-static`;
 const PAGE_CACHE    = `${CACHE_VERSION}-pages`;
+const IMAGE_CACHE   = `${CACHE_VERSION}-images`;
 
-// Voter routes that get network-first + cache-fallback for navigate requests
-const VOTER_PATHS = ['/vote', '/success'];
+const PRECACHE_ASSETS = [
+  '/',
+  '/vote',
+  '/manifest.json',
+  '/favicon.ico',
+];
 
 // ─── Install ──────────────────────────────────────────────────────────────────
 self.addEventListener('install', (event) => {
   self.skipWaiting();
+  event.waitUntil(
+    caches.open(PAGE_CACHE).then(async (cache) => {
+      // Pre-cache core pages gracefully so individual failures don't abort install
+      await Promise.allSettled(
+        PRECACHE_ASSETS.map(async (url) => {
+          try {
+            const res = await fetch(url, { cache: 'no-cache' });
+            if (res && (res.ok || res.type === 'opaque')) {
+              await cache.put(url, res);
+            }
+          } catch {
+            // non-fatal pre-cache failure
+          }
+        })
+      );
+    })
+  );
 });
 
 // ─── Activate ─────────────────────────────────────────────────────────────────
@@ -27,7 +46,7 @@ self.addEventListener('activate', (event) => {
       .then((keys) =>
         Promise.all(
           keys
-            .filter((k) => k !== STATIC_CACHE && k !== PAGE_CACHE)
+            .filter((k) => !k.startsWith(CACHE_VERSION))
             .map((k) => caches.delete(k))
         )
       )
@@ -40,50 +59,52 @@ self.addEventListener('fetch', (event) => {
   const { request } = event;
   const url = new URL(request.url);
 
-  // Only handle same-origin requests
-  if (url.origin !== self.location.origin) return;
-
-  // ── Static assets (CSS, JS chunks, fonts, media): Cache-First ─────────────
-  // Covers: /_next/static/css/**, /_next/static/chunks/**, /_next/static/media/**
-  if (url.pathname.startsWith('/_next/static/')) {
+  // 1. Same-origin static assets: Cache-First
+  if (url.origin === self.location.origin && url.pathname.startsWith('/_next/static/')) {
     event.respondWith(cacheFirstSafe(request, STATIC_CACHE));
     return;
   }
 
-  // ── Server Action POST to /vote: offline intercept ────────────────────────
-  // castSplitVote() does a POST /_next/... or POST /vote — when offline this
-  // would throw NetworkError and crash. Return a structured JSON error instead
-  // so VoteWizard catches it and falls through to the local queue path.
-  if (request.method === 'POST' && url.pathname.startsWith('/vote')) {
+  // 2. Images (Next.js image optimizer or direct images)
+  const isImage =
+    url.pathname.startsWith('/_next/image') ||
+    request.destination === 'image' ||
+    /\.(png|jpg|jpeg|svg|webp|gif|ico)$/i.test(url.pathname);
+
+  if (isImage) {
+    event.respondWith(cacheImage(request));
+    return;
+  }
+
+  // 3. Server Actions / POST to /vote or /: offline intercept
+  if (request.method === 'POST') {
     event.respondWith(postOfflineIntercept(request));
     return;
   }
 
-  // ── Voter page navigations: Network-First, cache fallback ──────────────────
-  const isVoterNav =
-    request.mode === 'navigate' &&
-    VOTER_PATHS.some((p) => url.pathname.startsWith(p));
-
-  if (isVoterNav) {
+  // 4. Page navigations: Network-First with cross-route shell fallback
+  if (request.mode === 'navigate') {
     event.respondWith(networkFirstPage(request));
     return;
   }
 
-  // Everything else: pass through to network (admin, API calls, etc.)
+  // 5. Next.js RSC Flight requests (e.g. router.push client transitions)
+  if (url.searchParams.has('_rsc') || request.headers.get('rsc') === '1') {
+    event.respondWith(handleRscRequest(request));
+    return;
+  }
 });
 
 // ─── Strategies ───────────────────────────────────────────────────────────────
 
 /**
- * Cache-First with safe offline fallback.
- * NEVER rejects — returns a 503 opaque response if offline and not cached.
+ * Cache-First with safe fallback. NEVER rejects FetchEvent promise.
  */
 async function cacheFirstSafe(request, cacheName) {
   try {
     const cached = await caches.match(request);
     if (cached) return cached;
 
-    // Try network; if it works, cache it for next time
     const response = await fetch(request);
     if (response && (response.ok || response.status === 0)) {
       const cache = await caches.open(cacheName);
@@ -91,8 +112,6 @@ async function cacheFirstSafe(request, cacheName) {
     }
     return response;
   } catch {
-    // Offline and not cached — return empty 503 so the browser doesn't crash.
-    // Cached page HTML is still served; only un-cached assets return 503.
     const cached = await caches.match(request);
     if (cached) return cached;
 
@@ -105,53 +124,108 @@ async function cacheFirstSafe(request, cacheName) {
 }
 
 /**
- * Network-First for voter page navigations.
- * On network failure, serves cached page shell.
+ * Image Cache: Cache-First.
+ * If offline and un-cached, returns an SVG placeholder instead of throwing NetworkError.
+ */
+async function cacheImage(request) {
+  try {
+    const cached = await caches.match(request);
+    if (cached) return cached;
+
+    const response = await fetch(request);
+    if (response && (response.ok || response.type === 'opaque')) {
+      const cache = await caches.open(IMAGE_CACHE);
+      cache.put(request, response.clone());
+    }
+    return response;
+  } catch {
+    const cached = await caches.match(request);
+    if (cached) return cached;
+
+    // Offline SVG placeholder — matches candidate portrait ratio
+    const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="300" height="400" viewBox="0 0 300 400" fill="#0f172a"><rect width="300" height="400" fill="#1e293b"/><circle cx="150" cy="160" r="50" fill="#334155"/><path d="M75 320c0-41.4 33.6-75 75-75s75 33.6 75 75" fill="#334155"/></svg>`;
+    return new Response(svg, {
+      status: 200,
+      headers: { 'Content-Type': 'image/svg+xml', 'Cache-Control': 'no-store' },
+    });
+  }
+}
+
+/**
+ * Network-First for navigations.
+ * Offline: falls back to requested page shell, OR any cached shell (/, /vote).
  */
 async function networkFirstPage(request) {
   const cache = await caches.open(PAGE_CACHE);
+  const url = new URL(request.url);
 
   try {
     const response = await fetch(request);
-
     if (response && (response.ok || response.redirected)) {
-      // Normalise cache key for /vote (strip query params so one entry covers all)
-      const url = new URL(request.url);
-      const cacheKey = url.pathname.startsWith('/vote')
-        ? new Request(url.origin + '/vote')
-        : request.clone();
-      cache.put(cacheKey, response.clone());
+      // Cache under exact URL and normalized pathname
+      cache.put(request.clone(), response.clone());
+      cache.put(new Request(url.origin + url.pathname), response.clone());
     }
-
     return response;
   } catch {
-    // Network unavailable — try cache
-    const url = new URL(request.url);
-    const cached =
-      (await cache.match(request)) ||
-      (await cache.match(new Request(url.origin + url.pathname)));
-
+    // 1. Try exact URL match
+    let cached = await cache.match(request);
     if (cached) return cached;
 
-    // Nothing cached yet — show a friendly standalone offline page
+    // 2. Try normalized pathname match
+    cached = await cache.match(new Request(url.origin + url.pathname));
+    if (cached) return cached;
+
+    // 3. Cross-route fallback:
+    // If requesting /vote, fall back to cached /vote or cached /
+    if (url.pathname.startsWith('/vote')) {
+      cached = (await cache.match(new Request(url.origin + '/vote'))) ||
+               (await cache.match(new Request(url.origin + '/')));
+      if (cached) return cached;
+    }
+
+    // If requesting /, fall back to cached / or cached /vote
+    if (url.pathname === '/' || url.pathname === '') {
+      cached = (await cache.match(new Request(url.origin + '/'))) ||
+               (await cache.match(new Request(url.origin + '/vote')));
+      if (cached) return cached;
+    }
+
+    // 4. Any cached page in PAGE_CACHE
+    const keys = await cache.keys();
+    if (keys.length > 0) {
+      const anyPage = await cache.match(keys[0]);
+      if (anyPage) return anyPage;
+    }
+
+    // 5. Ultimate fallback if user never loaded the site before
     return offlineFallback();
   }
 }
 
 /**
- * Intercepts POST /vote requests (Next.js server actions) when offline.
- * Returns a JSON error response that VoteWizard can detect and re-route
- * to the local queue instead of crashing.
+ * Handle RSC Flight requests. If offline, return 503 or empty so Next.js falls back to navigate.
+ */
+async function handleRscRequest(request) {
+  try {
+    return await fetch(request);
+  } catch {
+    return new Response('', {
+      status: 503,
+      statusText: 'RSC Offline',
+      headers: { 'Content-Type': 'text/plain' },
+    });
+  }
+}
+
+/**
+ * Intercepts POST requests (Server Actions) when offline.
+ * Returns structured JSON so client code can catch and queue locally without NetworkError.
  */
 async function postOfflineIntercept(request) {
-  // If we have connectivity, let the request through normally
   try {
-    // Quick connectivity check: HEAD the SW script itself
-    await fetch('/sw.js', { method: 'HEAD', cache: 'no-store' });
-    // Online — pass original request through
-    return fetch(request);
+    return await fetch(request);
   } catch {
-    // Offline — return a structured error so VoteWizard can catch and queue
     return new Response(
       JSON.stringify({ success: false, error: 'OFFLINE', offline: true }),
       {
@@ -168,19 +242,19 @@ function offlineFallback() {
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Memuat...</title>
+  <title>Mode Offline — Bilik Suara</title>
   <style>
     body {
-      margin: 0; font-family: sans-serif; display: flex;
-      align-items: center; justify-content: center;
-      min-height: 100vh; background: #fefce8; color: #713f12;
+      margin: 0; font-family: system-ui, -apple-system, sans-serif;
+      display: flex; align-items: center; justify-content: center;
+      min-height: 100vh; background: #0f172a; color: #f8fafc;
     }
-    .box { text-align: center; padding: 2rem; max-width: 360px; }
-    h1 { font-size: 1.5rem; margin-bottom: .5rem; }
-    p  { font-size: .9rem; opacity: .75; }
+    .box { text-align: center; padding: 2rem; max-width: 400px; }
+    h1 { font-size: 1.5rem; margin-bottom: .75rem; color: #f59e0b; }
+    p  { font-size: .875rem; color: #94a3b8; line-height: 1.5; }
     button {
       margin-top: 1.5rem; padding: .75rem 2rem;
-      background: #f59e0b; border: none; border-radius: 12px;
+      background: #f59e0b; color: #0f172a; border: none; border-radius: 12px;
       font-weight: 700; cursor: pointer; font-size: .85rem;
       letter-spacing: .05em; text-transform: uppercase;
     }
@@ -188,9 +262,9 @@ function offlineFallback() {
 </head>
 <body>
   <div class="box">
-    <h1>Koneksi Terputus</h1>
-    <p>Buka halaman ini sekali saat online agar tersimpan untuk mode offline.</p>
-    <button onclick="location.reload()">Coba Lagi</button>
+    <h1>Mode Offline</h1>
+    <p>Aplikasi sedang offline. Silakan muat ulang halaman setelah tersambung internet sekali untuk menyimpan cache bilik suara.</p>
+    <button onclick="location.reload()">Muat Ulang</button>
   </div>
 </body>
 </html>`;
