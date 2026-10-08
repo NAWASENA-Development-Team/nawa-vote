@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useCallback, useRef } from 'react';
 import { useRouter } from 'next/navigation';
 import { castSplitVote } from '@/lib/actions/vote';
 import { logout } from '@/lib/actions/auth';
@@ -43,6 +43,10 @@ export default function VoteWizard({ candidates, voterToken, voterId }: VoteWiza
   // Sync state — shown as a brief toast when reconnecting
   const [syncStatus, setSyncStatus] = useState<'idle' | 'syncing' | 'done' | 'error'>('idle');
   const [pendingVotes, setPendingVotes] = useState(0);
+
+  // Offline success — rendered inline when offline vote is saved (avoids network navigation)
+  const [offlineSaved, setOfflineSaved] = useState(false);
+  const offlineLocalId = useRef<string>('');
 
   // Auto-sync when connectivity is restored
   const runSync = useCallback(async () => {
@@ -121,7 +125,8 @@ export default function VoteWizard({ candidates, voterToken, voterId }: VoteWiza
     setErrorMessage(null);
 
     if (!isOnline) {
-      // Offline path: save locally and redirect to offline success page
+      // Offline path: save locally, log out immediately to clear session (prevents re-voting),
+      // then render success inline — no router.push so no network request is needed.
       const localId = saveVoteOffline(
         voterToken,
         voterId,
@@ -129,9 +134,16 @@ export default function VoteWizard({ candidates, voterToken, voterId }: VoteWiza
         selectedWakil1.id,
         selectedWakil2.id
       );
+      offlineLocalId.current = localId;
       setPendingVotes(pendingCount());
       setIsConfirmOpen(false);
-      router.push(`/success?token=${localId}&offline=true`);
+
+      // Clear session cookie so the voter cannot return to /vote and re-vote.
+      // The sync queue stores voterId independently so logout does not affect sync.
+      await logout();
+
+      setOfflineSaved(true);
+      setIsLoading(false);
       return;
     }
 
@@ -158,6 +170,102 @@ export default function VoteWizard({ candidates, voterToken, voterId }: VoteWiza
 
   // Offline colour scheme: amber warning palette replaces navy
   const offline = !isOnline;
+
+  // — Inline offline success screen —
+  // Rendered in-place instead of navigating to /success?offline=true so there is
+  // zero network activity after saving offline (router.push would fail mid-air).
+  if (offlineSaved) {
+    return (
+      <div className="flex-1 flex items-center justify-center p-4 relative z-10 w-full overflow-hidden bg-amber-50 dark:bg-amber-950 transition-colors min-h-screen">
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-amber-200/40 dark:bg-amber-600/10 rounded-full blur-[80px] -z-10 pointer-events-none" />
+        <div className="w-full max-w-lg relative z-10">
+          <motion.div
+            initial={{ opacity: 0, scale: 0.98, y: 10 }}
+            animate={{ opacity: 1, scale: 1, y: 0 }}
+            transition={{ type: 'spring', duration: 0.6, bounce: 0.2 }}
+            className="p-8 md:p-12 text-center flex flex-col items-center shadow-xl rounded-2xl border bg-amber-50 dark:bg-amber-950 border-amber-200 dark:border-amber-800"
+          >
+            {/* Logo */}
+            <div className="flex flex-col items-center mb-10">
+              <div className="w-12 h-12 text-brand-navy-900 dark:text-white mb-4 flex items-center justify-center">
+                <NawaLogo />
+              </div>
+              <span className="font-heading font-black text-xs text-brand-navy-400 dark:text-slate-400 tracking-[0.25em] uppercase">
+                Bilik Suara Nawa
+              </span>
+            </div>
+
+            {/* Icon */}
+            <motion.div
+              initial={{ scale: 0, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              transition={{ type: 'spring', stiffness: 200, damping: 15, delay: 0.1 }}
+              className="flex items-center justify-center w-24 h-24 rounded-full mb-8 border shadow-inner bg-amber-100 dark:bg-amber-900/40 text-amber-500 border-amber-200 dark:border-amber-800"
+            >
+              <WifiOff className="w-12 h-12" />
+            </motion.div>
+
+            <motion.h1
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.2 }}
+              className="font-heading text-3xl md:text-4xl font-black mb-4 tracking-tight text-amber-900 dark:text-amber-100"
+            >
+              Suara Tersimpan
+            </motion.h1>
+            <motion.p
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.3 }}
+              className="text-sm px-2 leading-relaxed font-medium text-amber-700 dark:text-amber-300"
+            >
+              Suara Anda disimpan di perangkat ini. Akan dikirim ke server secara otomatis saat koneksi internet pulih.
+            </motion.p>
+
+            {/* Sync pending badge */}
+            <motion.div
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.35 }}
+              className="mt-5 flex items-center gap-2 text-xs font-bold text-amber-600 dark:text-amber-400 bg-amber-100 dark:bg-amber-900/40 border border-amber-200 dark:border-amber-700 rounded-full px-4 py-2"
+            >
+              <Loader2 className="w-4 h-4 flex-shrink-0" /> Menunggu sinkronisasi otomatis
+            </motion.div>
+
+            {/* Local save ID */}
+            {offlineLocalId.current && (
+              <motion.div
+                initial={{ opacity: 0, y: 15 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.4 }}
+                className="w-full mt-10 rounded-2xl p-6 text-center relative flex flex-col items-center border bg-amber-100/50 dark:bg-amber-900/20 border-amber-200 dark:border-amber-800"
+              >
+                <span className="text-[10px] font-bold uppercase tracking-widest mb-3 text-amber-600 dark:text-amber-400">
+                  Kode Simpan Lokal
+                </span>
+                <div
+                  className="font-mono text-xs py-4 px-4 rounded-xl w-full select-all font-bold break-all border shadow-sm bg-white dark:bg-amber-950 text-amber-900 dark:text-amber-100 border-amber-200 dark:border-amber-700"
+                  style={{ fontFamily: 'var(--font-jetbrains-mono), monospace' }}
+                >
+                  {offlineLocalId.current}
+                </div>
+              </motion.div>
+            )}
+
+            {/* Note — no end session button because logout() already fired */}
+            <motion.p
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.5 }}
+              className="text-[11px] font-medium mt-8 flex items-center justify-center gap-1.5 text-amber-500 dark:text-amber-600"
+            >
+              <WifiOff className="w-3.5 h-3.5" /> Sesi telah diakhiri — suara akan disinkronkan otomatis
+            </motion.p>
+          </motion.div>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className={`max-w-6xl mx-auto px-4 py-8 relative transition-colors duration-500`}>

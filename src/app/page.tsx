@@ -28,17 +28,22 @@ function LandingForm() {
   }, [searchParams]);
 
   const handleTokenChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    let val = e.target.value.toUpperCase();
+    const raw = e.target.value.toUpperCase();
 
-    if (val && !val.startsWith('NW-') && val.length <= 6) {
-      if ('NW'.startsWith(val) || 'NW-'.startsWith(val)) {
-        // Allow typing
-      } else {
-        val = 'NW-' + val;
-      }
+    // Strip any existing NW- prefix (handles paste / autocomplete / double-fire scenarios)
+    const withoutPrefix = raw.startsWith('NW-') ? raw.slice(3) : raw;
+
+    // Keep only alphanumeric characters for the suffix portion
+    const suffix = withoutPrefix.replace(/[^A-Z0-9]/g, '').slice(0, 6);
+
+    // Reassemble: show bare prefix chars while still typing them, full format once past
+    if (suffix.length === 0 && raw.length <= 3) {
+      // User is still typing "N", "NW", or "NW-" — keep raw so they can see it
+      setToken(raw.slice(0, 3));
+    } else {
+      setToken('NW-' + suffix);
     }
 
-    setToken(val.slice(0, 9));
     setErrorMsg(null);
   };
 
