@@ -107,7 +107,38 @@ export function useSystemConfig(initialRaw: RawConfig): ResultsConfig {
       )
       .subscribe();
 
+    // Fallback polling every 2.5s to ensure endpoint updates even if websocket has delay/subscription limits
+    const pollInterval = setInterval(async () => {
+      try {
+        const { data } = await supabase.from('system_config').select('key, value');
+        if (data && data.length > 0) {
+          const rawMap: RawConfig = {};
+          data.forEach((row) => {
+            (rawMap as any)[row.key] = row.value;
+          });
+          setConfig((prev) => {
+            const next = parseConfig(rawMap);
+            if (
+              prev.showResults !== next.showResults ||
+              prev.resultsMode !== next.resultsMode ||
+              prev.activeJabatan !== next.activeJabatan ||
+              prev.activeInterface !== next.activeInterface ||
+              prev.cycleInterval !== next.cycleInterval ||
+              prev.revealIdentity !== next.revealIdentity ||
+              JSON.stringify(prev.candidateColors) !== JSON.stringify(next.candidateColors)
+            ) {
+              return next;
+            }
+            return prev;
+          });
+        }
+      } catch (err) {
+        console.error('Config poll error:', err);
+      }
+    }, 2500);
+
     return () => {
+      clearInterval(pollInterval);
       supabase.removeChannel(channel);
     };
   }, [supabase]);

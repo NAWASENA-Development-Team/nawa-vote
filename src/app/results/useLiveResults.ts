@@ -53,7 +53,6 @@ export function useLiveResults(
         { event: 'UPDATE', schema: 'public', table: 'candidates' },
         (payload: any) => {
           const updated = payload.new as LiveCandidate;
-          if (updated.category !== activeJabatan) return;
 
           setCandidates((prev) =>
             prev.map((c) =>
@@ -61,9 +60,11 @@ export function useLiveResults(
             )
           );
 
-          setLastUpdatedId(updated.id);
-          setTimeout(() => setLastUpdatedId(null), 1500);
-          playVoteBurst();
+          if (updated.category === activeJabatan) {
+            setLastUpdatedId(updated.id);
+            setTimeout(() => setLastUpdatedId(null), 1500);
+            playVoteBurst();
+          }
         }
       )
       .on(
@@ -80,7 +81,33 @@ export function useLiveResults(
       )
       .subscribe();
 
+    // Fallback polling every 3s to guarantee live data updates
+    const fetchFreshData = async () => {
+      try {
+        const { data: candData } = await supabase
+          .from('candidates')
+          .select('id, name, category, vote_count, ordinal_number')
+          .order('ordinal_number', { ascending: true });
+        if (candData) {
+          setCandidates(candData as LiveCandidate[]);
+        }
+
+        const { count } = await supabase
+          .from('votes')
+          .select('*', { count: 'exact', head: true });
+        if (count !== null && count !== undefined) {
+          setTotalVotesCast(count);
+        }
+      } catch (err) {
+        console.error('Live data poll error:', err);
+      }
+    };
+
+    fetchFreshData();
+    const pollInterval = setInterval(fetchFreshData, 3000);
+
     return () => {
+      clearInterval(pollInterval);
       supabase.removeChannel(channel);
     };
   }, [supabase, activeJabatan]);

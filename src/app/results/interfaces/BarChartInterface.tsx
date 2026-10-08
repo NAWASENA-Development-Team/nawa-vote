@@ -85,7 +85,7 @@ export default function BarChartInterface({
                   return (
                     <div className="bg-white p-3.5 rounded-xl shadow-lg border border-brand-navy-100 text-xs">
                       <div className="font-bold text-brand-navy-900 text-sm font-heading">
-                        {data.fullName}
+                        {isRevealed ? data.fullName : `Kandidat ${data.slot}`}
                       </div>
                       <div className="mt-1 flex items-center gap-2 text-brand-navy-600 font-semibold">
                         <span>{data.votes.toLocaleString('id-ID')} suara</span>

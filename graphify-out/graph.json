@@ -217,8 +217,8 @@
       "_callable": true,
       "_callable_class": true,
       "_origin": "ast",
-      "community": 11,
-      "community_name": "analytics/page.tsx",
+      "community": 2,
+      "community_name": "package.json",
       "file_type": "code",
       "norm_label": "analyticsdashboardprops",
       "source_file": "src/app/admin/analytics/AnalyticsDashboard.tsx",
@@ -230,8 +230,8 @@
       "_callable": true,
       "_callable_class": true,
       "_origin": "ast",
-      "community": 11,
-      "community_name": "analytics/page.tsx",
+      "community": 2,
+      "community_name": "package.json",
       "file_type": "code",
       "norm_label": "dashboardcandidate",
       "source_file": "src/app/admin/analytics/AnalyticsDashboard.tsx",
@@ -244,7 +244,7 @@
       "_callable_class": true,
       "_origin": "ast",
       "community": 3,
-      "community_name": "react",
+      "community_name": "framer-motion",
       "file_type": "code",
       "norm_label": "candidatecardprops",
       "source_file": "src/components/CandidateCard.tsx",
@@ -257,7 +257,7 @@
       "_callable_class": true,
       "_origin": "ast",
       "community": 3,
-      "community_name": "react",
+      "community_name": "framer-motion",
       "file_type": "code",
       "norm_label": "nawalogoprops",
       "source_file": "src/components/NawaLogo.tsx",
@@ -270,7 +270,7 @@
       "_callable_class": true,
       "_origin": "ast",
       "community": 3,
-      "community_name": "react",
+      "community_name": "framer-motion",
       "file_type": "code",
       "norm_label": "authresponse",
       "source_file": "src/lib/actions/auth.ts",
@@ -309,7 +309,7 @@
       "_callable_class": true,
       "_origin": "ast",
       "community": 8,
-      "community_name": "ResultsClient.tsx",
+      "community_name": "react",
       "file_type": "code",
       "norm_label": "colorslot",
       "source_file": "src/app/results/colorSlots.ts",
@@ -322,7 +322,7 @@
       "_callable_class": true,
       "_origin": "ast",
       "community": 8,
-      "community_name": "ResultsClient.tsx",
+      "community_name": "react",
       "file_type": "code",
       "norm_label": "slotcolors",
       "source_file": "src/app/results/colorSlots.ts",
@@ -335,7 +335,7 @@
       "_callable_class": true,
       "_origin": "ast",
       "community": 8,
-      "community_name": "ResultsClient.tsx",
+      "community_name": "react",
       "file_type": "code",
       "norm_label": "ballooninterfaceprops",
       "source_file": "src/app/results/interfaces/BalloonInterface.tsx",
@@ -348,7 +348,7 @@
       "_callable_class": true,
       "_origin": "ast",
       "community": 8,
-      "community_name": "ResultsClient.tsx",
+      "community_name": "react",
       "file_type": "code",
       "norm_label": "poppedstate",
       "source_file": "src/app/results/interfaces/BalloonInterface.tsx",
@@ -361,7 +361,7 @@
       "_callable_class": true,
       "_origin": "ast",
       "community": 8,
-      "community_name": "ResultsClient.tsx",
+      "community_name": "react",
       "file_type": "code",
       "norm_label": "barchartinterfaceprops",
       "source_file": "src/app/results/interfaces/BarChartInterface.tsx",
@@ -374,7 +374,7 @@
       "_callable_class": true,
       "_origin": "ast",
       "community": 8,
-      "community_name": "ResultsClient.tsx",
+      "community_name": "react",
       "file_type": "code",
       "norm_label": "interfaceshellprops",
       "source_file": "src/app/results/interfaces/InterfaceShell.tsx",
@@ -387,7 +387,7 @@
       "_callable_class": true,
       "_origin": "ast",
       "community": 8,
-      "community_name": "ResultsClient.tsx",
+      "community_name": "react",
       "file_type": "code",
       "norm_label": "resultsclientprops",
       "source_file": "src/app/results/ResultsClient.tsx",
@@ -400,7 +400,7 @@
       "_callable_class": true,
       "_origin": "ast",
       "community": 8,
-      "community_name": "ResultsClient.tsx",
+      "community_name": "react",
       "file_type": "code",
       "norm_label": "livecandidate",
       "source_file": "src/app/results/useLiveResults.ts",
@@ -413,7 +413,7 @@
       "_callable_class": true,
       "_origin": "ast",
       "community": 8,
-      "community_name": "ResultsClient.tsx",
+      "community_name": "react",
       "file_type": "code",
       "norm_label": "useliveresultsreturn",
       "source_file": "src/app/results/useLiveResults.ts",
@@ -426,7 +426,7 @@
       "_callable_class": true,
       "_origin": "ast",
       "community": 8,
-      "community_name": "ResultsClient.tsx",
+      "community_name": "react",
       "file_type": "code",
       "norm_label": "rawconfig",
       "source_file": "src/app/results/useSystemConfig.ts",
@@ -439,11 +439,35 @@
       "_callable_class": true,
       "_origin": "ast",
       "community": 8,
-      "community_name": "ResultsClient.tsx",
+      "community_name": "react",
       "file_type": "code",
       "norm_label": "resultsconfig",
       "source_file": "src/app/results/useSystemConfig.ts",
       "source_location": "L14"
+    },
+    {
+      "id": "src_app_admin_analytics_analyticsdashboard_analyticsdashboard",
+      "label": "AnalyticsDashboard()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 0,
+      "community_name": "createClient",
+      "file_type": "code",
+      "norm_label": "analyticsdashboard()",
+      "source_file": "src/app/admin/analytics/AnalyticsDashboard.tsx",
+      "source_location": "L23"
+    },
+    {
+      "id": "src_app_admin_analytics_page_adminanalyticspage",
+      "label": "AdminAnalyticsPage()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 0,
+      "community_name": "createClient",
+      "file_type": "code",
+      "norm_label": "adminanalyticspage()",
+      "source_file": "src/app/admin/analytics/page.tsx",
+      "source_location": "L10"
     },
     {
       "id": "src_app_admin_candidates_candidateeditor_candidateeditor",
@@ -515,7 +539,7 @@
       "file_type": "code",
       "norm_label": "resultscontrols()",
       "source_file": "src/app/admin/dashboard/ResultsControls.tsx",
-      "source_location": "L39"
+      "source_location": "L40"
     },
     {
       "id": "src_app_admin_voters_page_adminvoterspage",
@@ -542,18 +566,6 @@
       "source_location": "L34"
     },
     {
-      "id": "src_app_results_page_publicresultspage",
-      "label": "PublicResultsPage()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 0,
-      "community_name": "createClient",
-      "file_type": "code",
-      "norm_label": "publicresultspage()",
-      "source_file": "src/app/results/page.tsx",
-      "source_location": "L7"
-    },
-    {
       "id": "src_app_verify_page_publicverifypage",
       "label": "PublicVerifyPage()",
       "_callable": true,
@@ -575,7 +587,7 @@
       "file_type": "code",
       "norm_label": "deletecandidate()",
       "source_file": "src/lib/actions/admin.ts",
-      "source_location": "L195"
+      "source_location": "L196"
     },
     {
       "id": "src_lib_actions_admin_generatesecuretoken",
@@ -611,7 +623,7 @@
       "file_type": "code",
       "norm_label": "resetvotingdata()",
       "source_file": "src/lib/actions/admin.ts",
-      "source_location": "L224"
+      "source_location": "L225"
     },
     {
       "id": "src_lib_actions_admin_updatesystemconfig",
@@ -635,7 +647,7 @@
       "file_type": "code",
       "norm_label": "upsertcandidate()",
       "source_file": "src/lib/actions/admin.ts",
-      "source_location": "L138"
+      "source_location": "L139"
     },
     {
       "id": "src_lib_actions_vote_verifyvotetoken",
@@ -890,28 +902,16 @@
       "source_location": "L66"
     },
     {
-      "id": "src_app_admin_analytics_analyticsdashboard_analyticsdashboard",
-      "label": "AnalyticsDashboard()",
+      "id": "src_lib_supabase_client_createclient",
+      "label": "createClient()",
       "_callable": true,
       "_origin": "ast",
-      "community": 11,
-      "community_name": "analytics/page.tsx",
+      "community": 1,
+      "community_name": "VoteWizard.tsx",
       "file_type": "code",
-      "norm_label": "analyticsdashboard()",
-      "source_file": "src/app/admin/analytics/AnalyticsDashboard.tsx",
-      "source_location": "L23"
-    },
-    {
-      "id": "src_app_admin_analytics_page_adminanalyticspage",
-      "label": "AdminAnalyticsPage()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 11,
-      "community_name": "analytics/page.tsx",
-      "file_type": "code",
-      "norm_label": "adminanalyticspage()",
-      "source_file": "src/app/admin/analytics/page.tsx",
-      "source_location": "L10"
+      "norm_label": "createclient()",
+      "source_file": "src/lib/supabase/client.ts",
+      "source_location": "L3"
     },
     {
       "id": "public_sw_cachefirstsafe",
@@ -1051,7 +1051,7 @@
       "_callable": true,
       "_origin": "ast",
       "community": 3,
-      "community_name": "react",
+      "community_name": "framer-motion",
       "file_type": "code",
       "norm_label": "adminlayout()",
       "source_file": "src/app/admin/layout.tsx",
@@ -1063,7 +1063,7 @@
       "_callable": true,
       "_origin": "ast",
       "community": 3,
-      "community_name": "react",
+      "community_name": "framer-motion",
       "file_type": "code",
       "norm_label": "loginform()",
       "source_file": "src/app/(auth)/login/page.tsx",
@@ -1075,7 +1075,7 @@
       "_callable": true,
       "_origin": "ast",
       "community": 3,
-      "community_name": "react",
+      "community_name": "framer-motion",
       "file_type": "code",
       "norm_label": "loginpage()",
       "source_file": "src/app/(auth)/login/page.tsx",
@@ -1087,7 +1087,7 @@
       "_callable": true,
       "_origin": "ast",
       "community": 3,
-      "community_name": "react",
+      "community_name": "framer-motion",
       "file_type": "code",
       "norm_label": "successpage()",
       "source_file": "src/app/(voter)/success/page.tsx",
@@ -1099,7 +1099,7 @@
       "_callable": true,
       "_origin": "ast",
       "community": 3,
-      "community_name": "react",
+      "community_name": "framer-motion",
       "file_type": "code",
       "norm_label": "successview()",
       "source_file": "src/app/(voter)/success/page.tsx",
@@ -1111,7 +1111,7 @@
       "_callable": true,
       "_origin": "ast",
       "community": 3,
-      "community_name": "react",
+      "community_name": "framer-motion",
       "file_type": "code",
       "norm_label": "nawalogo()",
       "source_file": "src/components/NawaLogo.tsx",
@@ -1123,7 +1123,7 @@
       "_callable": true,
       "_origin": "ast",
       "community": 3,
-      "community_name": "react",
+      "community_name": "framer-motion",
       "file_type": "code",
       "norm_label": "usetheme()",
       "source_file": "src/components/ThemeProvider.tsx",
@@ -1135,7 +1135,7 @@
       "_callable": true,
       "_origin": "ast",
       "community": 3,
-      "community_name": "react",
+      "community_name": "framer-motion",
       "file_type": "code",
       "norm_label": "themetoggle()",
       "source_file": "src/components/ThemeToggle.tsx",
@@ -1147,7 +1147,7 @@
       "_callable": true,
       "_origin": "ast",
       "community": 3,
-      "community_name": "react",
+      "community_name": "framer-motion",
       "file_type": "code",
       "norm_label": "loginadmin()",
       "source_file": "src/lib/actions/auth.ts",
@@ -1159,7 +1159,7 @@
       "_callable": true,
       "_origin": "ast",
       "community": 3,
-      "community_name": "react",
+      "community_name": "framer-motion",
       "file_type": "code",
       "norm_label": "logout()",
       "source_file": "src/lib/actions/auth.ts",
@@ -1219,7 +1219,7 @@
       "_callable": true,
       "_origin": "ast",
       "community": 8,
-      "community_name": "ResultsClient.tsx",
+      "community_name": "react",
       "file_type": "code",
       "norm_label": "parsecandidatecolors()",
       "source_file": "src/app/results/colorSlots.ts",
@@ -1231,7 +1231,7 @@
       "_callable": true,
       "_origin": "ast",
       "community": 8,
-      "community_name": "ResultsClient.tsx",
+      "community_name": "react",
       "file_type": "code",
       "norm_label": "resolveslot()",
       "source_file": "src/app/results/colorSlots.ts",
@@ -1243,7 +1243,7 @@
       "_callable": true,
       "_origin": "ast",
       "community": 8,
-      "community_name": "ResultsClient.tsx",
+      "community_name": "react",
       "file_type": "code",
       "norm_label": "ballooninterface()",
       "source_file": "src/app/results/interfaces/BalloonInterface.tsx",
@@ -1255,7 +1255,7 @@
       "_callable": true,
       "_origin": "ast",
       "community": 8,
-      "community_name": "ResultsClient.tsx",
+      "community_name": "react",
       "file_type": "code",
       "norm_label": "barchartinterface()",
       "source_file": "src/app/results/interfaces/BarChartInterface.tsx",
@@ -1267,11 +1267,23 @@
       "_callable": true,
       "_origin": "ast",
       "community": 8,
-      "community_name": "ResultsClient.tsx",
+      "community_name": "react",
       "file_type": "code",
       "norm_label": "interfaceshell()",
       "source_file": "src/app/results/interfaces/InterfaceShell.tsx",
       "source_location": "L19"
+    },
+    {
+      "id": "src_app_results_page_publicresultspage",
+      "label": "PublicResultsPage()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 8,
+      "community_name": "react",
+      "file_type": "code",
+      "norm_label": "publicresultspage()",
+      "source_file": "src/app/results/page.tsx",
+      "source_location": "L8"
     },
     {
       "id": "src_app_results_resultsclient_resultsclient",
@@ -1279,7 +1291,7 @@
       "_callable": true,
       "_origin": "ast",
       "community": 8,
-      "community_name": "ResultsClient.tsx",
+      "community_name": "react",
       "file_type": "code",
       "norm_label": "resultsclient()",
       "source_file": "src/app/results/ResultsClient.tsx",
@@ -1291,7 +1303,7 @@
       "_callable": true,
       "_origin": "ast",
       "community": 8,
-      "community_name": "ResultsClient.tsx",
+      "community_name": "react",
       "file_type": "code",
       "norm_label": "getctx()",
       "source_file": "src/app/results/sounds.ts",
@@ -1303,7 +1315,7 @@
       "_callable": true,
       "_origin": "ast",
       "community": 8,
-      "community_name": "ResultsClient.tsx",
+      "community_name": "react",
       "file_type": "code",
       "norm_label": "ismuted()",
       "source_file": "src/app/results/sounds.ts",
@@ -1315,7 +1327,7 @@
       "_callable": true,
       "_origin": "ast",
       "community": 8,
-      "community_name": "ResultsClient.tsx",
+      "community_name": "react",
       "file_type": "code",
       "norm_label": "muteaudio()",
       "source_file": "src/app/results/sounds.ts",
@@ -1327,7 +1339,7 @@
       "_callable": true,
       "_origin": "ast",
       "community": 8,
-      "community_name": "ResultsClient.tsx",
+      "community_name": "react",
       "file_type": "code",
       "norm_label": "playballoonpop()",
       "source_file": "src/app/results/sounds.ts",
@@ -1339,7 +1351,7 @@
       "_callable": true,
       "_origin": "ast",
       "community": 8,
-      "community_name": "ResultsClient.tsx",
+      "community_name": "react",
       "file_type": "code",
       "norm_label": "playballoonrise()",
       "source_file": "src/app/results/sounds.ts",
@@ -1351,7 +1363,7 @@
       "_callable": true,
       "_origin": "ast",
       "community": 8,
-      "community_name": "ResultsClient.tsx",
+      "community_name": "react",
       "file_type": "code",
       "norm_label": "playcountertick()",
       "source_file": "src/app/results/sounds.ts",
@@ -1363,7 +1375,7 @@
       "_callable": true,
       "_origin": "ast",
       "community": 8,
-      "community_name": "ResultsClient.tsx",
+      "community_name": "react",
       "file_type": "code",
       "norm_label": "playinterfaceswitch()",
       "source_file": "src/app/results/sounds.ts",
@@ -1375,7 +1387,7 @@
       "_callable": true,
       "_origin": "ast",
       "community": 8,
-      "community_name": "ResultsClient.tsx",
+      "community_name": "react",
       "file_type": "code",
       "norm_label": "playreveal()",
       "source_file": "src/app/results/sounds.ts",
@@ -1387,7 +1399,7 @@
       "_callable": true,
       "_origin": "ast",
       "community": 8,
-      "community_name": "ResultsClient.tsx",
+      "community_name": "react",
       "file_type": "code",
       "norm_label": "playtone()",
       "source_file": "src/app/results/sounds.ts",
@@ -1399,7 +1411,7 @@
       "_callable": true,
       "_origin": "ast",
       "community": 8,
-      "community_name": "ResultsClient.tsx",
+      "community_name": "react",
       "file_type": "code",
       "norm_label": "playvoteburst()",
       "source_file": "src/app/results/sounds.ts",
@@ -1411,7 +1423,7 @@
       "_callable": true,
       "_origin": "ast",
       "community": 8,
-      "community_name": "ResultsClient.tsx",
+      "community_name": "react",
       "file_type": "code",
       "norm_label": "unlockaudio()",
       "source_file": "src/app/results/sounds.ts",
@@ -1423,7 +1435,7 @@
       "_callable": true,
       "_origin": "ast",
       "community": 8,
-      "community_name": "ResultsClient.tsx",
+      "community_name": "react",
       "file_type": "code",
       "norm_label": "useliveresults()",
       "source_file": "src/app/results/useLiveResults.ts",
@@ -1435,7 +1447,7 @@
       "_callable": true,
       "_origin": "ast",
       "community": 8,
-      "community_name": "ResultsClient.tsx",
+      "community_name": "react",
       "file_type": "code",
       "norm_label": "parseconfig()",
       "source_file": "src/app/results/useSystemConfig.ts",
@@ -1447,23 +1459,11 @@
       "_callable": true,
       "_origin": "ast",
       "community": 8,
-      "community_name": "ResultsClient.tsx",
+      "community_name": "react",
       "file_type": "code",
       "norm_label": "usesystemconfig()",
       "source_file": "src/app/results/useSystemConfig.ts",
       "source_location": "L55"
-    },
-    {
-      "id": "src_lib_supabase_client_createclient",
-      "label": "createClient()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 8,
-      "community_name": "ResultsClient.tsx",
-      "file_type": "code",
-      "norm_label": "createclient()",
-      "source_file": "src/lib/supabase/client.ts",
-      "source_location": "L3"
     },
     {
       "id": "scripts_generate_tokens_generatetoken",
@@ -1488,6 +1488,39 @@
       "norm_label": "main()",
       "source_file": "scripts/generate-tokens.js",
       "source_location": "L43"
+    },
+    {
+      "id": "src_app_admin_analytics_page",
+      "label": "analytics/page.tsx",
+      "_origin": "ast",
+      "community": 0,
+      "community_name": "createClient",
+      "file_type": "code",
+      "norm_label": "analytics/page.tsx",
+      "source_file": "src/app/admin/analytics/page.tsx",
+      "source_location": "L1"
+    },
+    {
+      "id": "src_app_admin_analytics_page_dynamic",
+      "label": "dynamic",
+      "_origin": "ast",
+      "community": 0,
+      "community_name": "createClient",
+      "file_type": "code",
+      "norm_label": "dynamic",
+      "source_file": "src/app/admin/analytics/page.tsx",
+      "source_location": "L8"
+    },
+    {
+      "id": "src_app_admin_analytics_page_revalidate",
+      "label": "revalidate",
+      "_origin": "ast",
+      "community": 0,
+      "community_name": "createClient",
+      "file_type": "code",
+      "norm_label": "revalidate",
+      "source_file": "src/app/admin/analytics/page.tsx",
+      "source_location": "L7"
     },
     {
       "id": "src_app_admin_candidates_candidateeditor",
@@ -1644,28 +1677,6 @@
       "source_location": "L1"
     },
     {
-      "id": "src_app_results_page",
-      "label": "results/page.tsx",
-      "_origin": "ast",
-      "community": 0,
-      "community_name": "createClient",
-      "file_type": "code",
-      "norm_label": "results/page.tsx",
-      "source_file": "src/app/results/page.tsx",
-      "source_location": "L1"
-    },
-    {
-      "id": "src_app_results_page_revalidate",
-      "label": "revalidate",
-      "_origin": "ast",
-      "community": 0,
-      "community_name": "createClient",
-      "file_type": "code",
-      "norm_label": "revalidate",
-      "source_file": "src/app/results/page.tsx",
-      "source_location": "L5"
-    },
-    {
       "id": "src_app_verify_page",
       "label": "verify/page.tsx",
       "_origin": "ast",
@@ -1710,6 +1721,17 @@
       "source_location": "L1"
     },
     {
+      "id": "ref_lucide_react",
+      "label": "lucide-react",
+      "_origin": "ast",
+      "community": 0,
+      "community_name": "createClient",
+      "file_type": "concept",
+      "norm_label": "lucide-react",
+      "source_file": "package.json",
+      "source_location": "L16"
+    },
+    {
       "id": "ref_next",
       "label": "next",
       "_origin": "ast",
@@ -1719,17 +1741,6 @@
       "norm_label": "next",
       "source_file": "package.json",
       "source_location": "L17"
-    },
-    {
-      "id": "ref_papaparse",
-      "label": "papaparse",
-      "_origin": "ast",
-      "community": 0,
-      "community_name": "createClient",
-      "file_type": "concept",
-      "norm_label": "papaparse",
-      "source_file": "package.json",
-      "source_location": "L18"
     },
     {
       "id": "src_app_page",
@@ -1784,6 +1795,17 @@
       "file_type": "code",
       "norm_label": "syncvotes.ts",
       "source_file": "src/lib/offline/syncVotes.ts",
+      "source_location": "L1"
+    },
+    {
+      "id": "src_lib_supabase_client",
+      "label": "client.ts",
+      "_origin": "ast",
+      "community": 1,
+      "community_name": "VoteWizard.tsx",
+      "file_type": "code",
+      "norm_label": "client.ts",
+      "source_file": "src/lib/supabase/client.ts",
       "source_location": "L1"
     },
     {
@@ -1884,61 +1906,6 @@
       "norm_label": "theme_color",
       "source_file": "public/manifest.json",
       "source_location": "L8"
-    },
-    {
-      "id": "src_app_admin_analytics_analyticsdashboard",
-      "label": "AnalyticsDashboard.tsx",
-      "_origin": "ast",
-      "community": 11,
-      "community_name": "analytics/page.tsx",
-      "file_type": "code",
-      "norm_label": "analyticsdashboard.tsx",
-      "source_file": "src/app/admin/analytics/AnalyticsDashboard.tsx",
-      "source_location": "L1"
-    },
-    {
-      "id": "src_app_admin_analytics_page",
-      "label": "analytics/page.tsx",
-      "_origin": "ast",
-      "community": 11,
-      "community_name": "analytics/page.tsx",
-      "file_type": "code",
-      "norm_label": "analytics/page.tsx",
-      "source_file": "src/app/admin/analytics/page.tsx",
-      "source_location": "L1"
-    },
-    {
-      "id": "src_app_admin_analytics_page_dynamic",
-      "label": "dynamic",
-      "_origin": "ast",
-      "community": 11,
-      "community_name": "analytics/page.tsx",
-      "file_type": "code",
-      "norm_label": "dynamic",
-      "source_file": "src/app/admin/analytics/page.tsx",
-      "source_location": "L8"
-    },
-    {
-      "id": "src_app_admin_analytics_page_revalidate",
-      "label": "revalidate",
-      "_origin": "ast",
-      "community": 11,
-      "community_name": "analytics/page.tsx",
-      "file_type": "code",
-      "norm_label": "revalidate",
-      "source_file": "src/app/admin/analytics/page.tsx",
-      "source_location": "L7"
-    },
-    {
-      "id": "ref_recharts",
-      "label": "recharts",
-      "_origin": "ast",
-      "community": 11,
-      "community_name": "analytics/page.tsx",
-      "file_type": "concept",
-      "norm_label": "recharts",
-      "source_file": "package.json",
-      "source_location": "L22"
     },
     {
       "id": "public_sw",
@@ -2117,125 +2084,125 @@
       "source_location": "L1"
     },
     {
-      "id": "package_devdependencies",
-      "label": "devDependencies",
+      "id": "package_dependencies",
+      "label": "dependencies",
       "_origin": "ast",
       "community": 2,
       "community_name": "package.json",
       "file_type": "code",
-      "norm_label": "devdependencies",
+      "norm_label": "dependencies",
       "source_file": "package.json",
-      "source_location": "L24"
+      "source_location": "L12"
     },
     {
-      "id": "package_devdependencies_eslint",
-      "label": "eslint",
+      "id": "package_dependencies_framer_motion",
+      "label": "framer-motion",
       "_origin": "ast",
       "community": 2,
       "community_name": "package.json",
       "file_type": "code",
-      "norm_label": "eslint",
+      "norm_label": "framer-motion",
       "source_file": "package.json",
-      "source_location": "L30"
+      "source_location": "L15"
     },
     {
-      "id": "package_devdependencies_eslint_config_next",
-      "label": "eslint-config-next",
+      "id": "package_dependencies_lucide_react",
+      "label": "lucide-react",
       "_origin": "ast",
       "community": 2,
       "community_name": "package.json",
       "file_type": "code",
-      "norm_label": "eslint-config-next",
+      "norm_label": "lucide-react",
       "source_file": "package.json",
-      "source_location": "L31"
+      "source_location": "L16"
     },
     {
-      "id": "package_devdependencies_netlify_plugin_nextjs",
-      "label": "@netlify/plugin-nextjs",
+      "id": "package_dependencies_next",
+      "label": "next",
       "_origin": "ast",
       "community": 2,
       "community_name": "package.json",
       "file_type": "code",
-      "norm_label": "@netlify/plugin-nextjs",
+      "norm_label": "next",
       "source_file": "package.json",
-      "source_location": "L25"
+      "source_location": "L17"
     },
     {
-      "id": "package_devdependencies_postcss",
-      "label": "postcss",
+      "id": "package_dependencies_papaparse",
+      "label": "papaparse",
       "_origin": "ast",
       "community": 2,
       "community_name": "package.json",
       "file_type": "code",
-      "norm_label": "postcss",
+      "norm_label": "papaparse",
       "source_file": "package.json",
-      "source_location": "L32"
+      "source_location": "L18"
     },
     {
-      "id": "package_devdependencies_tailwindcss",
-      "label": "tailwindcss",
+      "id": "package_dependencies_react",
+      "label": "react",
       "_origin": "ast",
       "community": 2,
       "community_name": "package.json",
       "file_type": "code",
-      "norm_label": "tailwindcss",
+      "norm_label": "react",
       "source_file": "package.json",
-      "source_location": "L33"
+      "source_location": "L19"
     },
     {
-      "id": "package_devdependencies_types_node",
-      "label": "@types/node",
+      "id": "package_dependencies_react_dom",
+      "label": "react-dom",
       "_origin": "ast",
       "community": 2,
       "community_name": "package.json",
       "file_type": "code",
-      "norm_label": "@types/node",
+      "norm_label": "react-dom",
       "source_file": "package.json",
-      "source_location": "L26"
+      "source_location": "L20"
     },
     {
-      "id": "package_devdependencies_types_papaparse",
-      "label": "@types/papaparse",
+      "id": "package_dependencies_react_is",
+      "label": "react-is",
       "_origin": "ast",
       "community": 2,
       "community_name": "package.json",
       "file_type": "code",
-      "norm_label": "@types/papaparse",
+      "norm_label": "react-is",
       "source_file": "package.json",
-      "source_location": "L27"
+      "source_location": "L21"
     },
     {
-      "id": "package_devdependencies_types_react",
-      "label": "@types/react",
+      "id": "package_dependencies_recharts",
+      "label": "recharts",
       "_origin": "ast",
       "community": 2,
       "community_name": "package.json",
       "file_type": "code",
-      "norm_label": "@types/react",
+      "norm_label": "recharts",
       "source_file": "package.json",
-      "source_location": "L28"
+      "source_location": "L22"
     },
     {
-      "id": "package_devdependencies_types_react_dom",
-      "label": "@types/react-dom",
+      "id": "package_dependencies_supabase_ssr",
+      "label": "@supabase/ssr",
       "_origin": "ast",
       "community": 2,
       "community_name": "package.json",
       "file_type": "code",
-      "norm_label": "@types/react-dom",
+      "norm_label": "@supabase/ssr",
       "source_file": "package.json",
-      "source_location": "L29"
+      "source_location": "L13"
     },
     {
-      "id": "package_devdependencies_typescript",
-      "label": "typescript",
+      "id": "package_dependencies_supabase_supabase_js",
+      "label": "@supabase/supabase-js",
       "_origin": "ast",
       "community": 2,
       "community_name": "package.json",
       "file_type": "code",
-      "norm_label": "typescript",
+      "norm_label": "@supabase/supabase-js",
       "source_file": "package.json",
-      "source_location": "L34"
+      "source_location": "L14"
     },
     {
       "id": "package_name",
@@ -2337,6 +2304,17 @@
       "source_location": "L3"
     },
     {
+      "id": "src_app_admin_analytics_analyticsdashboard",
+      "label": "AnalyticsDashboard.tsx",
+      "_origin": "ast",
+      "community": 2,
+      "community_name": "package.json",
+      "file_type": "code",
+      "norm_label": "analyticsdashboard.tsx",
+      "source_file": "src/app/admin/analytics/AnalyticsDashboard.tsx",
+      "source_location": "L1"
+    },
+    {
       "id": "src_middleware",
       "label": "middleware.ts",
       "_origin": "ast",
@@ -2392,6 +2370,17 @@
       "source_location": "L25"
     },
     {
+      "id": "ref_papaparse",
+      "label": "papaparse",
+      "_origin": "ast",
+      "community": 2,
+      "community_name": "package.json",
+      "file_type": "concept",
+      "norm_label": "papaparse",
+      "source_file": "package.json",
+      "source_location": "L18"
+    },
+    {
       "id": "ref_postcss",
       "label": "postcss",
       "_origin": "ast",
@@ -2423,6 +2412,17 @@
       "norm_label": "react-is",
       "source_file": "package.json",
       "source_location": "L21"
+    },
+    {
+      "id": "ref_recharts",
+      "label": "recharts",
+      "_origin": "ast",
+      "community": 2,
+      "community_name": "package.json",
+      "file_type": "concept",
+      "norm_label": "recharts",
+      "source_file": "package.json",
+      "source_location": "L22"
     },
     {
       "id": "ref_supabase_ssr",
@@ -2528,7 +2528,7 @@
       "label": "admin/layout.tsx",
       "_origin": "ast",
       "community": 3,
-      "community_name": "react",
+      "community_name": "framer-motion",
       "file_type": "code",
       "norm_label": "admin/layout.tsx",
       "source_file": "src/app/admin/layout.tsx",
@@ -2539,7 +2539,7 @@
       "label": "login/page.tsx",
       "_origin": "ast",
       "community": 3,
-      "community_name": "react",
+      "community_name": "framer-motion",
       "file_type": "code",
       "norm_label": "login/page.tsx",
       "source_file": "src/app/(auth)/login/page.tsx",
@@ -2550,7 +2550,7 @@
       "label": "success/page.tsx",
       "_origin": "ast",
       "community": 3,
-      "community_name": "react",
+      "community_name": "framer-motion",
       "file_type": "code",
       "norm_label": "success/page.tsx",
       "source_file": "src/app/(voter)/success/page.tsx",
@@ -2561,7 +2561,7 @@
       "label": "CandidateCard.tsx",
       "_origin": "ast",
       "community": 3,
-      "community_name": "react",
+      "community_name": "framer-motion",
       "file_type": "code",
       "norm_label": "candidatecard.tsx",
       "source_file": "src/components/CandidateCard.tsx",
@@ -2572,7 +2572,7 @@
       "label": "NawaLogo.tsx",
       "_origin": "ast",
       "community": 3,
-      "community_name": "react",
+      "community_name": "framer-motion",
       "file_type": "code",
       "norm_label": "nawalogo.tsx",
       "source_file": "src/components/NawaLogo.tsx",
@@ -2583,7 +2583,7 @@
       "label": "ThemeToggle.tsx",
       "_origin": "ast",
       "community": 3,
-      "community_name": "react",
+      "community_name": "framer-motion",
       "file_type": "code",
       "norm_label": "themetoggle.tsx",
       "source_file": "src/components/ThemeToggle.tsx",
@@ -2594,7 +2594,7 @@
       "label": "auth.ts",
       "_origin": "ast",
       "community": 3,
-      "community_name": "react",
+      "community_name": "framer-motion",
       "file_type": "code",
       "norm_label": "auth.ts",
       "source_file": "src/lib/actions/auth.ts",
@@ -2605,33 +2605,11 @@
       "label": "framer-motion",
       "_origin": "ast",
       "community": 3,
-      "community_name": "react",
+      "community_name": "framer-motion",
       "file_type": "concept",
       "norm_label": "framer-motion",
       "source_file": "package.json",
       "source_location": "L15"
-    },
-    {
-      "id": "ref_lucide_react",
-      "label": "lucide-react",
-      "_origin": "ast",
-      "community": 3,
-      "community_name": "react",
-      "file_type": "concept",
-      "norm_label": "lucide-react",
-      "source_file": "package.json",
-      "source_location": "L16"
-    },
-    {
-      "id": "ref_react",
-      "label": "react",
-      "_origin": "ast",
-      "community": 3,
-      "community_name": "react",
-      "file_type": "concept",
-      "norm_label": "react",
-      "source_file": "package.json",
-      "source_location": "L19"
     },
     {
       "id": "tsconfig",
@@ -2931,132 +2909,132 @@
       "source_location": "L1"
     },
     {
-      "id": "package_dependencies",
-      "label": "dependencies",
+      "id": "package_devdependencies",
+      "label": "devDependencies",
       "_origin": "ast",
       "community": 7,
-      "community_name": "dependencies",
+      "community_name": "devDependencies",
       "file_type": "code",
-      "norm_label": "dependencies",
+      "norm_label": "devdependencies",
       "source_file": "package.json",
-      "source_location": "L12"
+      "source_location": "L24"
     },
     {
-      "id": "package_dependencies_framer_motion",
-      "label": "framer-motion",
+      "id": "package_devdependencies_eslint",
+      "label": "eslint",
       "_origin": "ast",
       "community": 7,
-      "community_name": "dependencies",
+      "community_name": "devDependencies",
       "file_type": "code",
-      "norm_label": "framer-motion",
+      "norm_label": "eslint",
       "source_file": "package.json",
-      "source_location": "L15"
+      "source_location": "L30"
     },
     {
-      "id": "package_dependencies_lucide_react",
-      "label": "lucide-react",
+      "id": "package_devdependencies_eslint_config_next",
+      "label": "eslint-config-next",
       "_origin": "ast",
       "community": 7,
-      "community_name": "dependencies",
+      "community_name": "devDependencies",
       "file_type": "code",
-      "norm_label": "lucide-react",
+      "norm_label": "eslint-config-next",
       "source_file": "package.json",
-      "source_location": "L16"
+      "source_location": "L31"
     },
     {
-      "id": "package_dependencies_next",
-      "label": "next",
+      "id": "package_devdependencies_netlify_plugin_nextjs",
+      "label": "@netlify/plugin-nextjs",
       "_origin": "ast",
       "community": 7,
-      "community_name": "dependencies",
+      "community_name": "devDependencies",
       "file_type": "code",
-      "norm_label": "next",
+      "norm_label": "@netlify/plugin-nextjs",
       "source_file": "package.json",
-      "source_location": "L17"
+      "source_location": "L25"
     },
     {
-      "id": "package_dependencies_papaparse",
-      "label": "papaparse",
+      "id": "package_devdependencies_postcss",
+      "label": "postcss",
       "_origin": "ast",
       "community": 7,
-      "community_name": "dependencies",
+      "community_name": "devDependencies",
       "file_type": "code",
-      "norm_label": "papaparse",
+      "norm_label": "postcss",
       "source_file": "package.json",
-      "source_location": "L18"
+      "source_location": "L32"
     },
     {
-      "id": "package_dependencies_react",
-      "label": "react",
+      "id": "package_devdependencies_tailwindcss",
+      "label": "tailwindcss",
       "_origin": "ast",
       "community": 7,
-      "community_name": "dependencies",
+      "community_name": "devDependencies",
       "file_type": "code",
-      "norm_label": "react",
+      "norm_label": "tailwindcss",
       "source_file": "package.json",
-      "source_location": "L19"
+      "source_location": "L33"
     },
     {
-      "id": "package_dependencies_react_dom",
-      "label": "react-dom",
+      "id": "package_devdependencies_types_node",
+      "label": "@types/node",
       "_origin": "ast",
       "community": 7,
-      "community_name": "dependencies",
+      "community_name": "devDependencies",
       "file_type": "code",
-      "norm_label": "react-dom",
+      "norm_label": "@types/node",
       "source_file": "package.json",
-      "source_location": "L20"
+      "source_location": "L26"
     },
     {
-      "id": "package_dependencies_react_is",
-      "label": "react-is",
+      "id": "package_devdependencies_types_papaparse",
+      "label": "@types/papaparse",
       "_origin": "ast",
       "community": 7,
-      "community_name": "dependencies",
+      "community_name": "devDependencies",
       "file_type": "code",
-      "norm_label": "react-is",
+      "norm_label": "@types/papaparse",
       "source_file": "package.json",
-      "source_location": "L21"
+      "source_location": "L27"
     },
     {
-      "id": "package_dependencies_recharts",
-      "label": "recharts",
+      "id": "package_devdependencies_types_react",
+      "label": "@types/react",
       "_origin": "ast",
       "community": 7,
-      "community_name": "dependencies",
+      "community_name": "devDependencies",
       "file_type": "code",
-      "norm_label": "recharts",
+      "norm_label": "@types/react",
       "source_file": "package.json",
-      "source_location": "L22"
+      "source_location": "L28"
     },
     {
-      "id": "package_dependencies_supabase_ssr",
-      "label": "@supabase/ssr",
+      "id": "package_devdependencies_types_react_dom",
+      "label": "@types/react-dom",
       "_origin": "ast",
       "community": 7,
-      "community_name": "dependencies",
+      "community_name": "devDependencies",
       "file_type": "code",
-      "norm_label": "@supabase/ssr",
+      "norm_label": "@types/react-dom",
       "source_file": "package.json",
-      "source_location": "L13"
+      "source_location": "L29"
     },
     {
-      "id": "package_dependencies_supabase_supabase_js",
-      "label": "@supabase/supabase-js",
+      "id": "package_devdependencies_typescript",
+      "label": "typescript",
       "_origin": "ast",
       "community": 7,
-      "community_name": "dependencies",
+      "community_name": "devDependencies",
       "file_type": "code",
-      "norm_label": "@supabase/supabase-js",
+      "norm_label": "typescript",
       "source_file": "package.json",
-      "source_location": "L14"
+      "source_location": "L34"
     },
     {
       "id": "src_app_results_colorslots",
       "label": "colorSlots.ts",
       "_origin": "ast",
       "community": 8,
-      "community_name": "ResultsClient.tsx",
+      "community_name": "react",
       "file_type": "code",
       "norm_label": "colorslots.ts",
       "source_file": "src/app/results/colorSlots.ts",
@@ -3067,7 +3045,7 @@
       "label": "COLOR_SLOTS",
       "_origin": "ast",
       "community": 8,
-      "community_name": "ResultsClient.tsx",
+      "community_name": "react",
       "file_type": "code",
       "norm_label": "color_slots",
       "source_file": "src/app/results/colorSlots.ts",
@@ -3078,7 +3056,7 @@
       "label": "JABATAN_LABELS",
       "_origin": "ast",
       "community": 8,
-      "community_name": "ResultsClient.tsx",
+      "community_name": "react",
       "file_type": "code",
       "norm_label": "jabatan_labels",
       "source_file": "src/app/results/colorSlots.ts",
@@ -3089,7 +3067,7 @@
       "label": "SESSION_BAR_COLOR",
       "_origin": "ast",
       "community": 8,
-      "community_name": "ResultsClient.tsx",
+      "community_name": "react",
       "file_type": "code",
       "norm_label": "session_bar_color",
       "source_file": "src/app/results/colorSlots.ts",
@@ -3100,7 +3078,7 @@
       "label": "SLOT_ORDER",
       "_origin": "ast",
       "community": 8,
-      "community_name": "ResultsClient.tsx",
+      "community_name": "react",
       "file_type": "code",
       "norm_label": "slot_order",
       "source_file": "src/app/results/colorSlots.ts",
@@ -3111,7 +3089,7 @@
       "label": "BalloonInterface.tsx",
       "_origin": "ast",
       "community": 8,
-      "community_name": "ResultsClient.tsx",
+      "community_name": "react",
       "file_type": "code",
       "norm_label": "ballooninterface.tsx",
       "source_file": "src/app/results/interfaces/BalloonInterface.tsx",
@@ -3122,7 +3100,7 @@
       "label": "BarChartInterface.tsx",
       "_origin": "ast",
       "community": 8,
-      "community_name": "ResultsClient.tsx",
+      "community_name": "react",
       "file_type": "code",
       "norm_label": "barchartinterface.tsx",
       "source_file": "src/app/results/interfaces/BarChartInterface.tsx",
@@ -3133,18 +3111,51 @@
       "label": "InterfaceShell.tsx",
       "_origin": "ast",
       "community": 8,
-      "community_name": "ResultsClient.tsx",
+      "community_name": "react",
       "file_type": "code",
       "norm_label": "interfaceshell.tsx",
       "source_file": "src/app/results/interfaces/InterfaceShell.tsx",
       "source_location": "L1"
     },
     {
+      "id": "src_app_results_page",
+      "label": "results/page.tsx",
+      "_origin": "ast",
+      "community": 8,
+      "community_name": "react",
+      "file_type": "code",
+      "norm_label": "results/page.tsx",
+      "source_file": "src/app/results/page.tsx",
+      "source_location": "L1"
+    },
+    {
+      "id": "src_app_results_page_dynamic",
+      "label": "dynamic",
+      "_origin": "ast",
+      "community": 8,
+      "community_name": "react",
+      "file_type": "code",
+      "norm_label": "dynamic",
+      "source_file": "src/app/results/page.tsx",
+      "source_location": "L5"
+    },
+    {
+      "id": "src_app_results_page_revalidate",
+      "label": "revalidate",
+      "_origin": "ast",
+      "community": 8,
+      "community_name": "react",
+      "file_type": "code",
+      "norm_label": "revalidate",
+      "source_file": "src/app/results/page.tsx",
+      "source_location": "L6"
+    },
+    {
       "id": "src_app_results_resultsclient",
       "label": "ResultsClient.tsx",
       "_origin": "ast",
       "community": 8,
-      "community_name": "ResultsClient.tsx",
+      "community_name": "react",
       "file_type": "code",
       "norm_label": "resultsclient.tsx",
       "source_file": "src/app/results/ResultsClient.tsx",
@@ -3155,7 +3166,7 @@
       "label": "sounds.ts",
       "_origin": "ast",
       "community": 8,
-      "community_name": "ResultsClient.tsx",
+      "community_name": "react",
       "file_type": "code",
       "norm_label": "sounds.ts",
       "source_file": "src/app/results/sounds.ts",
@@ -3166,7 +3177,7 @@
       "label": "useLiveResults.ts",
       "_origin": "ast",
       "community": 8,
-      "community_name": "ResultsClient.tsx",
+      "community_name": "react",
       "file_type": "code",
       "norm_label": "useliveresults.ts",
       "source_file": "src/app/results/useLiveResults.ts",
@@ -3177,22 +3188,22 @@
       "label": "useSystemConfig.ts",
       "_origin": "ast",
       "community": 8,
-      "community_name": "ResultsClient.tsx",
+      "community_name": "react",
       "file_type": "code",
       "norm_label": "usesystemconfig.ts",
       "source_file": "src/app/results/useSystemConfig.ts",
       "source_location": "L1"
     },
     {
-      "id": "src_lib_supabase_client",
-      "label": "client.ts",
+      "id": "ref_react",
+      "label": "react",
       "_origin": "ast",
       "community": 8,
-      "community_name": "ResultsClient.tsx",
-      "file_type": "code",
-      "norm_label": "client.ts",
-      "source_file": "src/lib/supabase/client.ts",
-      "source_location": "L1"
+      "community_name": "react",
+      "file_type": "concept",
+      "norm_label": "react",
+      "source_file": "package.json",
+      "source_location": "L19"
     },
     {
       "id": "scripts_generate_tokens",
@@ -3899,7 +3910,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "src/app/admin/dashboard/DashboardConsole.tsx",
-      "source_location": "L178",
+      "source_location": "L185",
       "weight": 1.0
     },
     {
@@ -3911,7 +3922,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "src/app/admin/dashboard/DashboardConsole.tsx",
-      "source_location": "L211",
+      "source_location": "L218",
       "weight": 1.0
     },
     {
@@ -3923,7 +3934,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "src/app/admin/dashboard/DashboardConsole.tsx",
-      "source_location": "L233",
+      "source_location": "L240",
       "weight": 1.0
     },
     {
@@ -3935,7 +3946,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "src/app/admin/dashboard/DashboardConsole.tsx",
-      "source_location": "L583",
+      "source_location": "L590",
       "weight": 1.0
     },
     {
@@ -4007,7 +4018,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "src/app/admin/dashboard/ResultsControls.tsx",
-      "source_location": "L58",
+      "source_location": "L60",
       "weight": 1.0
     },
     {
@@ -4283,7 +4294,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "src/app/results/page.tsx",
-      "source_location": "L64",
+      "source_location": "L39",
       "weight": 1.0
     },
     {
@@ -4295,7 +4306,19 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "src/app/results/page.tsx",
-      "source_location": "L8",
+      "source_location": "L9",
+      "weight": 1.0
+    },
+    {
+      "source": "src_app_results_resultsclient_resultsclient",
+      "target": "src_app_results_interfaces_interfaceshell_interfaceshell",
+      "relation": "calls",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": "src/app/results/ResultsClient.tsx",
+      "source_location": "L125",
       "weight": 1.0
     },
     {
@@ -4307,7 +4330,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "src/app/results/ResultsClient.tsx",
-      "source_location": "L126",
+      "source_location": "L155",
       "weight": 1.0
     },
     {
@@ -4319,7 +4342,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "src/app/results/ResultsClient.tsx",
-      "source_location": "L143",
+      "source_location": "L172",
       "weight": 1.0
     },
     {
@@ -4356,18 +4379,6 @@
       "context": "call",
       "source_file": "src/app/results/ResultsClient.tsx",
       "source_location": "L73",
-      "weight": 1.0
-    },
-    {
-      "source": "src_app_results_resultsclient_resultsclient",
-      "target": "src_app_results_interfaces_interfaceshell_interfaceshell",
-      "relation": "calls",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "context": "call",
-      "source_file": "src/app/results/ResultsClient.tsx",
-      "source_location": "L96",
       "weight": 1.0
     },
     {
@@ -4499,7 +4510,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "src/app/results/useLiveResults.ts",
-      "source_location": "L76",
+      "source_location": "L77",
       "weight": 1.0
     },
     {
@@ -4751,7 +4762,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "src/lib/actions/admin.ts",
-      "source_location": "L197",
+      "source_location": "L198",
       "weight": 1.0
     },
     {
@@ -4799,7 +4810,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "src/lib/actions/admin.ts",
-      "source_location": "L226",
+      "source_location": "L227",
       "weight": 1.0
     },
     {
@@ -4811,7 +4822,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "src/lib/actions/admin.ts",
-      "source_location": "L234",
+      "source_location": "L235",
       "weight": 1.0
     },
     {
@@ -4835,7 +4846,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "src/lib/actions/admin.ts",
-      "source_location": "L148",
+      "source_location": "L149",
       "weight": 1.0
     },
     {
@@ -9182,7 +9193,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "src/app/admin/dashboard/ResultsControls.tsx",
-      "source_location": "L39",
+      "source_location": "L40",
       "weight": 1.0
     },
     {
@@ -9517,7 +9528,7 @@
     },
     {
       "source": "src_app_results_page",
-      "target": "src_app_results_page_revalidate",
+      "target": "src_app_results_page_dynamic",
       "relation": "contains",
       "_origin": "ast",
       "confidence": "EXTRACTED",
@@ -9528,13 +9539,24 @@
     },
     {
       "source": "src_app_results_page",
+      "target": "src_app_results_page_revalidate",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/app/results/page.tsx",
+      "source_location": "L6",
+      "weight": 1.0
+    },
+    {
+      "source": "src_app_results_page",
       "target": "src_app_results_page_publicresultspage",
       "relation": "contains",
       "_origin": "ast",
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "src/app/results/page.tsx",
-      "source_location": "L7",
+      "source_location": "L8",
       "weight": 1.0
     },
     {
@@ -10029,7 +10051,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "src/lib/actions/admin.ts",
-      "source_location": "L138",
+      "source_location": "L139",
       "weight": 1.0
     },
     {
@@ -10040,7 +10062,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "src/lib/actions/admin.ts",
-      "source_location": "L195",
+      "source_location": "L196",
       "weight": 1.0
     },
     {
@@ -10062,7 +10084,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "src/lib/actions/admin.ts",
-      "source_location": "L224",
+      "source_location": "L225",
       "weight": 1.0
     },
     {
@@ -10919,5 +10941,5 @@
     }
   ],
   "hyperedges": [],
-  "built_at_commit": "222d96a52d3f0e8c326e2fce7d1b28d299c7df35"
+  "built_at_commit": "4cfad057697129c0683bac0f7fdd2e1fdba91b30"
 }

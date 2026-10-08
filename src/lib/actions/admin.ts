@@ -124,6 +124,7 @@ export async function updateSystemConfig(key: string, value: string): Promise<{ 
 
     revalidatePath('/admin/dashboard');
     revalidatePath('/vote');
+    revalidatePath('/results');
 
     return { success: true };
   } catch (error: any) {

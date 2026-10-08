@@ -34,6 +34,7 @@ interface ResultsControlsProps {
     candidateColors: Record<string, 'A' | 'B' | 'C'>;
   };
   candidates: CandidateItem[];
+  onActiveJabatanChange?: (val: 'ketua' | 'wakil_1' | 'wakil_2') => void;
 }
 
 export default function ResultsControls({
@@ -41,6 +42,7 @@ export default function ResultsControls({
   onToggleShowResults,
   initialConfig,
   candidates,
+  onActiveJabatanChange,
 }: ResultsControlsProps) {
   const [isPending, startTransition] = useTransition();
 
@@ -62,6 +64,7 @@ export default function ResultsControls({
 
   const handleJabatanChange = (val: 'ketua' | 'wakil_1' | 'wakil_2') => {
     setActiveJabatan(val);
+    onActiveJabatanChange?.(val);
     saveConfig('active_jabatan', val);
   };
 

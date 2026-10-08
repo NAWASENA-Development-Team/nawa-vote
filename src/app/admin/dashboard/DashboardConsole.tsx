@@ -74,10 +74,17 @@ export default function DashboardConsole({
   // Tab State
   const [activeTab, setActiveTab] = useState<'overview' | 'results'>('overview');
   const [showResultsState, setShowResultsState] = useState(showResults);
+  const [selectedJabatan, setSelectedJabatan] = useState<'ketua' | 'wakil_1' | 'wakil_2'>(
+    resultsConfig.activeJabatan
+  );
 
   useEffect(() => {
     setShowResultsState(showResults);
   }, [showResults]);
+
+  useEffect(() => {
+    setSelectedJabatan(resultsConfig.activeJabatan);
+  }, [resultsConfig.activeJabatan]);
 
   useEffect(() => {
     if (typeof window !== 'undefined') {
@@ -585,6 +592,7 @@ export default function DashboardConsole({
             onToggleShowResults={handleShowResultsToggle}
             initialConfig={resultsConfig}
             candidates={candidates}
+            onActiveJabatanChange={setSelectedJabatan}
           />
 
           {/* Quick Data Review for Active Jabatan */}
@@ -595,7 +603,7 @@ export default function DashboardConsole({
                   Tinjauan Data Siaran
                 </span>
                 <h3 className="text-base font-bold text-brand-navy-900 dark:text-white">
-                  Data Terkini: {resultsConfig.activeJabatan === 'ketua' ? 'Ketua OSIS' : resultsConfig.activeJabatan === 'wakil_1' ? 'Wakil Ketua 1' : 'Wakil Ketua 2'}
+                  Data Terkini: {selectedJabatan === 'ketua' ? 'Ketua OSIS' : selectedJabatan === 'wakil_1' ? 'Wakil Ketua 1' : 'Wakil Ketua 2'}
                 </h3>
               </div>
               <a
@@ -611,10 +619,10 @@ export default function DashboardConsole({
 
             <div className="max-w-md">
               {renderCategoryChart(
-                resultsConfig.activeJabatan,
-                resultsConfig.activeJabatan === 'ketua'
+                selectedJabatan,
+                selectedJabatan === 'ketua'
                   ? 'Ketua OSIS'
-                  : resultsConfig.activeJabatan === 'wakil_1'
+                  : selectedJabatan === 'wakil_1'
                   ? 'Wakil Ketua 1'
                   : 'Wakil Ketua 2'
               )}

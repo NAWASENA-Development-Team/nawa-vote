@@ -40,7 +40,7 @@
       "file_type": "code",
       "norm_label": "dashboardcandidate",
       "source_file": "src/app/admin/dashboard/DashboardConsole.tsx",
-      "source_location": "L30"
+      "source_location": "L32"
     },
     {
       "id": "src_app_admin_dashboard_dashboardconsole_dashboardconsoleprops",
@@ -53,7 +53,7 @@
       "file_type": "code",
       "norm_label": "dashboardconsoleprops",
       "source_file": "src/app/admin/dashboard/DashboardConsole.tsx",
-      "source_location": "L38"
+      "source_location": "L40"
     },
     {
       "id": "src_app_admin_dashboard_dashboardcontrols_dashboardcontrolsprops",
@@ -479,7 +479,7 @@
       "file_type": "code",
       "norm_label": "dashboardconsole()",
       "source_file": "src/app/admin/dashboard/DashboardConsole.tsx",
-      "source_location": "L54"
+      "source_location": "L56"
     },
     {
       "id": "src_app_admin_dashboard_dashboardcontrols_dashboardcontrols",
@@ -515,7 +515,7 @@
       "file_type": "code",
       "norm_label": "resultscontrols()",
       "source_file": "src/app/admin/dashboard/ResultsControls.tsx",
-      "source_location": "L37"
+      "source_location": "L39"
     },
     {
       "id": "src_app_admin_voters_page_adminvoterspage",
@@ -3899,7 +3899,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "src/app/admin/dashboard/DashboardConsole.tsx",
-      "source_location": "L146",
+      "source_location": "L178",
       "weight": 1.0
     },
     {
@@ -3911,7 +3911,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "src/app/admin/dashboard/DashboardConsole.tsx",
-      "source_location": "L176",
+      "source_location": "L211",
       "weight": 1.0
     },
     {
@@ -3923,7 +3923,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "src/app/admin/dashboard/DashboardConsole.tsx",
-      "source_location": "L198",
+      "source_location": "L233",
       "weight": 1.0
     },
     {
@@ -3935,7 +3935,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "src/app/admin/dashboard/DashboardConsole.tsx",
-      "source_location": "L460",
+      "source_location": "L583",
       "weight": 1.0
     },
     {
@@ -3947,7 +3947,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "src/app/admin/dashboard/DashboardConsole.tsx",
-      "source_location": "L70",
+      "source_location": "L72",
       "weight": 1.0
     },
     {
@@ -4007,7 +4007,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "src/app/admin/dashboard/ResultsControls.tsx",
-      "source_location": "L54",
+      "source_location": "L58",
       "weight": 1.0
     },
     {
@@ -5591,7 +5591,7 @@
       "confidence_score": 1.0,
       "context": "import",
       "source_file": "src/app/admin/dashboard/DashboardConsole.tsx",
-      "source_location": "L28",
+      "source_location": "L30",
       "weight": 1.0
     },
     {
@@ -6803,19 +6803,7 @@
       "confidence_score": 1.0,
       "context": "import",
       "source_file": "src/app/admin/dashboard/DashboardConsole.tsx",
-      "source_location": "L27",
-      "weight": 1.0
-    },
-    {
-      "source": "src_app_admin_dashboard_dashboardconsole",
-      "target": "src_app_admin_dashboard_resultscontrols",
-      "relation": "imports_from",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "context": "import",
-      "source_file": "src/app/admin/dashboard/DashboardConsole.tsx",
-      "source_location": "L28",
+      "source_location": "L29",
       "weight": 1.0
     },
     {
@@ -6828,6 +6816,18 @@
       "context": "import",
       "source_file": "src/app/admin/dashboard/DashboardConsole.tsx",
       "source_location": "L3",
+      "weight": 1.0
+    },
+    {
+      "source": "src_app_admin_dashboard_dashboardconsole",
+      "target": "src_app_admin_dashboard_resultscontrols",
+      "relation": "imports_from",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "import",
+      "source_file": "src/app/admin/dashboard/DashboardConsole.tsx",
+      "source_location": "L30",
       "weight": 1.0
     },
     {
@@ -9072,7 +9072,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "src/app/admin/dashboard/DashboardConsole.tsx",
-      "source_location": "L30",
+      "source_location": "L32",
       "weight": 1.0
     },
     {
@@ -9083,7 +9083,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "src/app/admin/dashboard/DashboardConsole.tsx",
-      "source_location": "L38",
+      "source_location": "L40",
       "weight": 1.0
     },
     {
@@ -9094,7 +9094,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "src/app/admin/dashboard/DashboardConsole.tsx",
-      "source_location": "L54",
+      "source_location": "L56",
       "weight": 1.0
     },
     {
@@ -9182,7 +9182,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "src/app/admin/dashboard/ResultsControls.tsx",
-      "source_location": "L37",
+      "source_location": "L39",
       "weight": 1.0
     },
     {
@@ -10919,5 +10919,5 @@
     }
   ],
   "hyperedges": [],
-  "built_at_commit": "eaeda66b9e70e43247bdbfb2e748dedf5ee89b04"
+  "built_at_commit": "222d96a52d3f0e8c326e2fce7d1b28d299c7df35"
 }
