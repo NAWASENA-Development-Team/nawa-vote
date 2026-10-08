@@ -1,29 +1,29 @@
 # Graph Report - nawavote  (2026-10-09)
 
 ## Corpus Check
-- 59 files · ~33,337 words
+- 60 files · ~34,168 words
 - Verdict: corpus is large enough that graph structure adds value.
 - Unclassified: 9 file(s) not represented in the graph (top: (none) 2, .woff 2, .template 1)
 
 ## Summary
-- 343 nodes · 684 edges · 26 communities (15 shown, 11 thin omitted)
+- 351 nodes · 696 edges · 27 communities (15 shown, 12 thin omitted)
 - Extraction: 100% EXTRACTED · 0% INFERRED · 0% AMBIGUOUS · INFERRED: 3 edges (avg confidence: 0.92)
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `3ed70fe1`
+- Built from commit: `6ec2b0ad`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
 ## Community Hubs (Navigation)
 - createClient
-- offlineQueue.ts
+- syncVotes.ts
 - package.json
 - VoteWizard.tsx
 - Nawa Vote Platform Overview
 - compilerOptions
 - app/layout.tsx
-- dependencies
+- devDependencies
 - BalloonInterface.tsx
 - generate-tokens.js
 - manifest.json
@@ -40,10 +40,11 @@
 - UX Excellence & Attention to Detail
 - Workflow & Commitment Protocol
 - Arcane Vote Glow Icon
+- route.ts
 
 ## God Nodes (most connected - your core abstractions)
 1. `react` - 29 edges
-2. `createClient()` - 23 edges
+2. `createClient()` - 24 edges
 3. `next` - 22 edges
 4. `lucide-react` - 17 edges
 5. `VoteWizard()` - 16 edges
@@ -68,23 +69,23 @@
 ## Import Cycles
 - None detected.
 
-## Communities (26 total, 11 thin omitted)
+## Communities (27 total, 12 thin omitted)
 
 ### Community 0 - "createClient"
-Cohesion: 0.09
-Nodes (36): next, Candidate, CandidateEditor(), CandidateEditorProps, AdminCandidatesPage(), dynamic, revalidate, DashboardCandidate (+28 more)
+Cohesion: 0.08
+Nodes (43): framer-motion, lucide-react, next, papaparse, @supabase/ssr, Candidate, CandidateEditor(), CandidateEditorProps (+35 more)
 
-### Community 1 - "offlineQueue.ts"
-Cohesion: 0.30
-Nodes (14): clearSynced(), getOfflineQueue(), getPendingQueue(), markSynced(), markSyncError(), OfflineVote, pendingCount(), readQueue() (+6 more)
+### Community 1 - "syncVotes.ts"
+Cohesion: 0.33
+Nodes (12): clearSynced(), getOfflineQueue(), markSynced(), markSyncError(), OfflineVote, readQueue(), saveVoteOffline(), writeQueue() (+4 more)
 
 ### Community 2 - "package.json"
-Cohesion: 0.05
-Nodes (35): devDependencies, eslint, eslint-config-next, @netlify/plugin-nextjs, postcss, tailwindcss, @types/node, @types/papaparse (+27 more)
+Cohesion: 0.06
+Nodes (32): dependencies, framer-motion, lucide-react, next, papaparse, react, react-dom, react-is (+24 more)
 
 ### Community 3 - "VoteWizard.tsx"
-Cohesion: 0.16
-Nodes (24): framer-motion, lucide-react, react, AdminLayout(), LoginForm(), LoginPage(), LandingPage(), SuccessPage() (+16 more)
+Cohesion: 0.12
+Nodes (28): react, AdminLayout(), LoginForm(), LoginPage(), LandingPage(), SuccessPage(), SuccessView(), CategorizedCandidate (+20 more)
 
 ### Community 4 - "Nawa Vote Platform Overview"
 Cohesion: 0.11
@@ -95,16 +96,16 @@ Cohesion: 0.11
 Nodes (17): compilerOptions, allowJs, esModuleInterop, incremental, isolatedModules, jsx, lib, module (+9 more)
 
 ### Community 6 - "app/layout.tsx"
-Cohesion: 0.17
-Nodes (11): inter, jetbrainsMono, metadata, plusJakartaSans, RootLayout(), ServiceWorkerRegistration(), Theme, ThemeContext (+3 more)
+Cohesion: 0.24
+Nodes (8): inter, jetbrainsMono, metadata, plusJakartaSans, RootLayout(), ServiceWorkerRegistration(), ThemeProvider(), useServiceWorker()
 
-### Community 7 - "dependencies"
+### Community 7 - "devDependencies"
 Cohesion: 0.18
-Nodes (11): dependencies, framer-motion, lucide-react, next, papaparse, react, react-dom, react-is (+3 more)
+Nodes (11): devDependencies, eslint, eslint-config-next, @netlify/plugin-nextjs, postcss, tailwindcss, @types/node, @types/papaparse (+3 more)
 
 ### Community 8 - "BalloonInterface.tsx"
 Cohesion: 0.11
-Nodes (36): COLOR_SLOTS, ColorSlot, getShuffledCandidates(), JABATAN_LABELS, resolveSlot(), SESSION_BAR_COLOR, SLOT_ORDER, SlotColors (+28 more)
+Nodes (34): COLOR_SLOTS, ColorSlot, getShuffledCandidates(), JABATAN_LABELS, resolveSlot(), SESSION_BAR_COLOR, SLOT_ORDER, SlotColors (+26 more)
 
 ### Community 9 - "generate-tokens.js"
 Cohesion: 0.20
@@ -115,8 +116,8 @@ Cohesion: 0.22
 Nodes (8): background_color, description, display, icons, name, short_name, start_url, theme_color
 
 ### Community 11 - "ResultsClient.tsx"
-Cohesion: 0.15
-Nodes (24): CartoonCloud(), CLOUDS, GrassStrip(), InterfaceShell(), InterfaceShellProps, dynamic, PublicResultsPage(), revalidate (+16 more)
+Cohesion: 0.14
+Nodes (26): run(), CartoonCloud(), CLOUDS, GrassStrip(), InterfaceShell(), InterfaceShellProps, dynamic, PublicResultsPage() (+18 more)
 
 ### Community 13 - "NAWA-VOTE Agent Workflow & Guidelines"
 Cohesion: 0.40
@@ -131,24 +132,24 @@ Cohesion: 0.50
 Nodes (3): extends, next/core-web-vitals, next/typescript
 
 ## Knowledge Gaps
-- **136 isolated node(s):** `next/core-web-vitals`, `next/typescript`, `nextConfig`, `name`, `version` (+131 more)
-  These have ≤1 connection - possible missing edges or undocumented components. (Counts symbols only; 160 node(s) total have ≤1 connection when file, concept and rationale nodes are included.)
-- **11 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
+- **140 isolated node(s):** `next/core-web-vitals`, `next/typescript`, `nextConfig`, `name`, `version` (+135 more)
+  These have ≤1 connection - possible missing edges or undocumented components. (Counts symbols only; 166 node(s) total have ≤1 connection when file, concept and rationale nodes are included.)
+- **12 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
 
 ## Suggested Questions
 _Questions this graph is uniquely positioned to answer:_
 
 - **Why does `react` connect `VoteWizard.tsx` to `createClient`, `package.json`, `app/layout.tsx`, `BalloonInterface.tsx`, `ResultsClient.tsx`, `analytics/page.tsx`?**
-  _High betweenness centrality (0.192) - this node is a cross-community bridge._
+  _High betweenness centrality (0.183) - this node is a cross-community bridge._
 - **Why does `next` connect `createClient` to `package.json`, `VoteWizard.tsx`, `app/layout.tsx`, `analytics/page.tsx`, `vote/page.tsx`?**
   _High betweenness centrality (0.100) - this node is a cross-community bridge._
-- **Why does `framer-motion` connect `VoteWizard.tsx` to `createClient`, `BalloonInterface.tsx`, `package.json`, `ResultsClient.tsx`?**
-  _High betweenness centrality (0.067) - this node is a cross-community bridge._
+- **Why does `framer-motion` connect `createClient` to `BalloonInterface.tsx`, `ResultsClient.tsx`, `package.json`, `VoteWizard.tsx`?**
+  _High betweenness centrality (0.064) - this node is a cross-community bridge._
 - **What connects `next/core-web-vitals`, `next/typescript`, `nextConfig` to the rest of the system?**
-  _136 weakly-connected nodes found - possible documentation gaps or missing edges._
+  _140 weakly-connected nodes found - possible documentation gaps or missing edges._
 - **Should `createClient` be split into smaller, more focused modules?**
-  _Cohesion score 0.09183673469387756 - nodes in this community are weakly interconnected._
+  _Cohesion score 0.07743496672716274 - nodes in this community are weakly interconnected._
 - **Should `package.json` be split into smaller, more focused modules?**
-  _Cohesion score 0.05263157894736842 - nodes in this community are weakly interconnected._
-- **Should `Nawa Vote Platform Overview` be split into smaller, more focused modules?**
-  _Cohesion score 0.10526315789473684 - nodes in this community are weakly interconnected._
+  _Cohesion score 0.06060606060606061 - nodes in this community are weakly interconnected._
+- **Should `VoteWizard.tsx` be split into smaller, more focused modules?**
+  _Cohesion score 0.1241565452091768 - nodes in this community are weakly interconnected._

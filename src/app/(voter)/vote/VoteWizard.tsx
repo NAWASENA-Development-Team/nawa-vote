@@ -50,7 +50,7 @@ export default function VoteWizard({
   voterId: propVoterId,
 }: VoteWizardProps) {
   const router = useRouter();
-  const { isOnline, wasOffline } = useOnlineStatus();
+  const { isOnline, wasOffline, checkConnectivity } = useOnlineStatus();
 
   // Register the service worker for offline caching (no-op if unsupported)
   useServiceWorker();
@@ -314,7 +314,13 @@ export default function VoteWizard({
       return;
     }
 
-    if (!isOnline) {
+    // Active network probe before attempting server action (solves Windows Chrome false onLine)
+    let activeOnline = isOnline;
+    if (activeOnline) {
+      activeOnline = await checkConnectivity();
+    }
+
+    if (!activeOnline) {
       setVoterToken(clean);
       setVoterId(`offline-${clean}`);
       localStorage.setItem('nawa_active_voter', JSON.stringify({ token: clean, id: `offline-${clean}` }));
@@ -345,10 +351,11 @@ export default function VoteWizard({
         setTokenInput('');
       } else if (res.success) {
         setVoterToken(clean);
-        setVoterId(clean);
-        localStorage.setItem('nawa_active_voter', JSON.stringify({ token: clean, id: clean }));
+        const resolvedId = 'voterId' in res && res.voterId ? (res.voterId as string) : clean;
+        setVoterId(resolvedId);
+        localStorage.setItem('nawa_active_voter', JSON.stringify({ token: clean, id: resolvedId }));
         document.cookie = `nawa_voter_token=${clean}; path=/; max-age=1800; SameSite=Lax`;
-        document.cookie = `nawa_voter_id=${clean}; path=/; max-age=1800; SameSite=Lax`;
+        document.cookie = `nawa_voter_id=${resolvedId}; path=/; max-age=1800; SameSite=Lax`;
         setTokenInput('');
       } else {
         setTokenInputError(res.error || 'Gagal masuk bilik suara');
@@ -426,7 +433,12 @@ export default function VoteWizard({
       setIsLoading(false);
     };
 
-    if (!isOnline) {
+    let activeOnline = isOnline;
+    if (activeOnline) {
+      activeOnline = await checkConnectivity();
+    }
+
+    if (!activeOnline) {
       saveOfflineFallback();
       return;
     }

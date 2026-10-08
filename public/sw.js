@@ -1,13 +1,15 @@
-// NAWA-VOTE Service Worker (v6) — Unified Offline Kiosk Booth
+// NAWA-VOTE Service Worker (v7) — Unified Offline Kiosk Booth
 // Features:
+//   - Active ping route (/api/ping) bypasses SW to ensure instant, real offline detection
 //   - Pre-caches unified root kiosk shell ('/') and all JS/CSS static bundles on install
 //   - Matches cache with { ignoreSearch: true, ignoreVary: true } to eliminate Vary / F5 bypasses
+//   - Intelligent CSS fallback: never serves blank CSS that strips colors; falls back to cached stylesheets
 //   - Safe 200 OK fallbacks for missing assets and images (prevents NS_ERROR in Firefox)
 //   - Intercepts POST server actions when offline to return structured JSON
 //   - Network-First for navigations, instantly falling back to cached kiosk shell
-//   - Individual image caching using exact query parameters (fixes duplicate candidate photos)
+//   - Individual image caching using exact query parameters
 
-const CACHE_VERSION = 'nawa-v6';
+const CACHE_VERSION = 'nawa-v7';
 const STATIC_CACHE  = `${CACHE_VERSION}-static`;
 const PAGE_CACHE    = `${CACHE_VERSION}-pages`;
 const IMAGE_CACHE   = `${CACHE_VERSION}-images`;
@@ -80,6 +82,11 @@ self.addEventListener('fetch', (event) => {
   const { request } = event;
   const url = new URL(request.url);
 
+  // 0. Active Ping probe: ALWAYS bypass SW so active offline probe hits real network
+  if (url.pathname === '/api/ping') {
+    return;
+  }
+
   // 1. Same-origin static assets: Cache-First
   if (url.origin === self.location.origin && url.pathname.startsWith('/_next/static/')) {
     event.respondWith(cacheFirstSafe(request, STATIC_CACHE));
@@ -120,34 +127,51 @@ self.addEventListener('fetch', (event) => {
 
 /**
  * Cache-First with safe string-based matching so F5 / reload cache flags don't bypass cache.
- * If offline and un-cached, returns valid empty 200 Response (never rejects FetchEvent).
+ * Intelligent CSS fallback: if new CSS bundle hash isn't cached yet, falls back to any cached
+ * CSS stylesheet so the UI color scheme and styles are NEVER wiped clean.
  */
 async function cacheFirstSafe(request, cacheName) {
   const url = new URL(request.url);
   const cache = await caches.open(cacheName);
   const matchOpts = { ignoreSearch: true, ignoreVary: true };
 
-  // 1. Match by URL string (ignores request.cache: 'reload' from browser refresh)
+  // 1. Match by URL string or Request object
   let cached =
     (await cache.match(request.url, matchOpts)) ||
-    (await cache.match(url.pathname, matchOpts));
+    (await cache.match(url.pathname, matchOpts)) ||
+    (await cache.match(request, matchOpts));
   if (cached) return cached;
 
   // 2. Try network if online
   try {
     const response = await fetch(request);
-    if (response && response.ok) {
+    if (response && (response.ok || response.status === 200)) {
       cache.put(request.url, response.clone());
       cache.put(url.pathname, response.clone());
     }
     return response;
   } catch {
-    // 3. Re-check cache with ignoreSearch
-    cached = await cache.match(request.url, matchOpts);
+    // 3. Re-check cache across all scopes
+    cached =
+      (await cache.match(request.url, matchOpts)) ||
+      (await cache.match(url.pathname, matchOpts)) ||
+      (await caches.match(request.url, matchOpts));
     if (cached) return cached;
 
-    // 4. Return valid 200 empty response so browser never throws SyntaxError or NS_ERROR
+    // 4. Intelligent CSS Fallback: if exact CSS chunk hash is missing, return ANY cached CSS file
+    // so Tailwind styling and color scheme remain intact instead of receiving 0 bytes!
     const isCss = url.pathname.endsWith('.css');
+    if (isCss) {
+      const keys = await cache.keys();
+      for (const k of keys) {
+        if (k.url.includes('.css')) {
+          const fallbackCss = await cache.match(k);
+          if (fallbackCss) return fallbackCss;
+        }
+      }
+    }
+
+    // 5. Return valid 200 empty response as last resort so browser doesn't throw SyntaxError
     const isJs = url.pathname.endsWith('.js');
     return new Response('', {
       status: 200,

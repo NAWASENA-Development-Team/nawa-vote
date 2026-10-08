@@ -1,6 +1,6 @@
 // Client-side sync: replays the offline queue to Supabase when connectivity returns.
-// Uses the browser Supabase client (anon key) to call the same RPC as the server action.
-// Each vote is attempted independently — one failure does not abort the batch.
+// Prioritizes the dedicated server action (syncOfflineVotesBatch) which has full server-side
+// resolution privileges, and falls back to client RPC if needed.
 //
 // SAFETY GUARANTEES:
 //   1. In-process lock (isSyncing) — blocks concurrent calls within the same tab.
@@ -12,6 +12,7 @@
 //   7. DB RPC submit_split_vote checks has_voted before inserting — final hard guard.
 
 import { createClient } from '@/lib/supabase/client';
+import { syncOfflineVotesBatch } from '@/lib/actions/vote';
 import { getPendingQueue, markSynced, markSyncError, clearSynced } from './offlineQueue';
 
 export interface SyncResult {
@@ -84,13 +85,49 @@ export async function syncOfflineVotes(): Promise<SyncResult> {
       return { total: 0, succeeded: 0, failed: 0, errors: [] };
     }
 
-    const supabase = createClient();
     const result: SyncResult = {
       total: pending.length,
       succeeded: 0,
       failed: 0,
       errors: [],
     };
+
+    // ── Primary Path: Dedicated Server Action with full authority ──────────────
+    try {
+      const batchPayload = pending.map((p) => ({
+        localId: p.localId,
+        voterToken: p.voterToken,
+        ketuaId: p.ketuaId,
+        wakil1Id: p.wakil1Id,
+        wakil2Id: p.wakil2Id,
+      }));
+
+      const batchRes = await syncOfflineVotesBatch(batchPayload);
+
+      if (batchRes && batchRes.success) {
+        // Mark succeeded items
+        for (const id of batchRes.succeededIds) {
+          markSynced(id);
+          result.succeeded++;
+        }
+
+        // Mark failed items
+        for (const item of batchRes.failedItems) {
+          markSyncError(item.localId, item.error);
+          result.failed++;
+          result.errors.push(item);
+        }
+
+        // Clean up synced votes from localStorage
+        clearSynced();
+        return result;
+      }
+    } catch {
+      // Server action network failure (still offline or transient) — fallback to direct RPC below
+    }
+
+    // ── Secondary Path: Direct Browser Supabase Client ─────────────────────────
+    const supabase = createClient();
 
     for (const vote of pending) {
       try {
@@ -135,12 +172,10 @@ export async function syncOfflineVotes(): Promise<SyncResult> {
         });
 
         if (error) {
-          // "Voter has already voted" — vote already in DB (possibly by the other tab).
-          // Mark as synced so we stop retrying it. DB is the source of truth.
           const alreadyVoted =
             error.message?.toLowerCase().includes('sudah') ||
             error.message?.toLowerCase().includes('already') ||
-            error.code === 'P0001'; // plpgsql RAISE exception code
+            error.code === 'P0001';
 
           if (alreadyVoted) {
             markSynced(vote.localId);
@@ -166,12 +201,12 @@ export async function syncOfflineVotes(): Promise<SyncResult> {
       }
     }
 
-    // Remove successfully synced entries. Failed ones stay for the next retry.
+    // Remove successfully synced entries
     clearSynced();
 
     return result;
   } finally {
-    // Always release both locks — even if an unexpected error is thrown mid-run.
+    // Always release both locks
     isSyncing = false;
     releaseCrossTabLock();
   }

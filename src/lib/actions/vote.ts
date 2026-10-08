@@ -18,6 +18,20 @@ interface VerificationResponse {
   error?: string;
 }
 
+export interface OfflineSyncItem {
+  localId: string;
+  voterToken: string;
+  ketuaId: string;
+  wakil1Id: string;
+  wakil2Id: string;
+}
+
+export interface OfflineSyncResponse {
+  success: boolean;
+  succeededIds: string[];
+  failedItems: Array<{ localId: string; voterToken: string; error: string }>;
+}
+
 /**
  * Submit voter's choices for Ketua, Wakil 1, and Wakil 2.
  * Executes atomically via the PL/pgSQL submit_split_vote function.
@@ -60,6 +74,110 @@ export async function castSplitVote(
   } catch (error: any) {
     console.error('Voting server action error:', error);
     return { success: false, error: 'Terjadi kesalahan internal pada server' };
+  }
+}
+
+/**
+ * Server Action: Batch sync queued offline votes to Supabase.
+ * Uses administrative privileges to resolve tokens and execute the atomic voting RPC.
+ */
+export async function syncOfflineVotesBatch(
+  votes: OfflineSyncItem[]
+): Promise<OfflineSyncResponse> {
+  try {
+    if (!votes || votes.length === 0) {
+      return { success: true, succeededIds: [], failedItems: [] };
+    }
+
+    const supabase = process.env.SUPABASE_SERVICE_ROLE_KEY
+      ? createAdminClient()
+      : createClient();
+
+    const succeededIds: string[] = [];
+    const failedItems: Array<{ localId: string; voterToken: string; error: string }> = [];
+
+    for (const item of votes) {
+      try {
+        const cleanToken = item.voterToken.trim().toUpperCase();
+
+        // 1. Resolve voter record
+        const { data: voter, error: vErr } = await supabase
+          .from('voters')
+          .select('id, has_voted')
+          .eq('token', cleanToken)
+          .maybeSingle();
+
+        if (vErr || !voter) {
+          failedItems.push({
+            localId: item.localId,
+            voterToken: item.voterToken,
+            error: 'Token pemilih tidak terdaftar di database',
+          });
+          continue;
+        }
+
+        // If voter already has_voted in DB, treat as succeeded (idempotent replay)
+        if (voter.has_voted) {
+          succeededIds.push(item.localId);
+          continue;
+        }
+
+        // 2. Submit vote atomically via RPC
+        const { error: rpcErr } = await supabase.rpc('submit_split_vote', {
+          p_voter_id: voter.id,
+          p_ketua_id: item.ketuaId,
+          p_wakil1_id: item.wakil1Id,
+          p_wakil2_id: item.wakil2Id,
+          p_ip_address: 'offline-sync-kiosk',
+        });
+
+        if (rpcErr) {
+          const already =
+            rpcErr.message?.toLowerCase().includes('sudah') ||
+            rpcErr.message?.toLowerCase().includes('already');
+
+          if (already) {
+            succeededIds.push(item.localId);
+          } else {
+            failedItems.push({
+              localId: item.localId,
+              voterToken: item.voterToken,
+              error: rpcErr.message || 'Gagal menyimpan suara',
+            });
+          }
+        } else {
+          succeededIds.push(item.localId);
+        }
+      } catch (err: any) {
+        failedItems.push({
+          localId: item.localId,
+          voterToken: item.voterToken,
+          error: err?.message || 'Kesalahan pemrosesan suara',
+        });
+      }
+    }
+
+    // Revalidate paths if any votes were synced
+    if (succeededIds.length > 0) {
+      revalidatePath('/admin/dashboard');
+      revalidatePath('/results');
+    }
+
+    return {
+      success: true,
+      succeededIds,
+      failedItems,
+    };
+  } catch (error: any) {
+    return {
+      success: false,
+      succeededIds: [],
+      failedItems: votes.map((v) => ({
+        localId: v.localId,
+        voterToken: v.voterToken,
+        error: error?.message || 'Server action error',
+      })),
+    };
   }
 }
 

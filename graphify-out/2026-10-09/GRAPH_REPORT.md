@@ -1,12 +1,12 @@
 # Graph Report - nawavote  (2026-10-09)
 
 ## Corpus Check
-- 59 files · ~33,127 words
+- 59 files · ~33,337 words
 - Verdict: corpus is large enough that graph structure adds value.
 - Unclassified: 9 file(s) not represented in the graph (top: (none) 2, .woff 2, .template 1)
 
 ## Summary
-- 341 nodes · 677 edges · 25 communities (14 shown, 11 thin omitted)
+- 343 nodes · 684 edges · 26 communities (15 shown, 11 thin omitted)
 - Extraction: 100% EXTRACTED · 0% INFERRED · 0% AMBIGUOUS · INFERRED: 3 edges (avg confidence: 0.92)
 - Token cost: 0 input · 0 output
 
@@ -17,9 +17,9 @@
 
 ## Community Hubs (Navigation)
 - createClient
-- VoteWizard.tsx
+- offlineQueue.ts
 - package.json
-- react
+- VoteWizard.tsx
 - Nawa Vote Platform Overview
 - compilerOptions
 - app/layout.tsx
@@ -30,6 +30,7 @@
 - ResultsClient.tsx
 - sw.js
 - NAWA-VOTE Agent Workflow & Guidelines
+- analytics/page.tsx
 - extends
 - vote/page.tsx
 - next.config.mjs
@@ -67,23 +68,23 @@
 ## Import Cycles
 - None detected.
 
-## Communities (25 total, 11 thin omitted)
+## Communities (26 total, 11 thin omitted)
 
 ### Community 0 - "createClient"
-Cohesion: 0.08
-Nodes (41): next, papaparse, AnalyticsDashboard(), AdminAnalyticsPage(), dynamic, revalidate, Candidate, CandidateEditor() (+33 more)
+Cohesion: 0.09
+Nodes (36): next, Candidate, CandidateEditor(), CandidateEditorProps, AdminCandidatesPage(), dynamic, revalidate, DashboardCandidate (+28 more)
 
-### Community 1 - "VoteWizard.tsx"
-Cohesion: 0.17
-Nodes (23): LandingPage(), CategorizedCandidate, VoteWizard(), VoteWizardProps, Candidate, CandidateCard(), useOnlineStatus(), loginVoterToken() (+15 more)
+### Community 1 - "offlineQueue.ts"
+Cohesion: 0.30
+Nodes (14): clearSynced(), getOfflineQueue(), getPendingQueue(), markSynced(), markSyncError(), OfflineVote, pendingCount(), readQueue() (+6 more)
 
 ### Community 2 - "package.json"
 Cohesion: 0.05
-Nodes (37): devDependencies, eslint, eslint-config-next, @netlify/plugin-nextjs, postcss, tailwindcss, @types/node, @types/papaparse (+29 more)
+Nodes (35): devDependencies, eslint, eslint-config-next, @netlify/plugin-nextjs, postcss, tailwindcss, @types/node, @types/papaparse (+27 more)
 
-### Community 3 - "react"
-Cohesion: 0.23
-Nodes (15): framer-motion, lucide-react, react, AdminLayout(), LoginForm(), LoginPage(), SuccessPage(), SuccessView() (+7 more)
+### Community 3 - "VoteWizard.tsx"
+Cohesion: 0.16
+Nodes (24): framer-motion, lucide-react, react, AdminLayout(), LoginForm(), LoginPage(), LandingPage(), SuccessPage() (+16 more)
 
 ### Community 4 - "Nawa Vote Platform Overview"
 Cohesion: 0.11
@@ -102,8 +103,8 @@ Cohesion: 0.18
 Nodes (11): dependencies, framer-motion, lucide-react, next, papaparse, react, react-dom, react-is (+3 more)
 
 ### Community 8 - "BalloonInterface.tsx"
-Cohesion: 0.10
-Nodes (37): COLOR_SLOTS, ColorSlot, getShuffledCandidates(), JABATAN_LABELS, resolveSlot(), SESSION_BAR_COLOR, SLOT_ORDER, SlotColors (+29 more)
+Cohesion: 0.11
+Nodes (36): COLOR_SLOTS, ColorSlot, getShuffledCandidates(), JABATAN_LABELS, resolveSlot(), SESSION_BAR_COLOR, SLOT_ORDER, SlotColors (+28 more)
 
 ### Community 9 - "generate-tokens.js"
 Cohesion: 0.20
@@ -114,12 +115,16 @@ Cohesion: 0.22
 Nodes (8): background_color, description, display, icons, name, short_name, start_url, theme_color
 
 ### Community 11 - "ResultsClient.tsx"
-Cohesion: 0.17
-Nodes (21): CartoonCloud(), CLOUDS, GrassStrip(), InterfaceShell(), InterfaceShellProps, dynamic, PublicResultsPage(), revalidate (+13 more)
+Cohesion: 0.15
+Nodes (24): CartoonCloud(), CLOUDS, GrassStrip(), InterfaceShell(), InterfaceShellProps, dynamic, PublicResultsPage(), revalidate (+16 more)
 
 ### Community 13 - "NAWA-VOTE Agent Workflow & Guidelines"
 Cohesion: 0.40
 Nodes (6): NAWA-VOTE Agent Workflow & Guidelines, Keep Graph Fresh Protocol, Knowledge Graph First-Reference (graphify-out/), AGENTS.md Agent Guidelines, Rule #1: Check graphify-out First, Rule #2: Always Update Graph on Code Changes
+
+### Community 14 - "analytics/page.tsx"
+Cohesion: 0.28
+Nodes (7): recharts, AnalyticsDashboard(), AnalyticsDashboardProps, DashboardCandidate, AdminAnalyticsPage(), dynamic, revalidate
 
 ### Community 15 - "extends"
 Cohesion: 0.50
@@ -133,17 +138,17 @@ Nodes (3): extends, next/core-web-vitals, next/typescript
 ## Suggested Questions
 _Questions this graph is uniquely positioned to answer:_
 
-- **Why does `react` connect `react` to `createClient`, `VoteWizard.tsx`, `package.json`, `app/layout.tsx`, `BalloonInterface.tsx`, `ResultsClient.tsx`?**
-  _High betweenness centrality (0.190) - this node is a cross-community bridge._
-- **Why does `next` connect `createClient` to `VoteWizard.tsx`, `package.json`, `react`, `app/layout.tsx`, `vote/page.tsx`?**
-  _High betweenness centrality (0.101) - this node is a cross-community bridge._
-- **Why does `framer-motion` connect `react` to `createClient`, `VoteWizard.tsx`, `package.json`, `BalloonInterface.tsx`, `ResultsClient.tsx`?**
-  _High betweenness centrality (0.066) - this node is a cross-community bridge._
+- **Why does `react` connect `VoteWizard.tsx` to `createClient`, `package.json`, `app/layout.tsx`, `BalloonInterface.tsx`, `ResultsClient.tsx`, `analytics/page.tsx`?**
+  _High betweenness centrality (0.192) - this node is a cross-community bridge._
+- **Why does `next` connect `createClient` to `package.json`, `VoteWizard.tsx`, `app/layout.tsx`, `analytics/page.tsx`, `vote/page.tsx`?**
+  _High betweenness centrality (0.100) - this node is a cross-community bridge._
+- **Why does `framer-motion` connect `VoteWizard.tsx` to `createClient`, `BalloonInterface.tsx`, `package.json`, `ResultsClient.tsx`?**
+  _High betweenness centrality (0.067) - this node is a cross-community bridge._
 - **What connects `next/core-web-vitals`, `next/typescript`, `nextConfig` to the rest of the system?**
   _136 weakly-connected nodes found - possible documentation gaps or missing edges._
 - **Should `createClient` be split into smaller, more focused modules?**
-  _Cohesion score 0.07792207792207792 - nodes in this community are weakly interconnected._
+  _Cohesion score 0.09183673469387756 - nodes in this community are weakly interconnected._
 - **Should `package.json` be split into smaller, more focused modules?**
-  _Cohesion score 0.04878048780487805 - nodes in this community are weakly interconnected._
+  _Cohesion score 0.05263157894736842 - nodes in this community are weakly interconnected._
 - **Should `Nawa Vote Platform Overview` be split into smaller, more focused modules?**
   _Cohesion score 0.10526315789473684 - nodes in this community are weakly interconnected._

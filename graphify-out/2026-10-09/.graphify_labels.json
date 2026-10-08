@@ -1,8 +1,8 @@
 {
   "0": "createClient",
-  "1": "VoteWizard.tsx",
+  "1": "offlineQueue.ts",
   "2": "package.json",
-  "3": "react",
+  "3": "VoteWizard.tsx",
   "4": "Nawa Vote Platform Overview",
   "5": "compilerOptions",
   "6": "app/layout.tsx",
@@ -13,6 +13,7 @@
   "11": "ResultsClient.tsx",
   "12": "sw.js",
   "13": "NAWA-VOTE Agent Workflow & Guidelines",
+  "14": "analytics/page.tsx",
   "15": "extends",
   "16": "vote/page.tsx",
   "17": "validate.ts",
