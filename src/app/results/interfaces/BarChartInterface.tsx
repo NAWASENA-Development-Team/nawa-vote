@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useMemo } from 'react';
+import React, { useMemo, useState } from 'react';
 import {
   ResponsiveContainer,
   BarChart,
@@ -11,7 +11,13 @@ import {
   Tooltip,
 } from 'recharts';
 import { motion, AnimatePresence } from 'framer-motion';
-import { COLOR_SLOTS, SESSION_BAR_COLOR, resolveSlot, type ColorSlot } from '../colorSlots';
+import {
+  COLOR_SLOTS,
+  SESSION_BAR_COLOR,
+  resolveSlot,
+  getShuffledCandidates,
+  type ColorSlot,
+} from '../colorSlots';
 import type { LiveCandidate } from '../useLiveResults';
 
 interface BarChartInterfaceProps {
@@ -28,19 +34,28 @@ export default function BarChartInterface({
   revealIdentity,
 }: BarChartInterfaceProps) {
   const isRevealed = resultsMode === 'present' || revealIdentity;
+  const [shuffleSeed] = useState(() => Math.random());
+
+  // In session mode, shuffle the display order so columns cannot be predicted
+  const orderedCandidates = useMemo(() => {
+    if (isRevealed) {
+      return [...candidates].sort((a, b) => a.ordinal_number - b.ordinal_number);
+    }
+    return getShuffledCandidates(candidates, shuffleSeed);
+  }, [candidates, isRevealed, shuffleSeed]);
 
   const totalVotes = candidates.reduce((sum, c) => sum + (c.vote_count || 0), 0);
 
   // Format data for Recharts
   const chartData = useMemo(() => {
-    return candidates.map((cand, idx) => {
+    return orderedCandidates.map((cand, idx) => {
       const slot = resolveSlot(cand.id, idx, candidateColors);
       const slotColor = COLOR_SLOTS[slot].fill;
       const percentage = totalVotes > 0 ? (cand.vote_count / totalVotes) * 100 : 0;
 
       return {
         id: cand.id,
-        name: isRevealed ? cand.name : `Kandidat ${slot}`,
+        name: isRevealed ? cand.name : '?',
         fullName: cand.name,
         ordinal: cand.ordinal_number,
         votes: cand.vote_count,
@@ -49,7 +64,7 @@ export default function BarChartInterface({
         slot,
       };
     });
-  }, [candidates, candidateColors, isRevealed, totalVotes]);
+  }, [orderedCandidates, candidateColors, isRevealed, totalVotes]);
 
   return (
     <div className="relative w-full h-full flex flex-col justify-between p-4 md:p-8 max-w-6xl mx-auto overflow-hidden">
@@ -61,11 +76,15 @@ export default function BarChartInterface({
             margin={{ top: 30, right: 30, left: 10, bottom: 20 }}
           >
             <XAxis
-              dataKey="name"
+              dataKey="id"
+              tickFormatter={(id) => {
+                const item = chartData.find((d) => d.id === id);
+                return isRevealed ? item?.fullName || '' : '?';
+              }}
               tick={{
                 fill: '#1e293b',
-                fontWeight: 700,
-                fontSize: 13,
+                fontWeight: isRevealed ? 700 : 900,
+                fontSize: isRevealed ? 13 : 22,
                 fontFamily: 'var(--font-plus-jakarta-sans), sans-serif',
               }}
               axisLine={{ stroke: '#cbd5e1' }}
@@ -85,7 +104,7 @@ export default function BarChartInterface({
                   return (
                     <div className="bg-white p-3.5 rounded-xl shadow-lg border border-brand-navy-100 text-xs">
                       <div className="font-bold text-brand-navy-900 text-sm font-heading">
-                        {isRevealed ? data.fullName : `Kandidat ${data.slot}`}
+                        {isRevealed ? data.fullName : '?'}
                       </div>
                       <div className="mt-1 flex items-center gap-2 text-brand-navy-600 font-semibold">
                         <span>{data.votes.toLocaleString('id-ID')} suara</span>

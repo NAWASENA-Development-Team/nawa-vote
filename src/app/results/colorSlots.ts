@@ -80,3 +80,36 @@ export const JABATAN_LABELS: Record<string, string> = {
   wakil_1: 'Wakil Ketua 1 OSIS 2025/2026',
   wakil_2: 'Wakil Ketua 2 OSIS 2025/2026',
 };
+
+/**
+ * Deterministically shuffles a candidate list based on a seed.
+ * Guarantees that the order in session mode is not simply [1, 2, 3].
+ */
+export function getShuffledCandidates<T extends { id: string; ordinal_number: number }>(
+  items: T[],
+  seed: number
+): T[] {
+  if (items.length <= 1) return items;
+
+  let s = Math.floor(seed * 100000) || 12345;
+  const nextRand = () => {
+    s = (s * 9301 + 49297) % 233280;
+    return s / 233280;
+  };
+
+  const shuffled = [...items];
+  for (let i = shuffled.length - 1; i > 0; i--) {
+    const j = Math.floor(nextRand() * (i + 1));
+    [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+  }
+
+  // Ensure it is not simply the original ordinal sequence [1, 2, 3]
+  const isOriginal = shuffled.every((item, idx) => item.id === items[idx]?.id);
+  if (isOriginal && shuffled.length > 1) {
+    const first = shuffled.shift()!;
+    shuffled.push(first);
+  }
+
+  return shuffled;
+}
+

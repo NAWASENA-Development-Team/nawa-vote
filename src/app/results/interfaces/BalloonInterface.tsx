@@ -1,8 +1,13 @@
 'use client';
 
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useMemo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { COLOR_SLOTS, resolveSlot, type ColorSlot } from '../colorSlots';
+import {
+  COLOR_SLOTS,
+  resolveSlot,
+  getShuffledCandidates,
+  type ColorSlot,
+} from '../colorSlots';
 import { playBalloonRise, playBalloonPop, playReveal } from '../sounds';
 import type { LiveCandidate } from '../useLiveResults';
 
@@ -27,7 +32,18 @@ export default function BalloonInterface({
 }: BalloonInterfaceProps) {
   const [popped, setPopped] = useState<PoppedState>({});
   const [confettiActive, setConfettiActive] = useState(false);
+  const [shuffleSeed] = useState(() => Math.random());
   const prevRevealRef = useRef(false);
+
+  const isRevealed = resultsMode === 'present' || revealIdentity;
+
+  // In session mode, shuffle candidate columns so they cannot be predicted as 1, 2, 3
+  const orderedCandidates = useMemo(() => {
+    if (isRevealed) {
+      return [...candidates].sort((a, b) => a.ordinal_number - b.ordinal_number);
+    }
+    return getShuffledCandidates(candidates, shuffleSeed);
+  }, [candidates, isRevealed, shuffleSeed]);
 
   // Play entry sound on mount
   useEffect(() => {
@@ -66,8 +82,6 @@ export default function BalloonInterface({
       setPopped((prev) => ({ ...prev, [id]: false }));
     }, 2000);
   };
-
-  const isRevealed = resultsMode === 'present' || revealIdentity;
 
   return (
     <div className="relative w-full h-full flex flex-col justify-end overflow-hidden px-4 md:px-12 pb-6">
@@ -114,7 +128,7 @@ export default function BalloonInterface({
 
       {/* 2. Balloon Stage Grid (Exactly 3 slots evenly spaced) */}
       <div className="relative w-full h-full flex items-end justify-around max-w-5xl mx-auto z-10 pb-16">
-        {candidates.map((cand, idx) => {
+        {orderedCandidates.map((cand, idx) => {
           const slot = resolveSlot(cand.id, idx, candidateColors);
           const colors = COLOR_SLOTS[slot];
           const isPopped = !!popped[cand.id];
@@ -276,8 +290,8 @@ export default function BalloonInterface({
                               </div>
                             </motion.div>
                           ) : (
-                            <div className="mt-2 text-center bg-white/60 px-2.5 py-1 rounded-lg border border-brand-navy-100 text-brand-navy-400 text-[11px] font-bold">
-                              Slot {slot}
+                            <div className="mt-2 text-center bg-white/80 w-8 h-8 rounded-full flex items-center justify-center border border-brand-navy-200/80 text-brand-navy-600 text-sm font-black font-heading shadow-xs">
+                              ?
                             </div>
                           )}
                         </AnimatePresence>
@@ -293,8 +307,8 @@ export default function BalloonInterface({
                   className="w-3 h-3 rounded-full border-2 border-white shadow-sm"
                   style={{ backgroundColor: colors.fill }}
                 />
-                <span className="text-[10px] font-bold text-brand-navy-400 mt-1 uppercase font-heading">
-                  {isRevealed ? `Kandidat ${cand.ordinal_number}` : `Warna ${slot}`}
+                <span className="text-xs font-black text-brand-navy-400 mt-1 uppercase font-heading">
+                  {isRevealed ? `Kandidat ${cand.ordinal_number}` : '?'}
                 </span>
               </div>
             </div>
