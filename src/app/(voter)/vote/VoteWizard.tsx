@@ -178,9 +178,8 @@ export default function VoteWizard({
     setIsLoading(true);
     setErrorMessage(null);
 
-    if (!isOnline) {
-      // Offline path: save locally, log out immediately to clear session (prevents re-voting),
-      // then render success inline — no router.push so no network request is needed.
+    // Helper: save to local queue, clear session, show inline success
+    const saveOfflineFallback = async () => {
       const localId = saveVoteOffline(
         voterToken,
         voterId,
@@ -191,25 +190,41 @@ export default function VoteWizard({
       offlineLocalId.current = localId;
       setPendingVotes(pendingCount());
       setIsConfirmOpen(false);
-
       // Clear session cookie so the voter cannot return to /vote and re-vote.
-      // The sync queue stores voterId independently so logout does not affect sync.
       await logout();
-
       setOfflineSaved(true);
       setIsLoading(false);
+    };
+
+    if (!isOnline) {
+      // Clearly offline — skip the network call entirely
+      await saveOfflineFallback();
       return;
     }
 
-    const res = await castSplitVote(selectedKetua.id, selectedWakil1.id, selectedWakil2.id);
+    try {
+      const res = await castSplitVote(selectedKetua.id, selectedWakil1.id, selectedWakil2.id);
 
-    if (res.success && res.token) {
-      setIsConfirmOpen(false);
-      router.push(`/success?token=${res.token}`);
-      router.refresh();
-    } else {
-      setErrorMessage(res.error || 'Gagal mengirimkan pilihan suara Anda.');
-      setIsLoading(false);
+      // SW returns { success:false, error:'OFFLINE' } as JSON when it intercepts
+      // a POST while offline — treat same as a network error
+      if (!res.success && (res.error === 'OFFLINE' || res.offline)) {
+        await saveOfflineFallback();
+        return;
+      }
+
+      if (res.success && res.token) {
+        setIsConfirmOpen(false);
+        router.push(`/success?token=${res.token}`);
+        router.refresh();
+      } else {
+        setErrorMessage(res.error || 'Gagal mengirimkan pilihan suara Anda.');
+        setIsLoading(false);
+      }
+    } catch {
+      // castSplitVote threw (NetworkError, fetch failed, etc.)
+      // navigator.onLine can return true even when actually offline —
+      // fall back to local queue regardless
+      await saveOfflineFallback();
     }
   };
 

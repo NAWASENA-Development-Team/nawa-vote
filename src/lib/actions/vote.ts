@@ -8,6 +8,7 @@ interface VoteResponse {
   success: boolean;
   token?: string;
   error?: string;
+  offline?: boolean;
 }
 
 interface VerificationResponse {

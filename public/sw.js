@@ -1,35 +1,37 @@
 // NAWA-VOTE Service Worker — voter offline shell
-// Strategy:
-//   /_next/static/** → Cache-First (immutable hashed chunks)
-//   /vote, /success  → Network-First, cache fallback
-//   everything else  → Network only (admin, API, supabase)
+// Strategies:
+//   /_next/static/**  → Cache-First + graceful offline fallback (never rejects FetchEvent)
+//   /vote, /success   → Network-First, cache fallback (navigate requests)
+//   POST /vote        → Offline intercept: return JSON error so client falls back to queue
+//   everything else   → Network only (admin, API, supabase)
 //
-// The SW intercepts at browser level, before any server middleware runs.
-// When offline, cached voter pages are served so the voting session stays alive.
+// KEY: every respondWith() path returns a Response, never throws.
+// A rejected promise inside respondWith() causes browser-level errors.
 
-const CACHE_VERSION = 'nawa-v1';
+const CACHE_VERSION = 'nawa-v2';
 const STATIC_CACHE  = `${CACHE_VERSION}-static`;
 const PAGE_CACHE    = `${CACHE_VERSION}-pages`;
 
-// Voter routes that get a network-first + cache-fallback treatment
+// Voter routes that get network-first + cache-fallback for navigate requests
 const VOTER_PATHS = ['/vote', '/success'];
 
 // ─── Install ──────────────────────────────────────────────────────────────────
 self.addEventListener('install', (event) => {
-  // Skip waiting so the new SW activates immediately on update
   self.skipWaiting();
 });
 
 // ─── Activate ─────────────────────────────────────────────────────────────────
 self.addEventListener('activate', (event) => {
   event.waitUntil(
-    caches.keys().then((keys) =>
-      Promise.all(
-        keys
-          .filter((k) => k !== STATIC_CACHE && k !== PAGE_CACHE)
-          .map((k) => caches.delete(k))
+    caches.keys()
+      .then((keys) =>
+        Promise.all(
+          keys
+            .filter((k) => k !== STATIC_CACHE && k !== PAGE_CACHE)
+            .map((k) => caches.delete(k))
+        )
       )
-    ).then(() => self.clients.claim())
+      .then(() => self.clients.claim())
   );
 });
 
@@ -41,9 +43,19 @@ self.addEventListener('fetch', (event) => {
   // Only handle same-origin requests
   if (url.origin !== self.location.origin) return;
 
-  // ── Static assets: Cache-First ─────────────────────────────────────────────
+  // ── Static assets (CSS, JS chunks, fonts, media): Cache-First ─────────────
+  // Covers: /_next/static/css/**, /_next/static/chunks/**, /_next/static/media/**
   if (url.pathname.startsWith('/_next/static/')) {
-    event.respondWith(cacheFirst(request, STATIC_CACHE));
+    event.respondWith(cacheFirstSafe(request, STATIC_CACHE));
+    return;
+  }
+
+  // ── Server Action POST to /vote: offline intercept ────────────────────────
+  // castSplitVote() does a POST /_next/... or POST /vote — when offline this
+  // would throw NetworkError and crash. Return a structured JSON error instead
+  // so VoteWizard catches it and falls through to the local queue path.
+  if (request.method === 'POST' && url.pathname.startsWith('/vote')) {
+    event.respondWith(postOfflineIntercept(request));
     return;
   }
 
@@ -57,54 +69,96 @@ self.addEventListener('fetch', (event) => {
     return;
   }
 
-  // ── Everything else: network only (don't intercept) ───────────────────────
+  // Everything else: pass through to network (admin, API calls, etc.)
 });
 
 // ─── Strategies ───────────────────────────────────────────────────────────────
 
-async function cacheFirst(request, cacheName) {
-  const cached = await caches.match(request);
-  if (cached) return cached;
+/**
+ * Cache-First with safe offline fallback.
+ * NEVER rejects — returns a 503 opaque response if offline and not cached.
+ */
+async function cacheFirstSafe(request, cacheName) {
+  try {
+    const cached = await caches.match(request);
+    if (cached) return cached;
 
-  const response = await fetch(request);
-  if (response.ok) {
-    const cache = await caches.open(cacheName);
-    cache.put(request, response.clone());
+    // Try network; if it works, cache it for next time
+    const response = await fetch(request);
+    if (response && (response.ok || response.status === 0)) {
+      const cache = await caches.open(cacheName);
+      cache.put(request, response.clone());
+    }
+    return response;
+  } catch {
+    // Offline and not cached — return empty 503 so the browser doesn't crash.
+    // Cached page HTML is still served; only un-cached assets return 503.
+    const cached = await caches.match(request);
+    if (cached) return cached;
+
+    return new Response('', {
+      status: 503,
+      statusText: 'Service Unavailable (offline)',
+      headers: { 'Content-Type': 'text/plain' },
+    });
   }
-  return response;
 }
 
+/**
+ * Network-First for voter page navigations.
+ * On network failure, serves cached page shell.
+ */
 async function networkFirstPage(request) {
   const cache = await caches.open(PAGE_CACHE);
 
   try {
     const response = await fetch(request);
 
-    if (response.ok || response.redirected) {
-      // Cache the fresh response for offline fallback
-      // We cache under a normalized key (strip query for /vote, keep for /success)
+    if (response && (response.ok || response.redirected)) {
+      // Normalise cache key for /vote (strip query params so one entry covers all)
       const url = new URL(request.url);
       const cacheKey = url.pathname.startsWith('/vote')
         ? new Request(url.origin + '/vote')
-        : request;
-
+        : request.clone();
       cache.put(cacheKey, response.clone());
     }
 
     return response;
   } catch {
-    // Network failed — serve cached shell
+    // Network unavailable — try cache
     const url = new URL(request.url);
-
-    // Try exact match first, then normalized path
     const cached =
       (await cache.match(request)) ||
       (await cache.match(new Request(url.origin + url.pathname)));
 
     if (cached) return cached;
 
-    // Last resort: return a minimal offline notice page
+    // Nothing cached yet — show a friendly standalone offline page
     return offlineFallback();
+  }
+}
+
+/**
+ * Intercepts POST /vote requests (Next.js server actions) when offline.
+ * Returns a JSON error response that VoteWizard can detect and re-route
+ * to the local queue instead of crashing.
+ */
+async function postOfflineIntercept(request) {
+  // If we have connectivity, let the request through normally
+  try {
+    // Quick connectivity check: HEAD the SW script itself
+    await fetch('/sw.js', { method: 'HEAD', cache: 'no-store' });
+    // Online — pass original request through
+    return fetch(request);
+  } catch {
+    // Offline — return a structured error so VoteWizard can catch and queue
+    return new Response(
+      JSON.stringify({ success: false, error: 'OFFLINE', offline: true }),
+      {
+        status: 503,
+        headers: { 'Content-Type': 'application/json' },
+      }
+    );
   }
 }
 
@@ -134,8 +188,8 @@ function offlineFallback() {
 </head>
 <body>
   <div class="box">
-    <h1>Memuat halaman…</h1>
-    <p>Halaman belum tersimpan di cache. Buka halaman ini sekali saat online agar tersimpan untuk mode offline.</p>
+    <h1>Koneksi Terputus</h1>
+    <p>Buka halaman ini sekali saat online agar tersimpan untuk mode offline.</p>
     <button onclick="location.reload()">Coba Lagi</button>
   </div>
 </body>
