@@ -4559,7 +4559,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "src/app/page.tsx",
-      "source_location": "L21",
+      "source_location": "L22",
       "weight": 1.0
     },
     {
@@ -5363,7 +5363,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "src/app/(voter)/vote/VoteWizard.tsx",
-      "source_location": "L1014",
+      "source_location": "L1012",
       "weight": 1.0
     },
     {
@@ -12280,5 +12280,5 @@
     }
   ],
   "hyperedges": [],
-  "built_at_commit": "1571d60d913a14b8ccbdb58353eb502067007675"
+  "built_at_commit": "ec482046ea1ae648c47bb74af6f44d9a8db7df7d"
 }

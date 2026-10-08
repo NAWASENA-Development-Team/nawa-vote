@@ -793,7 +793,7 @@ export default function VoteWizard({
 
   // ── SCREEN 3: VOTING WIZARD MAIN VIEW ────────────────────────────────────────
   return (
-    <div className="max-w-6xl mx-auto px-4 py-8 relative transition-colors duration-500">
+    <div className="w-full max-w-6xl mx-auto px-4 py-8 relative transition-colors duration-500 pb-36">
       {/* Offline Banner */}
       <AnimatePresence>
         {offline && (
@@ -994,7 +994,7 @@ export default function VoteWizard({
         </div>
       </div>
 
-      {/* Candidates Selection Grid */}
+      {/* Candidates Selection Container */}
       <AnimatePresence mode="wait">
         <motion.div
           key={step}
@@ -1002,22 +1002,20 @@ export default function VoteWizard({
           animate={{ opacity: 1, y: 0 }}
           exit={{ opacity: 0, y: -10 }}
           transition={{ duration: 0.2 }}
-          className={`grid gap-8 items-start justify-items-stretch mt-4 px-2 mx-auto w-full ${
-            currentCandidates.length === 1
-              ? 'grid-cols-1 max-w-md'
-              : currentCandidates.length === 2
-              ? 'grid-cols-1 md:grid-cols-2 max-w-4xl'
-              : 'grid-cols-1 md:grid-cols-2 lg:grid-cols-3 max-w-6xl'
-          }`}
+          className="flex flex-wrap justify-center items-start gap-8 mt-4 px-2 w-full mx-auto"
         >
           {currentCandidates.map((cand) => (
-            <CandidateCard
+            <div
               key={cand.id}
-              candidate={cand}
-              onSelect={handleSelect}
-              isSelected={currentSelection?.id === cand.id}
-              compact={true}
-            />
+              className="w-full sm:w-[350px] lg:w-[360px] max-w-[380px] flex-shrink-0"
+            >
+              <CandidateCard
+                candidate={cand}
+                onSelect={handleSelect}
+                isSelected={currentSelection?.id === cand.id}
+                compact={true}
+              />
+            </div>
           ))}
         </motion.div>
       </AnimatePresence>

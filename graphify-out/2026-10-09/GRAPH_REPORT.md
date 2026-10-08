@@ -1,7 +1,7 @@
 # Graph Report - nawavote  (2026-10-09)
 
 ## Corpus Check
-- 60 files · ~34,852 words
+- 60 files · ~34,553 words
 - Verdict: corpus is large enough that graph structure adds value.
 - Unclassified: 9 file(s) not represented in the graph (top: (none) 2, .woff 2, .template 1)
 
@@ -11,7 +11,7 @@
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `2db778d9`
+- Built from commit: `1571d60d`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 

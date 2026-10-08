@@ -77,7 +77,7 @@ export default function CandidateCard({
           onSelect?.(candidate);
         }
       }}
-      className={`group relative flex flex-col w-full rounded-2xl overflow-hidden cursor-pointer select-none transition-all duration-200 text-left bg-white dark:bg-slate-900 focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-brand-amber-400/40 ${
+      className={`group relative flex flex-col w-full min-w-0 rounded-2xl overflow-hidden cursor-pointer select-none transition-all duration-200 text-left bg-white dark:bg-slate-900 focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-brand-amber-400/40 ${
         isSelected
           ? 'border-2 border-brand-amber-500 shadow-xl shadow-brand-amber-500/15 ring-2 ring-brand-amber-400/30'
           : 'border border-brand-navy-100 dark:border-slate-800 shadow-sm hover:border-brand-navy-300 dark:hover:border-slate-700 hover:shadow-md hover:-translate-y-0.5'
@@ -122,7 +122,7 @@ export default function CandidateCard({
       </div>
 
       {/* Card Body & In-Card Visi Misi Accordion */}
-      <div className="flex flex-col p-5 gap-3 w-full">
+      <div className="flex flex-col p-5 gap-3 w-full min-w-0">
         {/* Toggle Button for Inline Visi & Misi */}
         {hasVisiMisi && (
           <button
@@ -150,7 +150,7 @@ export default function CandidateCard({
               animate={{ height: 'auto', opacity: 1 }}
               exit={{ height: 0, opacity: 0 }}
               transition={{ duration: 0.25, ease: 'easeInOut' }}
-              className="w-full overflow-hidden space-y-3 pt-1"
+              className="w-full min-w-0 overflow-hidden space-y-3 pt-1"
               onClick={(e) => e.stopPropagation()}
             >
               {/* Visi */}

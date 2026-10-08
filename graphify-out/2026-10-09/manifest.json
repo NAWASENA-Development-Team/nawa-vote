@@ -54,9 +54,9 @@
     "semantic_hash": "91602a575536d2b1584ac39c3f667d45"
   },
   "src/app/(voter)/vote/VoteWizard.tsx": {
-    "mtime": 1791486782.516744,
-    "seen": 1791486858.8694458,
-    "ast_hash": "ffe7c33e0459e932d8bdd5c030da6f9a",
+    "mtime": 1791487717.4492347,
+    "seen": 1791487756.136426,
+    "ast_hash": "15dfe8272a619d8b63c6253d73b600ec",
     "semantic_hash": ""
   },
   "src/app/(voter)/vote/page.tsx": {
@@ -150,9 +150,9 @@
     "semantic_hash": "1e211b4799407e1f42fc1d5db06bcf03"
   },
   "src/components/CandidateCard.tsx": {
-    "mtime": 1791487162.5017917,
-    "seen": 1791487234.3677053,
-    "ast_hash": "20c785fdd523bed20ecd6a28fab77ee1",
+    "mtime": 1791487703.7652965,
+    "seen": 1791487756.1400788,
+    "ast_hash": "13c9115d01f5ee174fa2ca1cd058e677",
     "semantic_hash": ""
   },
   "src/components/NawaLogo.tsx": {
