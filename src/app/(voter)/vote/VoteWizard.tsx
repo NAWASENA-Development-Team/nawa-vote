@@ -172,8 +172,8 @@ export default function VoteWizard({
   const offlineLocalId = useRef<string>('');
   const [copied, setCopied] = useState(false);
 
-  // Auto-reset countdown for Kiosk Mode (10 seconds)
-  const [resetCountdown, setResetCountdown] = useState(10);
+  // Auto-reset countdown for Kiosk Mode (3 seconds)
+  const [resetCountdown, setResetCountdown] = useState(3);
 
   // Sync state
   const [syncStatus, setSyncStatus] = useState<'idle' | 'syncing' | 'done' | 'error'>('idle');
@@ -222,7 +222,7 @@ export default function VoteWizard({
   // Kiosk Auto-Reset Countdown Timer
   useEffect(() => {
     if (!offlineSaved && !onlineSuccessToken) {
-      setResetCountdown(10);
+      setResetCountdown(3);
       return;
     }
 
@@ -255,6 +255,7 @@ export default function VoteWizard({
     setCopied(false);
     setVoterToken('');
     setVoterId('');
+    setResetCountdown(3);
 
     if (typeof window !== 'undefined') {
       document.cookie = 'nawa_voter_token=; path=/; max-age=0; SameSite=Lax';
