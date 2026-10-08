@@ -486,10 +486,10 @@ export default function VoteWizard({
               <NawaLogo />
             </motion.div>
             <h1 className="font-heading text-3xl font-black text-brand-navy-900 dark:text-white tracking-tight mb-2">
-              Bilik Suara Kiosk
+              NAWA-VOTE
             </h1>
             <p className="text-xs text-brand-navy-600 dark:text-slate-400 font-medium">
-              Sistem Pemungutan Suara Siap Menerima Pemilih
+              Sistem Pemungutan Suara Terpadu
             </p>
           </div>
 
