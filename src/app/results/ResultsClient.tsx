@@ -24,7 +24,7 @@ export default function ResultsClient({
   isAdmin = false,
 }: ResultsClientProps) {
   const config = useSystemConfig(initialRawConfig);
-  const { candidates, totalVotesCast, lastUpdatedId } = useLiveResults(
+  const { candidates, totalVotesCast, lastUpdatedId, latestVoteEvent } = useLiveResults(
     initialCandidates,
     initialTotalVotesCast,
     config.activeJabatan
@@ -205,6 +205,7 @@ export default function ResultsClient({
                 resultsMode={effectiveResultsMode}
                 revealIdentity={effectiveRevealIdentity}
                 lastUpdatedId={lastUpdatedId}
+                latestVoteEvent={latestVoteEvent}
               />
             </motion.div>
           ) : (

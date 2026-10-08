@@ -19,10 +19,32 @@ export interface LiveCandidate {
   ordinal_number: number;
 }
 
+export interface LiveVoteEvent {
+  id: string;
+  candidateId?: string;
+  tokenCode: string;
+  timestamp: number;
+}
+
 interface UseLiveResultsReturn {
   candidates: LiveCandidate[];
   totalVotesCast: number;
   lastUpdatedId: string | null;
+  latestVoteEvent: LiveVoteEvent | null;
+}
+
+// Generate an authentic NW-XXXXXX token string for the consumed realtime vote
+export function generateRealtimeToken(seedUuid?: string): string {
+  if (seedUuid) {
+    const clean = seedUuid.replace(/[^A-Za-z0-9]/g, '').slice(0, 6).toUpperCase();
+    if (clean.length === 6) return `NW-${clean}`;
+  }
+  const chars = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
+  let token = 'NW-';
+  for (let i = 0; i < 6; i++) {
+    token += chars.charAt(Math.floor(Math.random() * chars.length));
+  }
+  return token;
 }
 
 export function useLiveResults(
@@ -33,6 +55,7 @@ export function useLiveResults(
   const [candidates, setCandidates] = useState<LiveCandidate[]>(initialCandidates);
   const [totalVotesCast, setTotalVotesCast] = useState(initialTotalVotesCast);
   const [lastUpdatedId, setLastUpdatedId] = useState<string | null>(null);
+  const [latestVoteEvent, setLatestVoteEvent] = useState<LiveVoteEvent | null>(null);
   const tickCounter = useRef(0);
   const supabase = createClient();
 
@@ -70,7 +93,22 @@ export function useLiveResults(
       .on(
         'postgres_changes',
         { event: 'INSERT', schema: 'public', table: 'votes' },
-        () => {
+        (payload: any) => {
+          const row = payload?.new;
+          let candId: string | undefined;
+          if (activeJabatan === 'ketua') candId = row?.ketua_id;
+          else if (activeJabatan === 'wakil_1') candId = row?.wakil1_id;
+          else if (activeJabatan === 'wakil_2') candId = row?.wakil2_id;
+
+          const tokenCode = generateRealtimeToken(row?.vote_token);
+
+          setLatestVoteEvent({
+            id: `vote-${Date.now()}-${Math.random().toString(36).slice(2, 6)}`,
+            candidateId: candId,
+            tokenCode,
+            timestamp: Date.now(),
+          });
+
           setTotalVotesCast((prev) => {
             const next = prev + 1;
             tickCounter.current += 1;
@@ -115,5 +153,5 @@ export function useLiveResults(
   // Filter to active jabatan
   const filtered = candidates.filter((c) => c.category === activeJabatan);
 
-  return { candidates: filtered, totalVotesCast, lastUpdatedId };
+  return { candidates: filtered, totalVotesCast, lastUpdatedId, latestVoteEvent };
 }

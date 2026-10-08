@@ -9,7 +9,8 @@ import {
   type SlotColors,
 } from '../colorSlots';
 import { playBalloonRise, playBalloonPop, playReveal } from '../sounds';
-import type { LiveCandidate } from '../useLiveResults';
+import type { LiveCandidate, LiveVoteEvent } from '../useLiveResults';
+import { generateRealtimeToken } from '../useLiveResults';
 
 // ── Types ─────────────────────────────────────────────────────────────────────
 
@@ -19,6 +20,7 @@ interface BalloonInterfaceProps {
   resultsMode: 'session' | 'present';
   revealIdentity: boolean;
   lastUpdatedId: string | null;
+  latestVoteEvent?: LiveVoteEvent | null;
 }
 
 interface BalloonInstance {
@@ -48,11 +50,11 @@ interface RevealCandidate {
 let uidCounter = 0;
 function nextUid(): string { return `b-${++uidCounter}-${Date.now()}`; }
 function rnd(min: number, max: number): number { return min + Math.random() * (max - min); }
-function makeBalloon(candidateId: string): BalloonInstance {
+function makeBalloon(candidateId: string, customToken?: string): BalloonInstance {
   return {
     uid: nextUid(),
     candidateId,
-    tokenLabel: '✓ TOKEN',
+    tokenLabel: customToken || generateRealtimeToken(),
     x: rnd(5, 85),
     duration: rnd(8, 13),
     swayAmount: rnd(12, 28),
@@ -402,7 +404,12 @@ function PoppedBalloon({
 // ── Main Component ────────────────────────────────────────────────────────────
 
 export default function BalloonInterface({
-  candidates, candidateColors, resultsMode, revealIdentity,
+  candidates,
+  candidateColors,
+  resultsMode,
+  revealIdentity,
+  lastUpdatedId,
+  latestVoteEvent,
 }: BalloonInterfaceProps) {
   const [balloons, setBalloons] = useState<BalloonInstance[]>([]);
   const [confettiActive, setConfettiActive] = useState(false);
@@ -416,6 +423,7 @@ export default function BalloonInterface({
   const prevRevealRef = useRef(false);
   const prevVoteCountsRef = useRef<Record<string, number>>({});
   const initializedRef = useRef(false);
+  const lastProcessedEventIdRef = useRef<string | null>(null);
 
   const isRevealed = resultsMode === 'present' || revealIdentity;
   const inRevealSequence = revealStep >= 0 && !revealDone;
@@ -435,8 +443,8 @@ export default function BalloonInterface({
     });
   }, [candidates, candidateColors]);
 
-  const spawnBalloon = useCallback((candidateId: string) => {
-    setBalloons(prev => [...prev, makeBalloon(candidateId)]);
+  const spawnBalloon = useCallback((candidateId: string, customToken?: string) => {
+    setBalloons(prev => [...prev, makeBalloon(candidateId, customToken)]);
     playBalloonRise(0);
   }, []);
 
@@ -463,7 +471,19 @@ export default function BalloonInterface({
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  // Vote delta spawner (session mode only)
+  // Realtime vote event listener (from Supabase votes INSERT)
+  useEffect(() => {
+    if (!latestVoteEvent || inRevealSequence) return;
+    if (lastProcessedEventIdRef.current === latestVoteEvent.id) return;
+    lastProcessedEventIdRef.current = latestVoteEvent.id;
+
+    const targetCandId = latestVoteEvent.candidateId || lastUpdatedId;
+    if (targetCandId) {
+      spawnBalloon(targetCandId, latestVoteEvent.tokenCode);
+    }
+  }, [latestVoteEvent, inRevealSequence, lastUpdatedId, spawnBalloon]);
+
+  // Vote delta spawner (session mode only — triggers when candidate vote_count increments in realtime)
   useEffect(() => {
     if (!initializedRef.current || inRevealSequence) return;
     candidates.forEach(cand => {

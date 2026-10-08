@@ -121,6 +121,19 @@
       "source_location": "L22"
     },
     {
+      "id": "src_lib_actions_auth_authresponse",
+      "label": "AuthResponse",
+      "_callable": true,
+      "_callable_class": true,
+      "_origin": "ast",
+      "community": 0,
+      "community_name": "createClient",
+      "file_type": "code",
+      "norm_label": "authresponse",
+      "source_file": "src/lib/actions/auth.ts",
+      "source_location": "L7"
+    },
+    {
       "id": "src_lib_actions_vote_verificationresponse",
       "label": "VerificationResponse",
       "_callable": true,
@@ -217,8 +230,8 @@
       "_callable": true,
       "_callable_class": true,
       "_origin": "ast",
-      "community": 11,
-      "community_name": "analytics/page.tsx",
+      "community": 2,
+      "community_name": "package.json",
       "file_type": "code",
       "norm_label": "analyticsdashboardprops",
       "source_file": "src/app/admin/analytics/AnalyticsDashboard.tsx",
@@ -230,8 +243,8 @@
       "_callable": true,
       "_callable_class": true,
       "_origin": "ast",
-      "community": 11,
-      "community_name": "analytics/page.tsx",
+      "community": 2,
+      "community_name": "package.json",
       "file_type": "code",
       "norm_label": "dashboardcandidate",
       "source_file": "src/app/admin/analytics/AnalyticsDashboard.tsx",
@@ -264,26 +277,13 @@
       "source_location": "L3"
     },
     {
-      "id": "src_lib_actions_auth_authresponse",
-      "label": "AuthResponse",
-      "_callable": true,
-      "_callable_class": true,
-      "_origin": "ast",
-      "community": 3,
-      "community_name": "react",
-      "file_type": "code",
-      "norm_label": "authresponse",
-      "source_file": "src/lib/actions/auth.ts",
-      "source_location": "L7"
-    },
-    {
       "id": "src_components_themeprovider_theme",
       "label": "Theme",
       "_callable": true,
       "_callable_class": true,
       "_origin": "ast",
-      "community": 6,
-      "community_name": "app/layout.tsx",
+      "community": 3,
+      "community_name": "react",
       "file_type": "code",
       "norm_label": "theme",
       "source_file": "src/components/ThemeProvider.tsx",
@@ -295,8 +295,8 @@
       "_callable": true,
       "_callable_class": true,
       "_origin": "ast",
-      "community": 6,
-      "community_name": "app/layout.tsx",
+      "community": 3,
+      "community_name": "react",
       "file_type": "code",
       "norm_label": "themecontexttype",
       "source_file": "src/components/ThemeProvider.tsx",
@@ -339,7 +339,7 @@
       "file_type": "code",
       "norm_label": "ballooninterfaceprops",
       "source_file": "src/app/results/interfaces/BalloonInterface.tsx",
-      "source_location": "L9"
+      "source_location": "L14"
     },
     {
       "id": "src_app_results_interfaces_ballooninterface_poppedstate",
@@ -352,7 +352,7 @@
       "file_type": "code",
       "norm_label": "poppedstate",
       "source_file": "src/app/results/interfaces/BalloonInterface.tsx",
-      "source_location": "L17"
+      "source_location": "L22"
     },
     {
       "id": "src_app_results_interfaces_barchartinterface_barchartinterfaceprops",
@@ -365,7 +365,7 @@
       "file_type": "code",
       "norm_label": "barchartinterfaceprops",
       "source_file": "src/app/results/interfaces/BarChartInterface.tsx",
-      "source_location": "L17"
+      "source_location": "L23"
     },
     {
       "id": "src_app_results_interfaces_interfaceshell_interfaceshellprops",
@@ -446,6 +446,30 @@
       "source_location": "L14"
     },
     {
+      "id": "src_app_admin_analytics_analyticsdashboard_analyticsdashboard",
+      "label": "AnalyticsDashboard()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 0,
+      "community_name": "createClient",
+      "file_type": "code",
+      "norm_label": "analyticsdashboard()",
+      "source_file": "src/app/admin/analytics/AnalyticsDashboard.tsx",
+      "source_location": "L23"
+    },
+    {
+      "id": "src_app_admin_analytics_page_adminanalyticspage",
+      "label": "AdminAnalyticsPage()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 0,
+      "community_name": "createClient",
+      "file_type": "code",
+      "norm_label": "adminanalyticspage()",
+      "source_file": "src/app/admin/analytics/page.tsx",
+      "source_location": "L10"
+    },
+    {
       "id": "src_app_admin_candidates_candidateeditor_candidateeditor",
       "label": "CandidateEditor()",
       "_callable": true,
@@ -515,7 +539,7 @@
       "file_type": "code",
       "norm_label": "resultscontrols()",
       "source_file": "src/app/admin/dashboard/ResultsControls.tsx",
-      "source_location": "L39"
+      "source_location": "L40"
     },
     {
       "id": "src_app_admin_voters_page_adminvoterspage",
@@ -551,7 +575,7 @@
       "file_type": "code",
       "norm_label": "publicresultspage()",
       "source_file": "src/app/results/page.tsx",
-      "source_location": "L7"
+      "source_location": "L8"
     },
     {
       "id": "src_app_verify_page_publicverifypage",
@@ -575,7 +599,7 @@
       "file_type": "code",
       "norm_label": "deletecandidate()",
       "source_file": "src/lib/actions/admin.ts",
-      "source_location": "L195"
+      "source_location": "L196"
     },
     {
       "id": "src_lib_actions_admin_generatesecuretoken",
@@ -611,7 +635,7 @@
       "file_type": "code",
       "norm_label": "resetvotingdata()",
       "source_file": "src/lib/actions/admin.ts",
-      "source_location": "L224"
+      "source_location": "L225"
     },
     {
       "id": "src_lib_actions_admin_updatesystemconfig",
@@ -635,7 +659,7 @@
       "file_type": "code",
       "norm_label": "upsertcandidate()",
       "source_file": "src/lib/actions/admin.ts",
-      "source_location": "L138"
+      "source_location": "L139"
     },
     {
       "id": "src_lib_actions_vote_verifyvotetoken",
@@ -888,30 +912,6 @@
       "norm_label": "syncofflinevotes()",
       "source_file": "src/lib/offline/syncVotes.ts",
       "source_location": "L66"
-    },
-    {
-      "id": "src_app_admin_analytics_analyticsdashboard_analyticsdashboard",
-      "label": "AnalyticsDashboard()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 11,
-      "community_name": "analytics/page.tsx",
-      "file_type": "code",
-      "norm_label": "analyticsdashboard()",
-      "source_file": "src/app/admin/analytics/AnalyticsDashboard.tsx",
-      "source_location": "L23"
-    },
-    {
-      "id": "src_app_admin_analytics_page_adminanalyticspage",
-      "label": "AdminAnalyticsPage()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 11,
-      "community_name": "analytics/page.tsx",
-      "file_type": "code",
-      "norm_label": "adminanalyticspage()",
-      "source_file": "src/app/admin/analytics/page.tsx",
-      "source_location": "L10"
     },
     {
       "id": "public_sw_cachefirstsafe",
@@ -1214,6 +1214,18 @@
       "source_location": "L14"
     },
     {
+      "id": "src_app_results_colorslots_getshuffledcandidates",
+      "label": "getShuffledCandidates()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 8,
+      "community_name": "ResultsClient.tsx",
+      "file_type": "code",
+      "norm_label": "getshuffledcandidates()",
+      "source_file": "src/app/results/colorSlots.ts",
+      "source_location": "L88"
+    },
+    {
       "id": "src_app_results_colorslots_parsecandidatecolors",
       "label": "parseCandidateColors()",
       "_callable": true,
@@ -1247,7 +1259,7 @@
       "file_type": "code",
       "norm_label": "ballooninterface()",
       "source_file": "src/app/results/interfaces/BalloonInterface.tsx",
-      "source_location": "L21"
+      "source_location": "L26"
     },
     {
       "id": "src_app_results_interfaces_barchartinterface_barchartinterface",
@@ -1259,7 +1271,7 @@
       "file_type": "code",
       "norm_label": "barchartinterface()",
       "source_file": "src/app/results/interfaces/BarChartInterface.tsx",
-      "source_location": "L24"
+      "source_location": "L30"
     },
     {
       "id": "src_app_results_interfaces_interfaceshell_interfaceshell",
@@ -1490,6 +1502,39 @@
       "source_location": "L43"
     },
     {
+      "id": "src_app_admin_analytics_page",
+      "label": "analytics/page.tsx",
+      "_origin": "ast",
+      "community": 0,
+      "community_name": "createClient",
+      "file_type": "code",
+      "norm_label": "analytics/page.tsx",
+      "source_file": "src/app/admin/analytics/page.tsx",
+      "source_location": "L1"
+    },
+    {
+      "id": "src_app_admin_analytics_page_dynamic",
+      "label": "dynamic",
+      "_origin": "ast",
+      "community": 0,
+      "community_name": "createClient",
+      "file_type": "code",
+      "norm_label": "dynamic",
+      "source_file": "src/app/admin/analytics/page.tsx",
+      "source_location": "L8"
+    },
+    {
+      "id": "src_app_admin_analytics_page_revalidate",
+      "label": "revalidate",
+      "_origin": "ast",
+      "community": 0,
+      "community_name": "createClient",
+      "file_type": "code",
+      "norm_label": "revalidate",
+      "source_file": "src/app/admin/analytics/page.tsx",
+      "source_location": "L7"
+    },
+    {
       "id": "src_app_admin_candidates_candidateeditor",
       "label": "CandidateEditor.tsx",
       "_origin": "ast",
@@ -1655,6 +1700,17 @@
       "source_location": "L1"
     },
     {
+      "id": "src_app_results_page_dynamic",
+      "label": "dynamic",
+      "_origin": "ast",
+      "community": 0,
+      "community_name": "createClient",
+      "file_type": "code",
+      "norm_label": "dynamic",
+      "source_file": "src/app/results/page.tsx",
+      "source_location": "L5"
+    },
+    {
       "id": "src_app_results_page_revalidate",
       "label": "revalidate",
       "_origin": "ast",
@@ -1663,7 +1719,7 @@
       "file_type": "code",
       "norm_label": "revalidate",
       "source_file": "src/app/results/page.tsx",
-      "source_location": "L5"
+      "source_location": "L6"
     },
     {
       "id": "src_app_verify_page",
@@ -1688,6 +1744,17 @@
       "source_location": "L1"
     },
     {
+      "id": "src_lib_actions_auth",
+      "label": "auth.ts",
+      "_origin": "ast",
+      "community": 0,
+      "community_name": "createClient",
+      "file_type": "code",
+      "norm_label": "auth.ts",
+      "source_file": "src/lib/actions/auth.ts",
+      "source_location": "L1"
+    },
+    {
       "id": "src_lib_actions_vote",
       "label": "vote.ts",
       "_origin": "ast",
@@ -1708,6 +1775,17 @@
       "norm_label": "server.ts",
       "source_file": "src/lib/supabase/server.ts",
       "source_location": "L1"
+    },
+    {
+      "id": "ref_lucide_react",
+      "label": "lucide-react",
+      "_origin": "ast",
+      "community": 0,
+      "community_name": "createClient",
+      "file_type": "concept",
+      "norm_label": "lucide-react",
+      "source_file": "package.json",
+      "source_location": "L16"
     },
     {
       "id": "ref_next",
@@ -1884,61 +1962,6 @@
       "norm_label": "theme_color",
       "source_file": "public/manifest.json",
       "source_location": "L8"
-    },
-    {
-      "id": "src_app_admin_analytics_analyticsdashboard",
-      "label": "AnalyticsDashboard.tsx",
-      "_origin": "ast",
-      "community": 11,
-      "community_name": "analytics/page.tsx",
-      "file_type": "code",
-      "norm_label": "analyticsdashboard.tsx",
-      "source_file": "src/app/admin/analytics/AnalyticsDashboard.tsx",
-      "source_location": "L1"
-    },
-    {
-      "id": "src_app_admin_analytics_page",
-      "label": "analytics/page.tsx",
-      "_origin": "ast",
-      "community": 11,
-      "community_name": "analytics/page.tsx",
-      "file_type": "code",
-      "norm_label": "analytics/page.tsx",
-      "source_file": "src/app/admin/analytics/page.tsx",
-      "source_location": "L1"
-    },
-    {
-      "id": "src_app_admin_analytics_page_dynamic",
-      "label": "dynamic",
-      "_origin": "ast",
-      "community": 11,
-      "community_name": "analytics/page.tsx",
-      "file_type": "code",
-      "norm_label": "dynamic",
-      "source_file": "src/app/admin/analytics/page.tsx",
-      "source_location": "L8"
-    },
-    {
-      "id": "src_app_admin_analytics_page_revalidate",
-      "label": "revalidate",
-      "_origin": "ast",
-      "community": 11,
-      "community_name": "analytics/page.tsx",
-      "file_type": "code",
-      "norm_label": "revalidate",
-      "source_file": "src/app/admin/analytics/page.tsx",
-      "source_location": "L7"
-    },
-    {
-      "id": "ref_recharts",
-      "label": "recharts",
-      "_origin": "ast",
-      "community": 11,
-      "community_name": "analytics/page.tsx",
-      "file_type": "concept",
-      "norm_label": "recharts",
-      "source_file": "package.json",
-      "source_location": "L22"
     },
     {
       "id": "public_sw",
@@ -2337,6 +2360,17 @@
       "source_location": "L3"
     },
     {
+      "id": "src_app_admin_analytics_analyticsdashboard",
+      "label": "AnalyticsDashboard.tsx",
+      "_origin": "ast",
+      "community": 2,
+      "community_name": "package.json",
+      "file_type": "code",
+      "norm_label": "analyticsdashboard.tsx",
+      "source_file": "src/app/admin/analytics/AnalyticsDashboard.tsx",
+      "source_location": "L1"
+    },
+    {
       "id": "src_middleware",
       "label": "middleware.ts",
       "_origin": "ast",
@@ -2423,6 +2457,17 @@
       "norm_label": "react-is",
       "source_file": "package.json",
       "source_location": "L21"
+    },
+    {
+      "id": "ref_recharts",
+      "label": "recharts",
+      "_origin": "ast",
+      "community": 2,
+      "community_name": "package.json",
+      "file_type": "concept",
+      "norm_label": "recharts",
+      "source_file": "package.json",
+      "source_location": "L22"
     },
     {
       "id": "ref_supabase_ssr",
@@ -2579,6 +2624,28 @@
       "source_location": "L1"
     },
     {
+      "id": "src_components_themeprovider",
+      "label": "ThemeProvider.tsx",
+      "_origin": "ast",
+      "community": 3,
+      "community_name": "react",
+      "file_type": "code",
+      "norm_label": "themeprovider.tsx",
+      "source_file": "src/components/ThemeProvider.tsx",
+      "source_location": "L1"
+    },
+    {
+      "id": "src_components_themeprovider_themecontext",
+      "label": "ThemeContext",
+      "_origin": "ast",
+      "community": 3,
+      "community_name": "react",
+      "file_type": "code",
+      "norm_label": "themecontext",
+      "source_file": "src/components/ThemeProvider.tsx",
+      "source_location": "L13"
+    },
+    {
       "id": "src_components_themetoggle",
       "label": "ThemeToggle.tsx",
       "_origin": "ast",
@@ -2587,17 +2654,6 @@
       "file_type": "code",
       "norm_label": "themetoggle.tsx",
       "source_file": "src/components/ThemeToggle.tsx",
-      "source_location": "L1"
-    },
-    {
-      "id": "src_lib_actions_auth",
-      "label": "auth.ts",
-      "_origin": "ast",
-      "community": 3,
-      "community_name": "react",
-      "file_type": "code",
-      "norm_label": "auth.ts",
-      "source_file": "src/lib/actions/auth.ts",
       "source_location": "L1"
     },
     {
@@ -2610,17 +2666,6 @@
       "norm_label": "framer-motion",
       "source_file": "package.json",
       "source_location": "L15"
-    },
-    {
-      "id": "ref_lucide_react",
-      "label": "lucide-react",
-      "_origin": "ast",
-      "community": 3,
-      "community_name": "react",
-      "file_type": "concept",
-      "norm_label": "lucide-react",
-      "source_file": "package.json",
-      "source_location": "L16"
     },
     {
       "id": "ref_react",
@@ -2896,28 +2941,6 @@
       "norm_label": "serviceworkerregistration.tsx",
       "source_file": "src/components/ServiceWorkerRegistration.tsx",
       "source_location": "L1"
-    },
-    {
-      "id": "src_components_themeprovider",
-      "label": "ThemeProvider.tsx",
-      "_origin": "ast",
-      "community": 6,
-      "community_name": "app/layout.tsx",
-      "file_type": "code",
-      "norm_label": "themeprovider.tsx",
-      "source_file": "src/components/ThemeProvider.tsx",
-      "source_location": "L1"
-    },
-    {
-      "id": "src_components_themeprovider_themecontext",
-      "label": "ThemeContext",
-      "_origin": "ast",
-      "community": 6,
-      "community_name": "app/layout.tsx",
-      "file_type": "code",
-      "norm_label": "themecontext",
-      "source_file": "src/components/ThemeProvider.tsx",
-      "source_location": "L13"
     },
     {
       "id": "src_hooks_useserviceworker",
@@ -3899,7 +3922,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "src/app/admin/dashboard/DashboardConsole.tsx",
-      "source_location": "L178",
+      "source_location": "L185",
       "weight": 1.0
     },
     {
@@ -3911,7 +3934,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "src/app/admin/dashboard/DashboardConsole.tsx",
-      "source_location": "L211",
+      "source_location": "L218",
       "weight": 1.0
     },
     {
@@ -3923,7 +3946,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "src/app/admin/dashboard/DashboardConsole.tsx",
-      "source_location": "L233",
+      "source_location": "L240",
       "weight": 1.0
     },
     {
@@ -3935,7 +3958,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "src/app/admin/dashboard/DashboardConsole.tsx",
-      "source_location": "L583",
+      "source_location": "L590",
       "weight": 1.0
     },
     {
@@ -4007,7 +4030,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "src/app/admin/dashboard/ResultsControls.tsx",
-      "source_location": "L58",
+      "source_location": "L60",
       "weight": 1.0
     },
     {
@@ -4175,7 +4198,19 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "src/app/results/interfaces/BalloonInterface.tsx",
-      "source_location": "L118",
+      "source_location": "L132",
+      "weight": 1.0
+    },
+    {
+      "source": "src_app_results_interfaces_ballooninterface_ballooninterface",
+      "target": "src_app_results_colorslots_getshuffledcandidates",
+      "relation": "calls",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": "src/app/results/interfaces/BalloonInterface.tsx",
+      "source_location": "L45",
       "weight": 1.0
     },
     {
@@ -4187,7 +4222,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "src/app/results/interfaces/BalloonInterface.tsx",
-      "source_location": "L35",
+      "source_location": "L51",
       "weight": 1.0
     },
     {
@@ -4199,7 +4234,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "src/app/results/interfaces/BalloonInterface.tsx",
-      "source_location": "L43",
+      "source_location": "L59",
       "weight": 1.0
     },
     {
@@ -4211,7 +4246,19 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "src/app/results/interfaces/BalloonInterface.tsx",
-      "source_location": "L61",
+      "source_location": "L77",
+      "weight": 1.0
+    },
+    {
+      "source": "src_app_results_interfaces_barchartinterface_barchartinterface",
+      "target": "src_app_results_colorslots_getshuffledcandidates",
+      "relation": "calls",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": "src/app/results/interfaces/BarChartInterface.tsx",
+      "source_location": "L44",
       "weight": 1.0
     },
     {
@@ -4223,7 +4270,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "src/app/results/interfaces/BarChartInterface.tsx",
-      "source_location": "L37",
+      "source_location": "L52",
       "weight": 1.0
     },
     {
@@ -4283,7 +4330,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "src/app/results/page.tsx",
-      "source_location": "L64",
+      "source_location": "L39",
       "weight": 1.0
     },
     {
@@ -4295,7 +4342,19 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "src/app/results/page.tsx",
-      "source_location": "L8",
+      "source_location": "L9",
+      "weight": 1.0
+    },
+    {
+      "source": "src_app_results_resultsclient_resultsclient",
+      "target": "src_app_results_interfaces_interfaceshell_interfaceshell",
+      "relation": "calls",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": "src/app/results/ResultsClient.tsx",
+      "source_location": "L125",
       "weight": 1.0
     },
     {
@@ -4307,7 +4366,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "src/app/results/ResultsClient.tsx",
-      "source_location": "L126",
+      "source_location": "L155",
       "weight": 1.0
     },
     {
@@ -4319,7 +4378,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "src/app/results/ResultsClient.tsx",
-      "source_location": "L143",
+      "source_location": "L172",
       "weight": 1.0
     },
     {
@@ -4356,18 +4415,6 @@
       "context": "call",
       "source_file": "src/app/results/ResultsClient.tsx",
       "source_location": "L73",
-      "weight": 1.0
-    },
-    {
-      "source": "src_app_results_resultsclient_resultsclient",
-      "target": "src_app_results_interfaces_interfaceshell_interfaceshell",
-      "relation": "calls",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "context": "call",
-      "source_file": "src/app/results/ResultsClient.tsx",
-      "source_location": "L96",
       "weight": 1.0
     },
     {
@@ -4499,7 +4546,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "src/app/results/useLiveResults.ts",
-      "source_location": "L76",
+      "source_location": "L77",
       "weight": 1.0
     },
     {
@@ -4751,7 +4798,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "src/lib/actions/admin.ts",
-      "source_location": "L197",
+      "source_location": "L198",
       "weight": 1.0
     },
     {
@@ -4799,7 +4846,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "src/lib/actions/admin.ts",
-      "source_location": "L226",
+      "source_location": "L227",
       "weight": 1.0
     },
     {
@@ -4811,7 +4858,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "src/lib/actions/admin.ts",
-      "source_location": "L234",
+      "source_location": "L235",
       "weight": 1.0
     },
     {
@@ -4835,7 +4882,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "src/lib/actions/admin.ts",
-      "source_location": "L148",
+      "source_location": "L149",
       "weight": 1.0
     },
     {
@@ -5183,7 +5230,7 @@
       "confidence_score": 1.0,
       "context": "field",
       "source_file": "src/app/results/interfaces/BalloonInterface.tsx",
-      "source_location": "L10",
+      "source_location": "L15",
       "weight": 1.0
     },
     {
@@ -5195,7 +5242,7 @@
       "confidence_score": 1.0,
       "context": "field",
       "source_file": "src/app/results/interfaces/BarChartInterface.tsx",
-      "source_location": "L18",
+      "source_location": "L24",
       "weight": 1.0
     },
     {
@@ -5219,7 +5266,7 @@
       "confidence_score": 1.0,
       "context": "generic_arg",
       "source_file": "src/app/results/interfaces/BalloonInterface.tsx",
-      "source_location": "L11",
+      "source_location": "L16",
       "weight": 1.0
     },
     {
@@ -5231,7 +5278,7 @@
       "confidence_score": 1.0,
       "context": "generic_arg",
       "source_file": "src/app/results/interfaces/BarChartInterface.tsx",
-      "source_location": "L19",
+      "source_location": "L25",
       "weight": 1.0
     },
     {
@@ -5848,6 +5895,54 @@
     },
     {
       "source": "src_app_results_interfaces_ballooninterface",
+      "target": "src_app_results_sounds_playballoonpop",
+      "relation": "imports",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "import",
+      "source_file": "src/app/results/interfaces/BalloonInterface.tsx",
+      "source_location": "L11",
+      "weight": 1.0
+    },
+    {
+      "source": "src_app_results_interfaces_ballooninterface",
+      "target": "src_app_results_sounds_playballoonrise",
+      "relation": "imports",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "import",
+      "source_file": "src/app/results/interfaces/BalloonInterface.tsx",
+      "source_location": "L11",
+      "weight": 1.0
+    },
+    {
+      "source": "src_app_results_interfaces_ballooninterface",
+      "target": "src_app_results_sounds_playreveal",
+      "relation": "imports",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "import",
+      "source_file": "src/app/results/interfaces/BalloonInterface.tsx",
+      "source_location": "L11",
+      "weight": 1.0
+    },
+    {
+      "source": "src_app_results_interfaces_ballooninterface",
+      "target": "src_app_results_useliveresults_livecandidate",
+      "relation": "imports",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "import",
+      "source_file": "src/app/results/interfaces/BalloonInterface.tsx",
+      "source_location": "L12",
+      "weight": 1.0
+    },
+    {
+      "source": "src_app_results_interfaces_ballooninterface",
       "target": "src_app_results_colorslots_color_slots",
       "relation": "imports",
       "_origin": "ast",
@@ -5861,6 +5956,18 @@
     {
       "source": "src_app_results_interfaces_ballooninterface",
       "target": "src_app_results_colorslots_colorslot",
+      "relation": "imports",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "import",
+      "source_file": "src/app/results/interfaces/BalloonInterface.tsx",
+      "source_location": "L5",
+      "weight": 1.0
+    },
+    {
+      "source": "src_app_results_interfaces_ballooninterface",
+      "target": "src_app_results_colorslots_getshuffledcandidates",
       "relation": "imports",
       "_origin": "ast",
       "confidence": "EXTRACTED",
@@ -5883,54 +5990,6 @@
       "weight": 1.0
     },
     {
-      "source": "src_app_results_interfaces_ballooninterface",
-      "target": "src_app_results_sounds_playballoonpop",
-      "relation": "imports",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "context": "import",
-      "source_file": "src/app/results/interfaces/BalloonInterface.tsx",
-      "source_location": "L6",
-      "weight": 1.0
-    },
-    {
-      "source": "src_app_results_interfaces_ballooninterface",
-      "target": "src_app_results_sounds_playballoonrise",
-      "relation": "imports",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "context": "import",
-      "source_file": "src/app/results/interfaces/BalloonInterface.tsx",
-      "source_location": "L6",
-      "weight": 1.0
-    },
-    {
-      "source": "src_app_results_interfaces_ballooninterface",
-      "target": "src_app_results_sounds_playreveal",
-      "relation": "imports",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "context": "import",
-      "source_file": "src/app/results/interfaces/BalloonInterface.tsx",
-      "source_location": "L6",
-      "weight": 1.0
-    },
-    {
-      "source": "src_app_results_interfaces_ballooninterface",
-      "target": "src_app_results_useliveresults_livecandidate",
-      "relation": "imports",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "context": "import",
-      "source_file": "src/app/results/interfaces/BalloonInterface.tsx",
-      "source_location": "L7",
-      "weight": 1.0
-    },
-    {
       "source": "src_app_results_interfaces_barchartinterface",
       "target": "src_app_results_colorslots_color_slots",
       "relation": "imports",
@@ -5945,6 +6004,18 @@
     {
       "source": "src_app_results_interfaces_barchartinterface",
       "target": "src_app_results_colorslots_colorslot",
+      "relation": "imports",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "import",
+      "source_file": "src/app/results/interfaces/BarChartInterface.tsx",
+      "source_location": "L14",
+      "weight": 1.0
+    },
+    {
+      "source": "src_app_results_interfaces_barchartinterface",
+      "target": "src_app_results_colorslots_getshuffledcandidates",
       "relation": "imports",
       "_origin": "ast",
       "confidence": "EXTRACTED",
@@ -5987,7 +6058,7 @@
       "confidence_score": 1.0,
       "context": "import",
       "source_file": "src/app/results/interfaces/BarChartInterface.tsx",
-      "source_location": "L15",
+      "source_location": "L21",
       "weight": 1.0
     },
     {
@@ -7421,6 +7492,31 @@
     },
     {
       "source": "src_app_results_interfaces_ballooninterface",
+      "target": "src_app_results_sounds",
+      "relation": "imports_from",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "import",
+      "source_file": "src/app/results/interfaces/BalloonInterface.tsx",
+      "source_location": "L11",
+      "weight": 1.0
+    },
+    {
+      "source": "src_app_results_interfaces_ballooninterface",
+      "target": "src_app_results_useliveresults",
+      "relation": "imports_from",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "import",
+      "source_file": "src/app/results/interfaces/BalloonInterface.tsx",
+      "source_location": "L12",
+      "type_only": true,
+      "weight": 1.0
+    },
+    {
+      "source": "src_app_results_interfaces_ballooninterface",
       "target": "ref_react",
       "relation": "imports_from",
       "_origin": "ast",
@@ -7456,31 +7552,6 @@
       "weight": 1.0
     },
     {
-      "source": "src_app_results_interfaces_ballooninterface",
-      "target": "src_app_results_sounds",
-      "relation": "imports_from",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "context": "import",
-      "source_file": "src/app/results/interfaces/BalloonInterface.tsx",
-      "source_location": "L6",
-      "weight": 1.0
-    },
-    {
-      "source": "src_app_results_interfaces_ballooninterface",
-      "target": "src_app_results_useliveresults",
-      "relation": "imports_from",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "context": "import",
-      "source_file": "src/app/results/interfaces/BalloonInterface.tsx",
-      "source_location": "L7",
-      "type_only": true,
-      "weight": 1.0
-    },
-    {
       "source": "src_app_results_interfaces_barchartinterface",
       "target": "ref_framer_motion",
       "relation": "imports_from",
@@ -7513,7 +7584,7 @@
       "confidence_score": 1.0,
       "context": "import",
       "source_file": "src/app/results/interfaces/BarChartInterface.tsx",
-      "source_location": "L15",
+      "source_location": "L21",
       "type_only": true,
       "weight": 1.0
     },
@@ -9182,7 +9253,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "src/app/admin/dashboard/ResultsControls.tsx",
-      "source_location": "L39",
+      "source_location": "L40",
       "weight": 1.0
     },
     {
@@ -9439,25 +9510,14 @@
       "weight": 1.0
     },
     {
-      "source": "src_app_results_interfaces_ballooninterface",
-      "target": "src_app_results_interfaces_ballooninterface_poppedstate",
+      "source": "src_app_results_colorslots",
+      "target": "src_app_results_colorslots_getshuffledcandidates",
       "relation": "contains",
       "_origin": "ast",
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
-      "source_file": "src/app/results/interfaces/BalloonInterface.tsx",
-      "source_location": "L17",
-      "weight": 1.0
-    },
-    {
-      "source": "src_app_results_interfaces_ballooninterface",
-      "target": "src_app_results_interfaces_ballooninterface_ballooninterface",
-      "relation": "contains",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "source_file": "src/app/results/interfaces/BalloonInterface.tsx",
-      "source_location": "L21",
+      "source_file": "src/app/results/colorSlots.ts",
+      "source_location": "L88",
       "weight": 1.0
     },
     {
@@ -9468,7 +9528,29 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "src/app/results/interfaces/BalloonInterface.tsx",
-      "source_location": "L9",
+      "source_location": "L14",
+      "weight": 1.0
+    },
+    {
+      "source": "src_app_results_interfaces_ballooninterface",
+      "target": "src_app_results_interfaces_ballooninterface_poppedstate",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/app/results/interfaces/BalloonInterface.tsx",
+      "source_location": "L22",
+      "weight": 1.0
+    },
+    {
+      "source": "src_app_results_interfaces_ballooninterface",
+      "target": "src_app_results_interfaces_ballooninterface_ballooninterface",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/app/results/interfaces/BalloonInterface.tsx",
+      "source_location": "L26",
       "weight": 1.0
     },
     {
@@ -9479,7 +9561,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "src/app/results/interfaces/BarChartInterface.tsx",
-      "source_location": "L17",
+      "source_location": "L23",
       "weight": 1.0
     },
     {
@@ -9490,7 +9572,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "src/app/results/interfaces/BarChartInterface.tsx",
-      "source_location": "L24",
+      "source_location": "L30",
       "weight": 1.0
     },
     {
@@ -9517,7 +9599,7 @@
     },
     {
       "source": "src_app_results_page",
-      "target": "src_app_results_page_revalidate",
+      "target": "src_app_results_page_dynamic",
       "relation": "contains",
       "_origin": "ast",
       "confidence": "EXTRACTED",
@@ -9528,13 +9610,24 @@
     },
     {
       "source": "src_app_results_page",
+      "target": "src_app_results_page_revalidate",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/app/results/page.tsx",
+      "source_location": "L6",
+      "weight": 1.0
+    },
+    {
+      "source": "src_app_results_page",
       "target": "src_app_results_page_publicresultspage",
       "relation": "contains",
       "_origin": "ast",
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "src/app/results/page.tsx",
-      "source_location": "L7",
+      "source_location": "L8",
       "weight": 1.0
     },
     {
@@ -10029,7 +10122,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "src/lib/actions/admin.ts",
-      "source_location": "L138",
+      "source_location": "L139",
       "weight": 1.0
     },
     {
@@ -10040,7 +10133,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "src/lib/actions/admin.ts",
-      "source_location": "L195",
+      "source_location": "L196",
       "weight": 1.0
     },
     {
@@ -10062,7 +10155,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "src/lib/actions/admin.ts",
-      "source_location": "L224",
+      "source_location": "L225",
       "weight": 1.0
     },
     {
@@ -10919,5 +11012,5 @@
     }
   ],
   "hyperedges": [],
-  "built_at_commit": "222d96a52d3f0e8c326e2fce7d1b28d299c7df35"
+  "built_at_commit": "2b9c14dc13d7ef07d8c7728aefdddb74a070b60f"
 }
