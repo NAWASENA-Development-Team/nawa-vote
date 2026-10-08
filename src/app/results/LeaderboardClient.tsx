@@ -34,13 +34,12 @@ export default function LeaderboardClient({ candidates }: { candidates: Candidat
             <motion.div 
               initial={{ opacity: 0, y: -10 }}
               animate={{ opacity: 1, y: 0 }}
-              className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white shadow-glass-sm border border-brand-navy-100 text-brand-navy-700 text-xs font-bold mb-2 tracking-wide"
+              className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white border border-brand-navy-200 text-brand-navy-700 text-xs font-semibold mb-2 tracking-wide shadow-sm"
             >
               <span className="relative flex h-2 w-2">
-                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-brand-amber-400 opacity-75"></span>
                 <span className="relative inline-flex rounded-full h-2 w-2 bg-brand-amber-500"></span>
               </span>
-              LIVE RESULTS
+              HASIL REAL-TIME
             </motion.div>
             <motion.h1 
               initial={{ opacity: 0, y: -10 }}
@@ -48,7 +47,7 @@ export default function LeaderboardClient({ candidates }: { candidates: Candidat
               transition={{ delay: 0.1 }}
               className="text-3xl md:text-4xl font-black tracking-tight text-brand-navy-900 font-heading"
             >
-              Election Leaderboard
+              Hasil Perolehan Suara
             </motion.h1>
           </div>
           

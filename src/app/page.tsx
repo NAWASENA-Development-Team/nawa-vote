@@ -3,7 +3,7 @@
 import React, { useState, useEffect, Suspense } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { loginVoterToken } from '@/lib/actions/auth';
-import { ShieldAlert, Loader2, Sparkles, KeyRound, Ticket } from 'lucide-react';
+import { ShieldAlert, Loader2, CheckCircle2, KeyRound, Ticket } from 'lucide-react';
 import Link from 'next/link';
 import { motion, AnimatePresence } from 'framer-motion';
 import NawaLogo from '@/components/NawaLogo';
@@ -76,45 +76,33 @@ function LandingForm() {
   return (
     <div className="w-full max-w-md relative z-10 mx-auto">
       {/* Brand Header */}
-      <div className="text-center mb-10 flex flex-col items-center">
+      <div className="text-center mb-8 flex flex-col items-center">
         <motion.div
-          initial={{ scale: 0.9, opacity: 0, y: 10 }}
-          animate={{ scale: 1, opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
+          initial={{ scale: 0.95, opacity: 0 }}
+          animate={{ scale: 1, opacity: 1 }}
+          transition={{ duration: 0.4 }}
           className="inline-flex items-center justify-center w-20 h-20 rounded-2xl bg-brand-navy-900 shadow-brand mb-6 text-white p-4 border border-brand-navy-700/50 relative overflow-hidden"
         >
-          <div className="absolute inset-0 bg-glass-dark-grad opacity-50"></div>
           <div className="w-full h-full drop-shadow-md relative z-10 flex items-center justify-center">
             <NawaLogo />
           </div>
         </motion.div>
 
-        <motion.h1
-          initial={{ y: 10, opacity: 0 }}
-          animate={{ y: 0, opacity: 1 }}
-          transition={{ delay: 0.1, duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
-          className="font-heading text-4xl font-black text-brand-navy-900 tracking-tight mb-3"
-        >
+        <h1 className="font-heading text-4xl font-black text-brand-navy-900 tracking-tight mb-3">
           Nawa Vote
-        </motion.h1>
+        </h1>
 
-        <motion.div
-          initial={{ y: 10, opacity: 0 }}
-          animate={{ y: 0, opacity: 1 }}
-          transition={{ delay: 0.2, duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
-          className="inline-flex items-center justify-center gap-1.5 px-3 py-1 rounded-md bg-brand-amber-50 text-brand-amber-700 text-xs font-bold uppercase tracking-widest border border-brand-amber-100/50"
-        >
-          <Sparkles className="w-3.5 h-3.5" />
-          Sistem Digital Terverifikasi
-        </motion.div>
+        <p className="text-xs text-brand-navy-600 font-medium">
+          Sistem Pemungutan Suara Digital Resmi
+        </p>
       </div>
 
-      {/* Main Glass Card Form */}
+      {/* Main Form Card */}
       <motion.div
-        initial={{ y: 20, opacity: 0 }}
-        animate={{ y: 0, opacity: 1 }}
-        transition={{ delay: 0.3, duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
-        className="glass-card p-8 sm:p-10 flex flex-col bg-white/80 backdrop-blur-xl"
+        initial={{ opacity: 0, y: 12 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.4 }}
+        className="auth-card p-8 sm:p-10 flex flex-col bg-white"
       >
         <div className="flex flex-col items-center text-center mb-8">
           <h2 className="text-xl font-bold text-brand-navy-900 font-heading">Autentikasi Pemilih</h2>
@@ -169,51 +157,38 @@ function LandingForm() {
           <button
             type="submit"
             disabled={isLoading || !token}
-            className="w-full py-4 px-6 primary-button text-sm uppercase tracking-widest mt-2"
+            className="w-full py-4 px-6 primary-button text-sm uppercase tracking-wider mt-2"
           >
             {isLoading ? (
               <>
                 <Loader2 className="w-5 h-5 animate-spin mr-2" /> Memverifikasi...
               </>
             ) : (
-              <>
-                Masuk Bilik Suara <Sparkles className="w-4 h-4 ml-2 opacity-80" />
-              </>
+              'Masuk Bilik Suara'
             )}
           </button>
         </form>
       </motion.div>
 
-      {/* Admin Link & Watermark */}
-      <motion.div 
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: 0.6, duration: 1 }}
-        className="mt-10 flex flex-col items-center gap-4"
-      >
+      {/* Admin Link & Footer Note */}
+      <div className="mt-8 flex flex-col items-center gap-3">
         <Link
           href="/login"
           className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-brand-navy-400 hover:text-brand-navy-700 transition-colors duration-200"
         >
           <KeyRound className="w-3.5 h-3.5" /> Portal Panitia
         </Link>
-        <p className="text-[11px] text-brand-navy-300 font-bold uppercase tracking-widest">
-          Hak Suara Anda Menentukan Masa Depan
+        <p className="text-[11px] text-brand-navy-400 font-medium">
+          nawa-vote · Pemilihan Ketua OSIS
         </p>
-      </motion.div>
+      </div>
     </div>
   );
 }
 
 export default function LandingPage() {
   return (
-    <div className="flex-grow flex items-center justify-center p-4 sm:p-6 min-h-screen bg-brand-navy-50 relative overflow-hidden">
-      {/* Premium Background Accents */}
-      <div className="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none z-0">
-        <div className="absolute -top-[20%] -right-[10%] w-[50%] h-[50%] rounded-full bg-brand-amber-100/40 blur-[120px]"></div>
-        <div className="absolute -bottom-[20%] -left-[10%] w-[50%] h-[50%] rounded-full bg-brand-navy-200/30 blur-[120px]"></div>
-      </div>
-
+    <div className="flex-grow flex items-center justify-center p-4 sm:p-6 min-h-screen bg-brand-navy-50 relative">
       <Suspense fallback={
         <div className="text-center py-10 flex flex-col items-center z-10">
           <Loader2 className="w-10 h-10 animate-spin text-brand-navy-400 mb-4" />

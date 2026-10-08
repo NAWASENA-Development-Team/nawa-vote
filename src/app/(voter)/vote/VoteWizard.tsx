@@ -5,7 +5,7 @@ import { useRouter } from 'next/navigation';
 import { castSplitVote } from '@/lib/actions/vote';
 import { logout } from '@/lib/actions/auth';
 import CandidateCard, { Candidate } from '@/components/CandidateCard';
-import { LogOut, Check, ArrowRight, ArrowLeft, Loader2, Sparkles, ShieldCheck, Flame, Vote, X } from 'lucide-react';
+import { LogOut, Check, ArrowRight, ArrowLeft, Loader2, ShieldCheck, Vote, X } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import NawaLogo from '@/components/NawaLogo';
 
@@ -99,15 +99,14 @@ export default function VoteWizard({ candidates, voterToken }: VoteWizardProps) 
       <motion.div
         initial={{ opacity: 0, y: -15 }}
         animate={{ opacity: 1, y: 0 }}
-        className="bg-white border border-brand-navy-100 rounded-2xl p-5 mb-8 flex flex-col md:flex-row md:items-center md:justify-between gap-4 shadow-glass-sm relative overflow-hidden"
+        className="bg-white border border-brand-navy-100 rounded-2xl p-5 mb-8 flex flex-col md:flex-row md:items-center md:justify-between gap-4 shadow-sm relative overflow-hidden"
       >
-        <div className="absolute top-0 right-0 w-32 h-32 bg-brand-amber-50 rounded-full blur-[40px] -z-10 opacity-60"></div>
         <div className="flex items-center gap-4 relative z-10">
           <div className="flex items-center justify-center w-12 h-12 rounded-xl bg-brand-navy-50 text-brand-navy-600 border border-brand-navy-100">
             <Vote className="w-6 h-6" />
           </div>
           <div>
-            <p className="text-[10px] uppercase tracking-widest font-bold text-brand-navy-400">Sesi Voting Aktif</p>
+            <p className="text-[10px] uppercase tracking-wider font-bold text-brand-navy-400">Sesi Voting Aktif</p>
             <h2 className="font-bold text-brand-navy-900 flex items-center gap-2 mt-0.5">
               Token:{' '}
               <span className="font-mono text-sm bg-brand-amber-50 text-brand-amber-700 px-2 py-0.5 rounded-md border border-brand-amber-100">
@@ -158,13 +157,13 @@ export default function VoteWizard({ candidates, voterToken }: VoteWizardProps) 
                     isCompleted
                       ? 'bg-brand-navy-700 text-white shadow-md shadow-brand-navy-900/20 border border-brand-navy-800'
                       : isActive
-                      ? 'bg-white text-brand-amber-500 border-2 border-brand-amber-400 shadow-brand-gold scale-110'
+                      ? 'bg-white text-brand-amber-600 border-2 border-brand-amber-400 shadow-sm scale-105'
                       : 'bg-white text-brand-navy-300 border-2 border-brand-navy-200 cursor-not-allowed'
                   }`}
                 >
                   {isCompleted ? <Check className="w-6 h-6 text-white" /> : lbl.no}
                 </button>
-                <span className={`text-[11px] font-bold mt-3 tracking-widest uppercase ${
+                <span className={`text-[11px] font-bold mt-3 tracking-wider uppercase ${
                   isActive ? 'text-brand-amber-600' : isCompleted ? 'text-brand-navy-700' : 'text-brand-navy-300'
                 }`}>
                   {lbl.name}
@@ -174,8 +173,6 @@ export default function VoteWizard({ candidates, voterToken }: VoteWizardProps) 
           })}
         </div>
       </div>
-
-      {/* Removed redundant Main Title Section */}
 
       {/* Candidates Selection Grid layout */}
       <AnimatePresence mode="wait">
@@ -201,7 +198,7 @@ export default function VoteWizard({ candidates, voterToken }: VoteWizardProps) 
 
       {/* Persistent Bottom Action Bar */}
       <div
-        className="fixed bottom-0 left-0 right-0 py-4 px-6 flex justify-between items-center z-30 bg-white/90 backdrop-blur-xl border-t border-brand-navy-100 shadow-[0_-10px_40px_rgba(30,58,95,0.05)]"
+        className="fixed bottom-0 left-0 right-0 py-4 px-6 flex justify-between items-center z-30 bg-white/95 border-t border-brand-navy-100 shadow-sm"
       >
         <div className="max-w-6xl w-full mx-auto flex justify-between items-center">
           {/* Back button */}
@@ -219,14 +216,12 @@ export default function VoteWizard({ candidates, voterToken }: VoteWizardProps) 
             type="button"
             onClick={handleNext}
             disabled={!currentSelection}
-            className={`py-3 px-8 rounded-xl text-sm font-bold uppercase tracking-widest flex items-center gap-2 transition-all disabled:opacity-50 disabled:cursor-not-allowed ${
-              step === 3 ? 'primary-button' : 'bg-brand-navy-900 text-white hover:bg-brand-navy-800 shadow-brand'
+            className={`py-3 px-8 rounded-xl text-sm font-bold uppercase tracking-wider flex items-center gap-2 transition-all disabled:opacity-50 disabled:cursor-not-allowed ${
+              step === 3 ? 'primary-button' : 'bg-brand-navy-900 text-white hover:bg-brand-navy-800'
             }`}
           >
             {step === 3 ? (
-              <>
-                Tinjau Pilihan <Sparkles className="w-4 h-4 opacity-80" />
-              </>
+              'Tinjau Pilihan'
             ) : (
               <>
                 Lanjut <ArrowRight className="w-4 h-4" />
@@ -245,7 +240,7 @@ export default function VoteWizard({ candidates, voterToken }: VoteWizardProps) 
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               onClick={isLoading ? undefined : () => setIsConfirmOpen(false)}
-              className="absolute inset-0 bg-brand-navy-950/40 backdrop-blur-sm"
+              className="absolute inset-0 bg-brand-navy-950/40"
             />
 
             <motion.div
@@ -253,7 +248,7 @@ export default function VoteWizard({ candidates, voterToken }: VoteWizardProps) 
               animate={{ opacity: 1, scale: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.95, y: 20 }}
               transition={{ type: 'spring', duration: 0.4 }}
-              className="relative w-full max-w-md overflow-hidden rounded-3xl z-10 flex flex-col p-8 max-h-[90vh] overflow-y-auto glass-card bg-white/95"
+              className="relative w-full max-w-md overflow-hidden rounded-2xl z-10 flex flex-col p-8 max-h-[90vh] overflow-y-auto app-card bg-white"
             >
               <button
                 disabled={isLoading}

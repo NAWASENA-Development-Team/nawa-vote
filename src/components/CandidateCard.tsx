@@ -2,7 +2,7 @@
 
 import React from 'react';
 import Image from 'next/image';
-import { Sparkles, Check, ChevronDown, ChevronUp } from 'lucide-react';
+import { Check, ChevronDown, ChevronUp } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 
 export interface Candidate {
@@ -53,19 +53,18 @@ export default function CandidateCard({
 
   return (
     <motion.div
-      initial={{ opacity: 0, y: 20 }}
+      initial={{ opacity: 0, y: 12 }}
       animate={{ opacity: 1, y: 0 }}
-      whileHover={{ y: -4 }}
-      transition={{ type: 'spring', stiffness: 300, damping: 20 }}
-      className={`relative flex flex-col h-full rounded-3xl overflow-hidden transition-all duration-300 bg-white ${
+      transition={{ duration: 0.3 }}
+      className={`relative flex flex-col h-full rounded-2xl overflow-hidden transition-all duration-300 bg-white ${
         isSelected 
-          ? 'border-2 border-brand-amber-400 shadow-xl shadow-brand-amber-500/10 scale-[1.02] ring-4 ring-brand-amber-50'
-          : 'border border-brand-navy-100 shadow-sm hover:shadow-brand hover:border-brand-navy-200'
+          ? 'border-2 border-brand-amber-400 shadow-lg shadow-brand-amber-500/10 ring-2 ring-brand-amber-100'
+          : 'border border-brand-navy-100 shadow-sm hover:border-brand-navy-200'
       }`}
     >
-      {/* Ordinal Number Glow Badge */}
+      {/* Ordinal Number Badge */}
       <div className="absolute top-4 left-4 z-10">
-        <div className="flex items-center justify-center rounded-full bg-white/95 backdrop-blur-md text-brand-navy-900 font-black border border-brand-navy-100 shadow-sm w-10 h-10 text-lg">
+        <div className="flex items-center justify-center rounded-full bg-white/95 text-brand-navy-900 font-black border border-brand-navy-100 shadow-sm w-10 h-10 text-lg">
           {formattedNumber}
         </div>
       </div>
@@ -97,7 +96,7 @@ export default function CandidateCard({
 
         {/* Absolute Titles on Image */}
         <div className="absolute left-5 right-5 transition-all duration-300 bottom-5">
-          <p className="text-[10px] font-bold text-brand-amber-400 uppercase tracking-widest mb-1.5 drop-shadow-md">
+          <p className="text-[11px] font-bold text-brand-amber-400 uppercase tracking-wide mb-1.5 drop-shadow-md">
             {getCategoryLabel(candidate.category)}
           </p>
           <h3 className="font-heading font-black leading-tight text-white line-clamp-2 drop-shadow-lg transition-all duration-300 text-2xl">
@@ -113,9 +112,9 @@ export default function CandidateCard({
         {isCompact && (
           <button
             onClick={() => setIsExpanded(true)}
-            className="text-[10px] uppercase tracking-widest font-bold text-brand-navy-400 hover:text-brand-navy-700 mb-4 flex items-center justify-center gap-1 transition-colors"
+            className="text-xs font-semibold text-brand-navy-500 hover:text-brand-navy-800 mb-4 flex items-center justify-center gap-1 transition-colors"
           >
-            <Sparkles className="w-3 h-3 text-brand-amber-500" /> Lihat Visi & Misi
+            Lihat Visi & Misi
           </button>
         )}
 
@@ -123,7 +122,7 @@ export default function CandidateCard({
         {!isCompact && compact && (
            <button
             onClick={() => setIsExpanded(false)}
-            className="text-[10px] uppercase tracking-widest font-bold text-brand-navy-400 hover:text-brand-navy-700 mb-4 flex items-center justify-center gap-1 transition-colors"
+            className="text-xs font-semibold text-brand-navy-500 hover:text-brand-navy-800 mb-4 flex items-center justify-center gap-1 transition-colors"
           >
             Sembunyikan
           </button>
@@ -131,12 +130,11 @@ export default function CandidateCard({
 
         {/* Vision Section */}
         {!isCompact && candidate.vision && (
-          <div className="mb-4 flex-grow bg-brand-navy-50/50 border border-brand-navy-100 p-4 rounded-2xl relative overflow-hidden">
-            <div className="absolute top-0 left-0 w-1 h-full bg-brand-amber-400"></div>
-            <h4 className="text-[11px] uppercase tracking-widest font-bold text-brand-navy-400 mb-2 flex items-center gap-1.5">
-              <Sparkles className="w-3.5 h-3.5 text-brand-amber-500" /> Visi
+          <div className="mb-4 flex-grow bg-brand-navy-50/50 border border-brand-navy-100 p-4 rounded-xl relative overflow-hidden">
+            <h4 className="text-xs uppercase tracking-wide font-bold text-brand-navy-500 mb-2">
+              Visi
             </h4>
-            <p className="text-brand-navy-700 text-sm font-medium italic leading-relaxed">
+            <p className="text-brand-navy-800 text-sm font-medium leading-relaxed">
               &ldquo;{candidate.vision}&rdquo;
             </p>
           </div>
@@ -144,10 +142,10 @@ export default function CandidateCard({
 
         {/* Mission Section (Accordion) */}
         {!isCompact && candidate.mission && candidate.mission.length > 0 && (
-          <div className="mb-6 bg-white border border-brand-navy-100 rounded-2xl overflow-hidden shadow-sm transition-all hover:border-brand-navy-200">
+          <div className="mb-6 bg-white border border-brand-navy-100 rounded-xl overflow-hidden shadow-sm transition-all hover:border-brand-navy-200">
             <button
               onClick={() => setShowMissions(!showMissions)}
-              className="flex items-center justify-between w-full text-left text-xs uppercase tracking-widest font-bold text-brand-navy-700 p-4 hover:bg-brand-navy-50/50 transition-colors"
+              className="flex items-center justify-between w-full text-left text-xs uppercase tracking-wide font-bold text-brand-navy-700 p-4 hover:bg-brand-navy-50/50 transition-colors"
             >
               <span>{showMissions ? 'Sembunyikan Misi' : 'Lihat Misi'}</span>
               {showMissions ? <ChevronUp className="w-4 h-4 text-brand-navy-400" /> : <ChevronDown className="w-4 h-4 text-brand-navy-400" />}
@@ -162,10 +160,10 @@ export default function CandidateCard({
                   transition={{ duration: 0.2 }}
                   className="bg-brand-navy-50/30 border-t border-brand-navy-100"
                 >
-                  <ul className="space-y-3 p-4 text-sm text-brand-navy-600 font-medium">
+                  <ul className="space-y-3 p-4 text-sm text-brand-navy-700 font-medium">
                     {candidate.mission.map((item, idx) => (
                       <li key={idx} className="flex items-start gap-3">
-                        <span className="flex-shrink-0 flex items-center justify-center w-5 h-5 rounded-full bg-brand-navy-100 text-brand-navy-600 text-[10px] font-black mt-0.5">
+                        <span className="flex-shrink-0 flex items-center justify-center w-5 h-5 rounded-full bg-brand-navy-100 text-brand-navy-700 text-[10px] font-bold mt-0.5">
                           {idx + 1}
                         </span>
                         <span className="leading-relaxed">{item}</span>
@@ -182,10 +180,10 @@ export default function CandidateCard({
         {showVoteButton && onSelect && (
           <button
             onClick={() => onSelect(candidate)}
-            className={`w-full px-4 rounded-xl font-bold uppercase tracking-widest text-xs transition-all duration-300 flex items-center justify-center gap-2 mt-auto py-4 ${
+            className={`w-full px-4 rounded-xl font-bold uppercase tracking-wider text-xs transition-all duration-300 flex items-center justify-center gap-2 mt-auto py-3.5 ${
               isSelected
-                ? 'bg-gradient-to-r from-brand-amber-400 to-brand-amber-500 text-brand-amber-950 shadow-brand-gold border-none'
-                : 'bg-white border-2 border-brand-navy-100 text-brand-navy-600 hover:border-brand-amber-300 hover:bg-brand-amber-50'
+                ? 'bg-brand-amber-500 text-brand-navy-950 font-bold border-none'
+                : 'bg-white border-2 border-brand-navy-100 text-brand-navy-700 hover:border-brand-amber-400 hover:bg-brand-amber-50/50'
             }`}
           >
             {isSelected ? (
