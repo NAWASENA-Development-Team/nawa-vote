@@ -8,6 +8,12 @@ export const revalidate = 0;
 export default async function PublicResultsPage() {
   const supabase = createClient();
 
+  // Check if current visitor has admin/supervisor cookie session
+  const { data: { session } } = await supabase.auth.getSession();
+  const user = session?.user;
+  const role = user?.app_metadata?.role;
+  const isAdmin = role === 'admin' || role === 'supervisor';
+
   // 1. Fetch System Configurations
   const { data: configs } = await supabase.from('system_config').select('key, value');
 
@@ -40,6 +46,7 @@ export default async function PublicResultsPage() {
       initialRawConfig={rawConfigRecord}
       initialCandidates={(candidates as any) || []}
       initialTotalVotesCast={totalVotesCast || 0}
+      isAdmin={isAdmin}
     />
   );
 }

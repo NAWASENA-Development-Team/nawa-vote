@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { createClient } from '@/lib/supabase/client';
 import { useSystemConfig } from './useSystemConfig';
 import { useLiveResults, type LiveCandidate } from './useLiveResults';
 import { playInterfaceSwitch } from './sounds';
@@ -13,12 +14,14 @@ interface ResultsClientProps {
   initialRawConfig: Record<string, string | undefined>;
   initialCandidates: LiveCandidate[];
   initialTotalVotesCast: number;
+  isAdmin?: boolean;
 }
 
 export default function ResultsClient({
   initialRawConfig,
   initialCandidates,
   initialTotalVotesCast,
+  isAdmin = false,
 }: ResultsClientProps) {
   const config = useSystemConfig(initialRawConfig);
   const { candidates, totalVotesCast, lastUpdatedId } = useLiveResults(
@@ -26,6 +29,45 @@ export default function ResultsClient({
     initialTotalVotesCast,
     config.activeJabatan
   );
+
+  // Admin status check (SSR prop + client-side session fallback)
+  const [isAdminUser, setIsAdminUser] = useState<boolean>(Boolean(isAdmin));
+
+  useEffect(() => {
+    const checkClientAuth = async () => {
+      try {
+        const supabase = createClient();
+        const { data: { session } } = await supabase.auth.getSession();
+        const role = session?.user?.app_metadata?.role;
+        if (role === 'admin' || role === 'supervisor') {
+          setIsAdminUser(true);
+        }
+      } catch (err) {
+        // Fallback to SSR prop value
+      }
+    };
+    checkClientAuth();
+  }, []);
+
+  // Temporary in-memory override for presentation mode (disappears on refresh)
+  const [adminModeOverride, setAdminModeOverride] = useState<'session' | 'present' | null>(null);
+
+  const effectiveResultsMode = adminModeOverride ?? config.resultsMode;
+  const effectiveRevealIdentity =
+    adminModeOverride !== null
+      ? adminModeOverride === 'present'
+      : config.revealIdentity;
+
+  const handleToggleResultsMode = () => {
+    setAdminModeOverride((prev) => {
+      const current = prev ?? config.resultsMode;
+      return current === 'present' ? 'session' : 'present';
+    });
+  };
+
+  const handleResetModeOverride = () => {
+    setAdminModeOverride(null);
+  };
 
   // Active displayed interface
   const [currentInterface, setCurrentInterface] = useState<'balloon' | 'barchart'>(() => {
@@ -129,6 +171,11 @@ export default function ResultsClient({
       totalVotesCast={totalVotesCast}
       cycleProgress={cycleProgress}
       isCycling={isCycling}
+      isAdmin={isAdminUser}
+      resultsMode={effectiveResultsMode}
+      onToggleResultsMode={handleToggleResultsMode}
+      isModeOverridden={adminModeOverride !== null}
+      onResetModeOverride={handleResetModeOverride}
     >
       {candidates.length === 0 ? (
         <div className="flex-1 flex items-center justify-center p-6 text-center">
@@ -155,8 +202,8 @@ export default function ResultsClient({
               <BalloonInterface
                 candidates={candidates}
                 candidateColors={config.candidateColors}
-                resultsMode={config.resultsMode}
-                revealIdentity={config.revealIdentity}
+                resultsMode={effectiveResultsMode}
+                revealIdentity={effectiveRevealIdentity}
                 lastUpdatedId={lastUpdatedId}
               />
             </motion.div>
@@ -172,8 +219,8 @@ export default function ResultsClient({
               <BarChartInterface
                 candidates={candidates}
                 candidateColors={config.candidateColors}
-                resultsMode={config.resultsMode}
-                revealIdentity={config.revealIdentity}
+                resultsMode={effectiveResultsMode}
+                revealIdentity={effectiveRevealIdentity}
               />
             </motion.div>
           )}

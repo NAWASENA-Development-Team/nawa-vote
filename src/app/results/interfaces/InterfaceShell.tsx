@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { Volume2, VolumeX, ArrowLeftRight } from 'lucide-react';
+import { Volume2, VolumeX, ArrowLeftRight, SlidersHorizontal } from 'lucide-react';
 import NawaLogo from '@/components/NawaLogo';
 import { JABATAN_LABELS } from '../colorSlots';
 import { unlockAudio, muteAudio, isMuted } from '../sounds';
@@ -90,6 +90,11 @@ interface InterfaceShellProps {
   totalVotesCast: number;
   cycleProgress?: number;
   isCycling?: boolean;
+  isAdmin?: boolean;
+  resultsMode?: 'session' | 'present';
+  onToggleResultsMode?: () => void;
+  isModeOverridden?: boolean;
+  onResetModeOverride?: () => void;
   children: React.ReactNode;
 }
 
@@ -100,6 +105,11 @@ export default function InterfaceShell({
   totalVotesCast,
   cycleProgress = 0,
   isCycling = false,
+  isAdmin = false,
+  resultsMode = 'session',
+  onToggleResultsMode,
+  isModeOverridden = false,
+  onResetModeOverride,
   children,
 }: InterfaceShellProps) {
   const [timeStr, setTimeStr] = useState<string>('');
@@ -168,8 +178,40 @@ export default function InterfaceShell({
           <span>{timeStr || '--:--:--'}</span>
         </div>
 
-        {/* Right: Audio Toggle & Interface Switch */}
+        {/* Right: Audio Toggle, Interface Switch & Admin Override */}
         <div className="flex items-center gap-2 md:gap-3">
+          {/* Admin Override Toggle (Only shown when admin session cookie exists) */}
+          {isAdmin && onToggleResultsMode && (
+            <div className="flex items-center gap-1 bg-brand-navy-950 text-white p-1 rounded-xl border border-brand-amber-400/60 shadow-sm">
+              <button
+                onClick={onToggleResultsMode}
+                title="Override Tampilan Admin (Sementara - preferensi hilang saat refresh)"
+                className={`px-2 py-1 md:px-2.5 md:py-1 rounded-lg text-xs font-bold flex items-center gap-1.5 transition-all ${
+                  resultsMode === 'present'
+                    ? 'bg-brand-amber-500 text-brand-navy-950 font-black shadow-xs'
+                    : 'text-brand-amber-400 hover:text-brand-amber-300'
+                }`}
+              >
+                <SlidersHorizontal className="w-3.5 h-3.5 shrink-0" />
+                <span className="hidden sm:inline font-heading text-[11px] uppercase tracking-wider">
+                  {resultsMode === 'present' ? 'Mode: Presentasi' : 'Mode: Sesi'}
+                </span>
+                <span className="sm:hidden font-heading text-[11px] uppercase tracking-wider">
+                  {resultsMode === 'present' ? 'Pres' : 'Sesi'}
+                </span>
+              </button>
+              {isModeOverridden && onResetModeOverride && (
+                <button
+                  onClick={onResetModeOverride}
+                  title="Reset override ke mode database live"
+                  className="px-1.5 py-1 text-[10px] text-amber-300/80 hover:text-white transition-colors"
+                >
+                  ↺
+                </button>
+              )}
+            </div>
+          )}
+
           <button
             onClick={handleToggleSound}
             aria-label={soundActive ? 'Mute audio' : 'Unmute audio'}
