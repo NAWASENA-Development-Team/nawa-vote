@@ -136,11 +136,11 @@ export default function CandidateEditor({ initialCandidates: candidates }: Candi
     <div className="space-y-6">
       
       {/* Category Tabs list */}
-      <div className="grid grid-cols-2 md:grid-cols-4 bg-slate-100/70 p-1.5 rounded-2xl border border-slate-200/30 text-xs font-bold uppercase tracking-wider text-slate-400">
+      <div className="grid grid-cols-2 md:grid-cols-4 bg-slate-200/60 dark:bg-slate-900 p-1.5 rounded-2xl border border-slate-200 dark:border-slate-800 text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400">
         <button
           onClick={() => setActiveTab('all')}
           className={`py-3 px-4 rounded-xl transition-all ${
-            activeTab === 'all' ? 'bg-white text-brand-navy-700 shadow-sm' : 'hover:text-slate-600'
+            activeTab === 'all' ? 'bg-white dark:bg-slate-800 text-brand-navy-900 dark:text-white shadow-sm' : 'hover:text-slate-800 dark:hover:text-slate-200'
           }`}
         >
           Semua ({candidates.length})
@@ -148,7 +148,7 @@ export default function CandidateEditor({ initialCandidates: candidates }: Candi
         <button
           onClick={() => setActiveTab('ketua')}
           className={`py-3 px-4 rounded-xl transition-all ${
-            activeTab === 'ketua' ? 'bg-white text-brand-navy-700 shadow-sm' : 'hover:text-slate-600'
+            activeTab === 'ketua' ? 'bg-white dark:bg-slate-800 text-brand-navy-900 dark:text-white shadow-sm' : 'hover:text-slate-800 dark:hover:text-slate-200'
           }`}
         >
           Ketua ({candidates.filter(c => c.category === 'ketua').length})
@@ -156,7 +156,7 @@ export default function CandidateEditor({ initialCandidates: candidates }: Candi
         <button
           onClick={() => setActiveTab('wakil_1')}
           className={`py-3 px-4 rounded-xl transition-all ${
-            activeTab === 'wakil_1' ? 'bg-white text-brand-navy-700 shadow-sm' : 'hover:text-slate-600'
+            activeTab === 'wakil_1' ? 'bg-white dark:bg-slate-800 text-brand-navy-900 dark:text-white shadow-sm' : 'hover:text-slate-800 dark:hover:text-slate-200'
           }`}
         >
           Wakil 1 ({candidates.filter(c => c.category === 'wakil_1').length})
@@ -164,7 +164,7 @@ export default function CandidateEditor({ initialCandidates: candidates }: Candi
         <button
           onClick={() => setActiveTab('wakil_2')}
           className={`py-3 px-4 rounded-xl transition-all ${
-            activeTab === 'wakil_2' ? 'bg-white text-brand-navy-700 shadow-sm' : 'hover:text-slate-600'
+            activeTab === 'wakil_2' ? 'bg-white dark:bg-slate-800 text-brand-navy-900 dark:text-white shadow-sm' : 'hover:text-slate-800 dark:hover:text-slate-200'
           }`}
         >
           Wakil 2 ({candidates.filter(c => c.category === 'wakil_2').length})
@@ -172,19 +172,19 @@ export default function CandidateEditor({ initialCandidates: candidates }: Candi
       </div>
 
       {/* Action Header bar */}
-      <div className="flex justify-between items-center bg-white/40 border border-slate-200/30 rounded-3xl p-5 shadow-glass-sm">
+      <div className="flex justify-between items-center app-card p-5">
         <div>
-          <h3 className="font-heading font-extrabold text-sm text-brand-navy-900 leading-none">
+          <h3 className="font-heading font-extrabold text-sm text-brand-navy-900 dark:text-white leading-none">
             Menampilkan {filteredCandidates.length} Kandidat
           </h3>
-          <p className="text-[10px] text-slate-400 font-semibold mt-1">
+          <p className="text-[10px] text-brand-navy-500 dark:text-slate-400 font-semibold mt-1">
             Data kandidat yang didelegasikan untuk e-voting.
           </p>
         </div>
 
         <button
           onClick={openAddModal}
-          className="py-3 px-4 rounded-2xl bg-brand-navy-700 hover:bg-brand-navy-800 text-white text-xs font-bold uppercase tracking-wider transition-all duration-300 flex items-center justify-center gap-1.5 shadow-brand hover:shadow-lg"
+          className="py-3 px-4 rounded-2xl primary-button text-xs font-bold uppercase tracking-wider transition-all flex items-center justify-center gap-1.5 shadow-md"
         >
           <Plus className="w-4.5 h-4.5" /> Tambah Kandidat
         </button>
@@ -195,7 +195,7 @@ export default function CandidateEditor({ initialCandidates: candidates }: Candi
         {filteredCandidates.map((c) => (
           <div
             key={c.id}
-            className="glass-card rounded-[2rem] border border-white/50 overflow-hidden shadow-glass flex flex-col justify-between"
+            className="app-card overflow-hidden flex flex-col justify-between"
           >
             {/* Candidate Header */}
             <div>
@@ -208,23 +208,23 @@ export default function CandidateEditor({ initialCandidates: candidates }: Candi
                     className="object-cover w-full h-full object-top"
                   />
                 ) : (
-                  <Sparkles className="w-10 h-10 animate-pulse" />
+                  <Users2 className="w-10 h-10 text-slate-600" />
                 )}
                 
-                {/* Glowing Ordinal Number Badge */}
-                <div className="absolute top-4 left-4 flex items-center justify-center w-10 h-10 rounded-xl bg-brand-navy-700 text-white font-heading font-extrabold text-sm shadow-brand border border-white/20">
+                {/* Ordinal Number Badge */}
+                <div className="absolute top-4 left-4 flex items-center justify-center w-10 h-10 rounded-xl bg-brand-navy-900 dark:bg-slate-800 text-white font-heading font-extrabold text-sm shadow-md border border-white/20">
                   {String(c.ordinal_number).padStart(2, '0')}
                 </div>
 
                 {/* Category Badge */}
-                <div className="absolute top-4 right-4 bg-brand-amber-500 text-white py-1 px-3 rounded-lg text-[9px] font-extrabold uppercase tracking-wider shadow-sm border border-brand-amber-400">
+                <div className="absolute top-4 right-4 bg-brand-amber-500 text-brand-navy-950 py-1 px-3 rounded-lg text-[9px] font-extrabold uppercase tracking-wider shadow-sm">
                   {c.category === 'ketua' ? 'Ketua' : c.category === 'wakil_1' ? 'Wakil 1' : 'Wakil 2'}
                 </div>
 
                 <div className="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-transparent to-transparent" />
                 
                 <div className="absolute bottom-4 left-4 right-4 text-white">
-                  <h4 className="font-heading font-bold text-sm leading-tight line-clamp-1">
+                  <h4 className="font-heading font-bold text-base leading-tight line-clamp-1">
                     {c.name}
                   </h4>
                 </div>
@@ -232,16 +232,16 @@ export default function CandidateEditor({ initialCandidates: candidates }: Candi
 
               {/* Details box */}
               <div className="p-5 space-y-4">
-                <div className="bg-slate-50 border border-slate-100 rounded-xl p-2.5 text-xs">
-                  <span className="text-[9px] uppercase font-bold text-slate-400 block">Kategori Pemilihan</span>
-                  <span className="font-semibold text-brand-navy-800 line-clamp-1">{categoryLabels[c.category]}</span>
+                <div className="bg-brand-navy-50/50 dark:bg-slate-800/40 border border-brand-navy-100 dark:border-slate-800 rounded-xl p-2.5 text-xs">
+                  <span className="text-[9px] uppercase font-bold text-brand-navy-400 dark:text-slate-400 block">Kategori Pemilihan</span>
+                  <span className="font-semibold text-brand-navy-800 dark:text-slate-200 line-clamp-1">{categoryLabels[c.category]}</span>
                 </div>
 
                 {/* Visi */}
                 {c.vision && (
                   <div className="text-xs">
-                    <span className="text-[9px] uppercase font-extrabold tracking-wider text-brand-navy-500 block mb-1">VISI</span>
-                    <p className="text-slate-500 italic bg-amber-50/40 p-3 rounded-xl border border-amber-100/40 line-clamp-2">
+                    <span className="text-[9px] uppercase font-extrabold tracking-wider text-brand-navy-500 dark:text-slate-400 block mb-1">VISI</span>
+                    <p className="text-brand-navy-700 dark:text-slate-300 italic bg-amber-50/50 dark:bg-amber-950/30 p-3 rounded-xl border border-amber-200/50 dark:border-amber-900/40 line-clamp-2">
                       &ldquo;{c.vision}&rdquo;
                     </p>
                   </div>
@@ -250,17 +250,17 @@ export default function CandidateEditor({ initialCandidates: candidates }: Candi
             </div>
 
             {/* Quick Actions Panel */}
-            <div className="p-5 border-t border-slate-100 bg-slate-50/50 flex gap-3">
+            <div className="p-5 border-t border-brand-navy-100 dark:border-slate-800 bg-brand-navy-50/30 dark:bg-slate-900/50 flex gap-3">
               <button
                 onClick={() => openEditModal(c)}
-                className="flex-1 py-3 px-3 rounded-xl border border-slate-200 hover:bg-slate-100 text-slate-600 font-bold uppercase tracking-wider text-[10px] transition-colors flex items-center justify-center gap-1.5"
+                className="flex-1 py-3 px-3 rounded-xl bg-white dark:bg-slate-800 border border-brand-navy-200 dark:border-slate-700 hover:bg-brand-navy-50 dark:hover:bg-slate-700 text-brand-navy-700 dark:text-slate-200 font-bold uppercase tracking-wider text-[10px] transition-colors flex items-center justify-center gap-1.5"
               >
                 <Edit2 className="w-3.5 h-3.5" /> Edit
               </button>
               
               <button
                 onClick={() => setDeletingId(c.id)}
-                className="flex-1 py-3 px-3 rounded-xl border border-red-100 hover:bg-red-50 text-red-600 font-bold uppercase tracking-wider text-[10px] transition-colors flex items-center justify-center gap-1.5"
+                className="flex-1 py-3 px-3 rounded-xl bg-white dark:bg-slate-800 border border-red-200 dark:border-red-900/50 hover:bg-red-50 dark:hover:bg-red-950/40 text-red-600 dark:text-red-400 font-bold uppercase tracking-wider text-[10px] transition-colors flex items-center justify-center gap-1.5"
               >
                 <Trash2 className="w-3.5 h-3.5" /> Hapus
               </button>
@@ -287,19 +287,19 @@ export default function CandidateEditor({ initialCandidates: candidates }: Candi
               initial={{ scale: 0.95, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
               exit={{ scale: 0.95, opacity: 0 }}
-              className="relative bg-white rounded-3xl p-8 max-w-lg w-full max-h-[85vh] overflow-y-auto border border-slate-200 shadow-2xl z-10 flex flex-col"
+              className="relative bg-white dark:bg-slate-900 rounded-3xl p-8 max-w-lg w-full max-h-[85vh] overflow-y-auto border border-brand-navy-100 dark:border-slate-800 shadow-2xl z-10 flex flex-col"
             >
               {!isLoading && (
                 <button
                   onClick={() => setIsOpen(false)}
-                  className="absolute top-6 right-6 p-1.5 rounded-full hover:bg-slate-100 text-slate-400 hover:text-slate-600"
+                  className="absolute top-6 right-6 p-1.5 rounded-full hover:bg-brand-navy-50 dark:hover:bg-slate-800 text-brand-navy-400 dark:text-slate-400 hover:text-brand-navy-700 dark:hover:text-white"
                 >
                   <X className="w-5 h-5" />
                 </button>
               )}
 
-              <h3 className="font-heading font-black text-xl text-brand-navy-900 flex items-center gap-2 mb-6">
-                <UserPlus className="w-6 h-6 text-brand-navy-700" />
+              <h3 className="font-heading font-black text-xl text-brand-navy-900 dark:text-white flex items-center gap-2 mb-6">
+                <UserPlus className="w-6 h-6 text-brand-navy-700 dark:text-brand-amber-400" />
                 {editingCandidate ? 'Edit Kandidat' : 'Kandidat Baru'}
               </h3>
 
@@ -307,14 +307,14 @@ export default function CandidateEditor({ initialCandidates: candidates }: Candi
                 
                 {/* Category Selection Select */}
                 <div>
-                  <label className="block text-[10px] uppercase font-extrabold tracking-wider text-slate-400 mb-1 ml-1">
+                  <label className="block text-[10px] uppercase font-extrabold tracking-wider text-brand-navy-400 dark:text-slate-400 mb-1 ml-1">
                     Kategori Jabatan OSIS
                   </label>
                   <select
                     value={category}
                     onChange={(e) => setCategory(e.target.value as any)}
                     disabled={isLoading}
-                    className="w-full py-3 px-4 rounded-xl border border-slate-200 text-xs focus:outline-none focus:ring-2 focus:ring-brand-navy-500 font-extrabold bg-white text-brand-navy-900"
+                    className="w-full py-3 px-4 modern-input text-xs font-bold"
                   >
                     <option value="ketua">Ketua OSIS</option>
                     <option value="wakil_1">Wakil Ketua OSIS 1</option>
@@ -324,7 +324,7 @@ export default function CandidateEditor({ initialCandidates: candidates }: Candi
 
                 {/* Ordinal Number */}
                 <div>
-                  <label className="block text-[10px] uppercase font-extrabold tracking-wider text-slate-400 mb-1 ml-1">
+                  <label className="block text-[10px] uppercase font-extrabold tracking-wider text-brand-navy-400 dark:text-slate-400 mb-1 ml-1">
                     Nomor Urut Calon
                   </label>
                   <input
@@ -334,13 +334,13 @@ export default function CandidateEditor({ initialCandidates: candidates }: Candi
                     value={ordinalNo}
                     onChange={(e) => setOrdinalNo(Number(e.target.value))}
                     disabled={isLoading}
-                    className="w-full py-3 px-4 rounded-xl border border-slate-200 text-sm focus:outline-none focus:ring-2 focus:ring-brand-navy-500 font-semibold"
+                    className="w-full py-3 px-4 modern-input text-sm font-semibold"
                   />
                 </div>
 
                 {/* Candidate Name */}
                 <div>
-                  <label className="block text-[10px] uppercase font-extrabold tracking-wider text-slate-400 mb-1 ml-1">
+                  <label className="block text-[10px] uppercase font-extrabold tracking-wider text-brand-navy-400 dark:text-slate-400 mb-1 ml-1">
                     Nama Lengkap Calon
                   </label>
                   <input
@@ -350,13 +350,13 @@ export default function CandidateEditor({ initialCandidates: candidates }: Candi
                     value={name}
                     onChange={(e) => setName(e.target.value)}
                     disabled={isLoading}
-                    className="w-full py-3 px-4 rounded-xl border border-slate-200 text-sm focus:outline-none focus:ring-2 focus:ring-brand-navy-500 font-semibold"
+                    className="w-full py-3 px-4 modern-input text-sm font-semibold"
                   />
                 </div>
 
                 {/* Photo URL */}
                 <div>
-                  <label className="block text-[10px] uppercase font-extrabold tracking-wider text-slate-400 mb-1 ml-1">
+                  <label className="block text-[10px] uppercase font-extrabold tracking-wider text-brand-navy-400 dark:text-slate-400 mb-1 ml-1">
                     URL Foto Calon (Opsional)
                   </label>
                   <input
@@ -365,13 +365,13 @@ export default function CandidateEditor({ initialCandidates: candidates }: Candi
                     value={photoUrl}
                     onChange={(e) => setPhotoUrl(e.target.value)}
                     disabled={isLoading}
-                    className="w-full py-3 px-4 rounded-xl border border-slate-200 text-sm focus:outline-none focus:ring-2 focus:ring-brand-navy-500"
+                    className="w-full py-3 px-4 modern-input text-sm"
                   />
                 </div>
 
                 {/* Visi */}
                 <div>
-                  <label className="block text-[10px] uppercase font-extrabold tracking-wider text-slate-400 mb-1 ml-1">
+                  <label className="block text-[10px] uppercase font-extrabold tracking-wider text-brand-navy-400 dark:text-slate-400 mb-1 ml-1">
                     Pernyataan Visi Calon
                   </label>
                   <textarea
@@ -381,21 +381,21 @@ export default function CandidateEditor({ initialCandidates: candidates }: Candi
                     value={vision}
                     onChange={(e) => setVision(e.target.value)}
                     disabled={isLoading}
-                    className="w-full py-3 px-4 rounded-xl border border-slate-200 text-sm focus:outline-none focus:ring-2 focus:ring-brand-navy-500 font-medium"
+                    className="w-full py-3 px-4 modern-input text-sm font-medium"
                   />
                 </div>
 
                 {/* Mission checklist */}
                 <div className="space-y-2">
                   <div className="flex justify-between items-center">
-                    <label className="block text-[10px] uppercase font-extrabold tracking-wider text-slate-400 ml-1">
+                    <label className="block text-[10px] uppercase font-extrabold tracking-wider text-brand-navy-400 dark:text-slate-400 ml-1">
                       Misi Calon (Daftar Poin)
                     </label>
                     <button
                       type="button"
                       onClick={handleAddMissionField}
                       disabled={isLoading}
-                      className="text-xs font-bold text-brand-navy-600 hover:text-brand-navy-800 flex items-center gap-1"
+                      className="text-xs font-bold text-brand-navy-600 dark:text-brand-amber-400 hover:underline flex items-center gap-1"
                     >
                       <PlusCircle className="w-4 h-4" /> Tambah Poin
                     </button>
@@ -404,7 +404,7 @@ export default function CandidateEditor({ initialCandidates: candidates }: Candi
                   <div className="space-y-2 max-h-[160px] overflow-y-auto pr-1">
                     {missions.map((mission, index) => (
                       <div key={index} className="flex items-center gap-2">
-                        <span className="flex-shrink-0 flex items-center justify-center w-6 h-6 rounded-full bg-slate-100 text-slate-500 text-[10px] font-bold">
+                        <span className="flex-shrink-0 flex items-center justify-center w-6 h-6 rounded-full bg-brand-navy-100 dark:bg-slate-800 text-brand-navy-700 dark:text-slate-300 text-[10px] font-bold">
                           {index + 1}
                         </span>
                         <input
@@ -414,13 +414,13 @@ export default function CandidateEditor({ initialCandidates: candidates }: Candi
                           value={mission}
                           onChange={(e) => handleMissionChange(index, e.target.value)}
                           disabled={isLoading}
-                          className="flex-1 py-2 px-3 rounded-xl border border-slate-200 text-xs focus:outline-none focus:ring-2 focus:ring-brand-navy-500 font-medium"
+                          className="flex-1 py-2 px-3 modern-input text-xs font-medium"
                         />
                         <button
                           type="button"
                           onClick={() => handleRemoveMissionField(index)}
                           disabled={isLoading || missions.length === 1}
-                          className="text-slate-400 hover:text-red-500 transition-colors disabled:opacity-30"
+                          className="text-brand-navy-400 dark:text-slate-500 hover:text-red-500 dark:hover:text-red-400 transition-colors disabled:opacity-30"
                         >
                           <MinusCircle className="w-5 h-5" />
                         </button>
@@ -430,19 +430,19 @@ export default function CandidateEditor({ initialCandidates: candidates }: Candi
                 </div>
 
                 {/* Submissions buttons */}
-                <div className="flex gap-4 pt-4 border-t border-slate-100">
+                <div className="flex gap-4 pt-4 border-t border-brand-navy-100 dark:border-slate-800">
                   <button
                     type="button"
                     onClick={() => setIsOpen(false)}
                     disabled={isLoading}
-                    className="flex-grow py-3 px-4 rounded-xl border border-slate-200 hover:bg-slate-50 text-slate-600 font-bold uppercase tracking-wider text-[10px] transition-colors"
+                    className="flex-grow py-3 px-4 rounded-xl border border-brand-navy-200 dark:border-slate-700 hover:bg-brand-navy-50 dark:hover:bg-slate-800 text-brand-navy-700 dark:text-slate-300 font-bold uppercase tracking-wider text-[10px] transition-colors"
                   >
                     Batal
                   </button>
                   <button
                     type="submit"
                     disabled={isLoading}
-                    className="flex-grow py-3 px-4 rounded-xl bg-brand-navy-700 hover:bg-brand-navy-800 text-white font-bold uppercase tracking-wider text-[10px] transition-all flex items-center justify-center gap-1.5 shadow-brand"
+                    className="flex-grow py-3 px-4 primary-button text-[10px] uppercase tracking-wider transition-all flex items-center justify-center gap-1.5 shadow-md"
                   >
                     {isLoading ? (
                       <>
@@ -474,15 +474,15 @@ export default function CandidateEditor({ initialCandidates: candidates }: Candi
               initial={{ scale: 0.95, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
               exit={{ scale: 0.95, opacity: 0 }}
-              className="relative bg-white rounded-3xl p-7 max-w-sm w-full border border-slate-200 shadow-2xl z-10 text-center flex flex-col"
+              className="relative bg-white dark:bg-slate-900 rounded-3xl p-7 max-w-sm w-full border border-brand-navy-100 dark:border-slate-800 shadow-2xl z-10 text-center flex flex-col"
             >
-              <div className="flex items-center justify-center w-14 h-14 rounded-full bg-red-100 text-red-600 mb-4 self-center animate-bounce">
+              <div className="flex items-center justify-center w-14 h-14 rounded-full bg-red-100 dark:bg-red-950/40 text-red-600 dark:text-red-400 mb-4 self-center animate-bounce">
                 <Trash2 className="w-7 h-7" />
               </div>
-              <h3 className="font-heading font-black text-lg text-brand-navy-900 leading-tight">
+              <h3 className="font-heading font-black text-lg text-brand-navy-900 dark:text-white leading-tight">
                 Hapus Kandidat?
               </h3>
-              <p className="text-slate-500 text-xs mt-2 leading-relaxed px-1">
+              <p className="text-brand-navy-500 dark:text-slate-400 text-xs mt-2 leading-relaxed px-1">
                 Apakah Anda yakin ingin menghapus kandidat ini secara permanen dari sistem? Pilihan ini tidak dapat dibatalkan.
               </p>
               <div className="flex gap-3 mt-6">
@@ -490,7 +490,7 @@ export default function CandidateEditor({ initialCandidates: candidates }: Candi
                   type="button"
                   onClick={() => setDeletingId(null)}
                   disabled={isLoading}
-                  className="flex-1 py-3 px-4 rounded-xl border border-slate-200 hover:bg-slate-50 text-slate-600 font-bold uppercase tracking-wider text-[10px]"
+                  className="flex-1 py-3 px-4 rounded-xl border border-brand-navy-200 dark:border-slate-700 hover:bg-brand-navy-50 dark:hover:bg-slate-800 text-brand-navy-700 dark:text-slate-300 font-bold uppercase tracking-wider text-[10px]"
                 >
                   Batal
                 </button>

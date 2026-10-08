@@ -99,17 +99,17 @@ export default function VoteWizard({ candidates, voterToken }: VoteWizardProps) 
       <motion.div
         initial={{ opacity: 0, y: -15 }}
         animate={{ opacity: 1, y: 0 }}
-        className="bg-white border border-brand-navy-100 rounded-2xl p-5 mb-8 flex flex-col md:flex-row md:items-center md:justify-between gap-4 shadow-sm relative overflow-hidden"
+        className="bg-white dark:bg-slate-900 border border-brand-navy-100 dark:border-slate-800 rounded-2xl p-5 mb-8 flex flex-col md:flex-row md:items-center md:justify-between gap-4 shadow-sm relative overflow-hidden transition-colors"
       >
         <div className="flex items-center gap-4 relative z-10">
-          <div className="flex items-center justify-center w-12 h-12 rounded-xl bg-brand-navy-50 text-brand-navy-600 border border-brand-navy-100">
-            <Vote className="w-6 h-6" />
+          <div className="flex items-center justify-center w-12 h-12 rounded-xl bg-brand-navy-50 dark:bg-slate-800 text-brand-navy-600 dark:text-slate-300 border border-brand-navy-100 dark:border-slate-700">
+            <Vote className="w-6 h-6 text-brand-navy-700 dark:text-brand-amber-400" />
           </div>
           <div>
-            <p className="text-[10px] uppercase tracking-wider font-bold text-brand-navy-400">Sesi Voting Aktif</p>
-            <h2 className="font-bold text-brand-navy-900 flex items-center gap-2 mt-0.5">
+            <p className="text-[10px] uppercase tracking-wider font-bold text-brand-navy-400 dark:text-slate-400">Sesi Voting Aktif</p>
+            <h2 className="font-bold text-brand-navy-900 dark:text-white flex items-center gap-2 mt-0.5">
               Token:{' '}
-              <span className="font-mono text-sm bg-brand-amber-50 text-brand-amber-700 px-2 py-0.5 rounded-md border border-brand-amber-100">
+              <span className="font-mono text-sm bg-brand-amber-50 dark:bg-amber-950/40 text-brand-amber-700 dark:text-amber-300 px-2 py-0.5 rounded-md border border-brand-amber-100 dark:border-amber-900/50">
                 {voterToken}
               </span>
             </h2>
@@ -117,13 +117,13 @@ export default function VoteWizard({ candidates, voterToken }: VoteWizardProps) 
         </div>
 
         <div className="flex items-center gap-4 relative z-10">
-          <div className="hidden sm:flex items-center gap-2 py-2 px-4 rounded-full text-emerald-700 bg-emerald-50 border border-emerald-100 text-xs font-bold uppercase tracking-wider">
+          <div className="hidden sm:flex items-center gap-2 py-2 px-4 rounded-full text-emerald-700 dark:text-emerald-400 bg-emerald-50 dark:bg-emerald-950/40 border border-emerald-100 dark:border-emerald-900/50 text-xs font-bold uppercase tracking-wider">
             <ShieldCheck className="w-4 h-4" /> Kerahasiaan Terjamin
           </div>
 
           <button
             onClick={() => logout()}
-            className="py-2.5 px-4 rounded-xl text-brand-navy-600 bg-white hover:bg-brand-navy-50 hover:text-brand-navy-900 border border-brand-navy-200 font-bold text-xs uppercase tracking-wider transition-all duration-300 flex items-center justify-center gap-2"
+            className="py-2.5 px-4 rounded-xl text-brand-navy-600 dark:text-slate-300 bg-white dark:bg-slate-800 hover:bg-brand-navy-50 dark:hover:bg-slate-700 text-brand-navy-900 dark:text-white border border-brand-navy-200 dark:border-slate-700 font-bold text-xs uppercase tracking-wider transition-all duration-300 flex items-center justify-center gap-2"
           >
             <LogOut className="w-4 h-4" /> Batalkan Sesi
           </button>
@@ -134,13 +134,13 @@ export default function VoteWizard({ candidates, voterToken }: VoteWizardProps) 
       <div className="mb-12 max-w-2xl mx-auto">
         <div className="flex items-center justify-between relative mb-2">
           {/* Connector bar background */}
-          <div className="absolute left-6 right-6 top-6 h-1 bg-brand-navy-100 rounded-full z-0" />
+          <div className="absolute left-6 right-6 top-6 h-1 bg-brand-navy-100 dark:bg-slate-800 rounded-full z-0" />
 
           {/* Connector bar fill progress */}
           <motion.div
             initial={{ width: 0 }}
             animate={{ width: step === 1 ? '0%' : step === 2 ? '50%' : '100%' }}
-            className="absolute left-6 top-6 h-1 bg-brand-navy-600 rounded-full z-0 transition-all duration-500 ease-out"
+            className="absolute left-6 top-6 h-1 bg-brand-navy-600 dark:bg-brand-amber-500 rounded-full z-0 transition-all duration-500 ease-out"
           />
 
           {stepLabels.map((lbl) => {
@@ -155,16 +155,16 @@ export default function VoteWizard({ candidates, voterToken }: VoteWizardProps) 
                   onClick={() => setStep(lbl.no as 1 | 2 | 3)}
                   className={`w-12 h-12 rounded-full flex items-center justify-center font-heading font-black text-lg transition-all duration-300 ${
                     isCompleted
-                      ? 'bg-brand-navy-700 text-white shadow-md shadow-brand-navy-900/20 border border-brand-navy-800'
+                      ? 'bg-brand-navy-700 dark:bg-brand-amber-500 text-white dark:text-brand-navy-950 shadow-md border border-brand-navy-800 dark:border-brand-amber-400'
                       : isActive
-                      ? 'bg-white text-brand-amber-600 border-2 border-brand-amber-400 shadow-sm scale-105'
-                      : 'bg-white text-brand-navy-300 border-2 border-brand-navy-200 cursor-not-allowed'
+                      ? 'bg-white dark:bg-slate-900 text-brand-amber-600 dark:text-brand-amber-400 border-2 border-brand-amber-400 shadow-sm scale-105'
+                      : 'bg-white dark:bg-slate-900 text-brand-navy-300 dark:text-slate-600 border-2 border-brand-navy-200 dark:border-slate-800 cursor-not-allowed'
                   }`}
                 >
-                  {isCompleted ? <Check className="w-6 h-6 text-white" /> : lbl.no}
+                  {isCompleted ? <Check className="w-6 h-6" /> : lbl.no}
                 </button>
                 <span className={`text-[11px] font-bold mt-3 tracking-wider uppercase ${
-                  isActive ? 'text-brand-amber-600' : isCompleted ? 'text-brand-navy-700' : 'text-brand-navy-300'
+                  isActive ? 'text-brand-amber-600 dark:text-brand-amber-400' : isCompleted ? 'text-brand-navy-700 dark:text-slate-200' : 'text-brand-navy-300 dark:text-slate-500'
                 }`}>
                   {lbl.name}
                 </span>
@@ -198,7 +198,7 @@ export default function VoteWizard({ candidates, voterToken }: VoteWizardProps) 
 
       {/* Persistent Bottom Action Bar */}
       <div
-        className="fixed bottom-0 left-0 right-0 py-4 px-6 flex justify-between items-center z-30 bg-white/95 border-t border-brand-navy-100 shadow-sm"
+        className="fixed bottom-0 left-0 right-0 py-4 px-6 flex justify-between items-center z-30 bg-white/95 dark:bg-slate-900/95 border-t border-brand-navy-100 dark:border-slate-800 shadow-sm transition-colors"
       >
         <div className="max-w-6xl w-full mx-auto flex justify-between items-center">
           {/* Back button */}
@@ -206,7 +206,7 @@ export default function VoteWizard({ candidates, voterToken }: VoteWizardProps) 
             type="button"
             onClick={handlePrev}
             disabled={step === 1}
-            className="py-3 px-6 rounded-xl bg-white border border-brand-navy-200 text-brand-navy-600 text-sm font-bold uppercase tracking-wider flex items-center gap-2 transition-all hover:bg-brand-navy-50 hover:text-brand-navy-800 disabled:opacity-0 disabled:pointer-events-none"
+            className="py-3 px-6 rounded-xl bg-white dark:bg-slate-800 border border-brand-navy-200 dark:border-slate-700 text-brand-navy-600 dark:text-slate-300 text-sm font-bold uppercase tracking-wider flex items-center gap-2 transition-all hover:bg-brand-navy-50 dark:hover:bg-slate-700 hover:text-brand-navy-800 dark:hover:text-white disabled:opacity-0 disabled:pointer-events-none"
           >
             <ArrowLeft className="w-4 h-4" /> Sebelumnya
           </button>
@@ -217,7 +217,7 @@ export default function VoteWizard({ candidates, voterToken }: VoteWizardProps) 
             onClick={handleNext}
             disabled={!currentSelection}
             className={`py-3 px-8 rounded-xl text-sm font-bold uppercase tracking-wider flex items-center gap-2 transition-all disabled:opacity-50 disabled:cursor-not-allowed ${
-              step === 3 ? 'primary-button' : 'bg-brand-navy-900 text-white hover:bg-brand-navy-800'
+              step === 3 ? 'primary-button' : 'bg-brand-navy-900 dark:bg-brand-amber-500 text-white dark:text-brand-navy-950 hover:bg-brand-navy-800 dark:hover:bg-brand-amber-400'
             }`}
           >
             {step === 3 ? (
@@ -240,7 +240,7 @@ export default function VoteWizard({ candidates, voterToken }: VoteWizardProps) 
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               onClick={isLoading ? undefined : () => setIsConfirmOpen(false)}
-              className="absolute inset-0 bg-brand-navy-950/40"
+              className="absolute inset-0 bg-slate-950/60 backdrop-blur-sm"
             />
 
             <motion.div
@@ -248,30 +248,30 @@ export default function VoteWizard({ candidates, voterToken }: VoteWizardProps) 
               animate={{ opacity: 1, scale: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.95, y: 20 }}
               transition={{ type: 'spring', duration: 0.4 }}
-              className="relative w-full max-w-md overflow-hidden rounded-2xl z-10 flex flex-col p-8 max-h-[90vh] overflow-y-auto app-card bg-white"
+              className="relative w-full max-w-md overflow-hidden rounded-2xl z-10 flex flex-col p-8 max-h-[90vh] overflow-y-auto bg-white dark:bg-slate-900 border border-brand-navy-100 dark:border-slate-800 shadow-2xl"
             >
               <button
                 disabled={isLoading}
                 onClick={() => setIsConfirmOpen(false)}
-                className="absolute top-6 right-6 p-2 rounded-full bg-brand-navy-50 hover:bg-brand-navy-100 text-brand-navy-400 transition-colors disabled:opacity-50"
+                className="absolute top-6 right-6 p-2 rounded-full bg-brand-navy-50 dark:bg-slate-800 hover:bg-brand-navy-100 dark:hover:bg-slate-700 text-brand-navy-400 dark:text-slate-400 transition-colors disabled:opacity-50"
               >
                 <X className="w-5 h-5" />
               </button>
 
               <div className="text-center mt-2 mb-6">
-                <div className="flex items-center justify-center w-14 h-14 rounded-full mb-4 self-center mx-auto bg-brand-amber-50 text-brand-amber-500 border border-brand-amber-100/50">
+                <div className="flex items-center justify-center w-14 h-14 rounded-full mb-4 self-center mx-auto bg-brand-amber-50 dark:bg-amber-950/40 text-brand-amber-500 border border-brand-amber-100/50 dark:border-amber-900/50">
                   <ShieldCheck className="w-7 h-7" />
                 </div>
-                <h2 className="font-heading font-black text-2xl text-brand-navy-900 tracking-tight">
+                <h2 className="font-heading font-black text-2xl text-brand-navy-900 dark:text-white tracking-tight">
                   Tinjau Pilihan
                 </h2>
-                <p className="text-brand-navy-500 text-xs mt-2 px-2 font-medium">
+                <p className="text-brand-navy-500 dark:text-slate-400 text-xs mt-2 px-2 font-medium">
                   Pastikan pilihan Anda untuk semua kategori sudah benar sebelum mengirimkan suara.
                 </p>
               </div>
 
               {errorMessage && (
-                <div className="bg-red-50 text-red-600 border border-red-100 text-sm p-3 rounded-xl mb-4 text-center font-medium">
+                <div className="bg-red-50 dark:bg-red-950/40 text-red-600 dark:text-red-400 border border-red-100 dark:border-red-900/50 text-sm p-3 rounded-xl mb-4 text-center font-medium">
                   {errorMessage}
                 </div>
               )}
@@ -279,42 +279,42 @@ export default function VoteWizard({ candidates, voterToken }: VoteWizardProps) 
               {/* Choices Summary board */}
               <div className="space-y-3 mb-6 text-sm text-left">
                 {/* Ketua Display */}
-                <div className="rounded-2xl p-4 flex items-center justify-between bg-brand-navy-50/50 border border-brand-navy-100/80">
+                <div className="rounded-2xl p-4 flex items-center justify-between bg-brand-navy-50/50 dark:bg-slate-800/50 border border-brand-navy-100/80 dark:border-slate-700">
                   <div>
-                    <span className="text-[10px] font-bold text-brand-navy-400 uppercase tracking-widest block mb-1">Calon Ketua OSIS</span>
-                    <span className="font-heading font-bold text-base text-brand-navy-900 block truncate max-w-[200px]">{selectedKetua.name}</span>
+                    <span className="text-[10px] font-bold text-brand-navy-400 dark:text-slate-400 uppercase tracking-widest block mb-1">Calon Ketua OSIS</span>
+                    <span className="font-heading font-bold text-base text-brand-navy-900 dark:text-white block truncate max-w-[200px]">{selectedKetua.name}</span>
                   </div>
-                  <span className="flex items-center justify-center w-8 h-8 rounded-full bg-white text-brand-navy-600 text-xs font-bold border border-brand-navy-200 shadow-sm shrink-0">
+                  <span className="flex items-center justify-center w-8 h-8 rounded-full bg-white dark:bg-slate-900 text-brand-navy-600 dark:text-white text-xs font-bold border border-brand-navy-200 dark:border-slate-700 shadow-sm shrink-0">
                     {String(selectedKetua.ordinal_number).padStart(2, '0')}
                   </span>
                 </div>
 
                 {/* Wakil 1 Display */}
-                <div className="rounded-2xl p-4 flex items-center justify-between bg-brand-navy-50/50 border border-brand-navy-100/80">
+                <div className="rounded-2xl p-4 flex items-center justify-between bg-brand-navy-50/50 dark:bg-slate-800/50 border border-brand-navy-100/80 dark:border-slate-700">
                   <div>
-                    <span className="text-[10px] font-bold text-brand-navy-400 uppercase tracking-widest block mb-1">Calon Wakil Ketua 1</span>
-                    <span className="font-heading font-bold text-base text-brand-navy-900 block truncate max-w-[200px]">{selectedWakil1.name}</span>
+                    <span className="text-[10px] font-bold text-brand-navy-400 dark:text-slate-400 uppercase tracking-widest block mb-1">Calon Wakil Ketua 1</span>
+                    <span className="font-heading font-bold text-base text-brand-navy-900 dark:text-white block truncate max-w-[200px]">{selectedWakil1.name}</span>
                   </div>
-                  <span className="flex items-center justify-center w-8 h-8 rounded-full bg-white text-brand-navy-600 text-xs font-bold border border-brand-navy-200 shadow-sm shrink-0">
+                  <span className="flex items-center justify-center w-8 h-8 rounded-full bg-white dark:bg-slate-900 text-brand-navy-600 dark:text-white text-xs font-bold border border-brand-navy-200 dark:border-slate-700 shadow-sm shrink-0">
                     {String(selectedWakil1.ordinal_number).padStart(2, '0')}
                   </span>
                 </div>
 
                 {/* Wakil 2 Display */}
-                <div className="rounded-2xl p-4 flex items-center justify-between bg-brand-navy-50/50 border border-brand-navy-100/80">
+                <div className="rounded-2xl p-4 flex items-center justify-between bg-brand-navy-50/50 dark:bg-slate-800/50 border border-brand-navy-100/80 dark:border-slate-700">
                   <div>
-                    <span className="text-[10px] font-bold text-brand-navy-400 uppercase tracking-widest block mb-1">Calon Wakil Ketua 2</span>
-                    <span className="font-heading font-bold text-base text-brand-navy-900 block truncate max-w-[200px]">{selectedWakil2.name}</span>
+                    <span className="text-[10px] font-bold text-brand-navy-400 dark:text-slate-400 uppercase tracking-widest block mb-1">Calon Wakil Ketua 2</span>
+                    <span className="font-heading font-bold text-base text-brand-navy-900 dark:text-white block truncate max-w-[200px]">{selectedWakil2.name}</span>
                   </div>
-                  <span className="flex items-center justify-center w-8 h-8 rounded-full bg-white text-brand-navy-600 text-xs font-bold border border-brand-navy-200 shadow-sm shrink-0">
+                  <span className="flex items-center justify-center w-8 h-8 rounded-full bg-white dark:bg-slate-900 text-brand-navy-600 dark:text-white text-xs font-bold border border-brand-navy-200 dark:border-slate-700 shadow-sm shrink-0">
                     {String(selectedWakil2.ordinal_number).padStart(2, '0')}
                   </span>
                 </div>
               </div>
 
               {/* Warning Alert box */}
-              <div className="flex items-start gap-3 rounded-2xl p-4 mb-6 text-left text-xs bg-brand-amber-50/80 text-brand-amber-800 border border-brand-amber-200/50 font-medium">
-                <Check className="w-4 h-4 text-brand-amber-600 mt-0.5 flex-shrink-0" />
+              <div className="flex items-start gap-3 rounded-2xl p-4 mb-6 text-left text-xs bg-brand-amber-50/80 dark:bg-amber-950/40 text-brand-amber-800 dark:text-amber-300 border border-brand-amber-200/50 dark:border-amber-900/40 font-medium">
+                <Check className="w-4 h-4 text-brand-amber-600 dark:text-brand-amber-400 mt-0.5 flex-shrink-0" />
                 <p>
                   Setelah dikirim, token Anda akan dikunci dan pilihan tidak dapat diubah lagi.
                 </p>
@@ -326,7 +326,7 @@ export default function VoteWizard({ candidates, voterToken }: VoteWizardProps) 
                   type="button"
                   disabled={isLoading}
                   onClick={() => setIsConfirmOpen(false)}
-                  className="flex-1 py-3.5 px-4 rounded-xl bg-white border border-brand-navy-200 text-brand-navy-600 font-bold text-xs uppercase tracking-widest transition-all hover:bg-brand-navy-50"
+                  className="flex-1 py-3.5 px-4 rounded-xl bg-white dark:bg-slate-800 border border-brand-navy-200 dark:border-slate-700 text-brand-navy-600 dark:text-slate-300 font-bold text-xs uppercase tracking-widest transition-all hover:bg-brand-navy-50 dark:hover:bg-slate-700"
                 >
                   Kembali
                 </button>
@@ -334,7 +334,7 @@ export default function VoteWizard({ candidates, voterToken }: VoteWizardProps) 
                   type="button"
                   disabled={isLoading}
                   onClick={handleConfirmSubmit}
-                  className="flex-1 py-3.5 px-4 rounded-xl primary-button text-xs uppercase tracking-widest flex items-center justify-center gap-2"
+                  className="flex-1 py-3.5 px-4 primary-button text-xs uppercase tracking-widest flex items-center justify-center gap-2"
                 >
                   {isLoading ? (
                     <>

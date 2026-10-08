@@ -25,23 +25,23 @@ function SuccessView() {
   };
 
   return (
-    <div className="flex-1 flex items-center justify-center p-4 relative z-10 w-full overflow-hidden">
+    <div className="flex-1 flex items-center justify-center p-4 relative z-10 w-full overflow-hidden bg-brand-navy-50 dark:bg-slate-950 transition-colors">
       {/* Ambient background glow */}
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-brand-amber-100/30 rounded-full blur-[80px] -z-10 pointer-events-none" />
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-brand-amber-100/30 dark:bg-amber-500/10 rounded-full blur-[80px] -z-10 pointer-events-none" />
       
       <div className="w-full max-w-lg relative z-10">
         <motion.div
           initial={{ opacity: 0, scale: 0.98, y: 10 }}
           animate={{ opacity: 1, scale: 1, y: 0 }}
           transition={{ type: 'spring', duration: 0.6, bounce: 0.2 }}
-          className="glass-card p-8 md:p-12 text-center flex flex-col items-center bg-white/95 backdrop-blur-xl border border-brand-navy-100 shadow-[0_20px_60px_-15px_rgba(30,58,95,0.1)] rounded-3xl"
+          className="app-card p-8 md:p-12 text-center flex flex-col items-center shadow-xl"
         >
           {/* Logo Header */}
           <div className="flex flex-col items-center mb-10">
-            <div className="w-12 h-12 text-brand-navy-900 mb-4">
+            <div className="w-12 h-12 text-brand-navy-900 dark:text-white mb-4 flex items-center justify-center">
               <NawaLogo />
             </div>
-            <span className="font-heading font-black text-xs text-brand-navy-400 tracking-[0.25em] uppercase">
+            <span className="font-heading font-black text-xs text-brand-navy-400 dark:text-slate-400 tracking-[0.25em] uppercase">
               Bilik Suara Nawa
             </span>
           </div>
@@ -51,7 +51,7 @@ function SuccessView() {
             initial={{ scale: 0, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}
             transition={{ type: 'spring', stiffness: 200, damping: 15, delay: 0.1 }}
-            className="flex items-center justify-center w-24 h-24 rounded-full mb-8 bg-gradient-to-br from-brand-amber-100 to-brand-amber-50 text-brand-amber-600 border border-brand-amber-200/50 shadow-inner"
+            className="flex items-center justify-center w-24 h-24 rounded-full mb-8 bg-brand-amber-50 dark:bg-amber-950/40 text-brand-amber-500 border border-brand-amber-200/50 dark:border-amber-900/50 shadow-inner"
           >
             <CheckCircle2 className="w-12 h-12" />
           </motion.div>
@@ -61,7 +61,7 @@ function SuccessView() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.2 }}
-            className="font-heading text-3xl md:text-4xl font-black text-brand-navy-900 mb-4 tracking-tight"
+            className="font-heading text-3xl md:text-4xl font-black text-brand-navy-900 dark:text-white mb-4 tracking-tight"
           >
             Suara Terekam
           </motion.h1>
@@ -69,7 +69,7 @@ function SuccessView() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.3 }}
-            className="text-brand-navy-500 text-sm px-2 leading-relaxed font-medium"
+            className="text-brand-navy-500 dark:text-slate-400 text-sm px-2 leading-relaxed font-medium"
           >
             Hak pilih Anda telah berhasil disalurkan dan dienkripsi ke dalam sistem secara permanen.
           </motion.p>
@@ -80,14 +80,14 @@ function SuccessView() {
               initial={{ opacity: 0, y: 15 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.4 }}
-              className="w-full mt-10 rounded-2xl p-6 text-center relative flex flex-col items-center bg-brand-navy-50/50 border border-brand-navy-100/80"
+              className="w-full mt-10 rounded-2xl p-6 text-center relative flex flex-col items-center bg-brand-navy-50/50 dark:bg-slate-800/50 border border-brand-navy-100/80 dark:border-slate-700"
             >
-              <span className="text-[10px] font-bold text-brand-navy-400 uppercase tracking-widest mb-3">
+              <span className="text-[10px] font-bold text-brand-navy-400 dark:text-slate-400 uppercase tracking-widest mb-3">
                 Resi Bukti Suara
               </span>
 
               <div
-                className="font-mono text-brand-navy-900 text-sm py-4 px-4 rounded-xl w-full select-all font-bold break-all bg-white border border-brand-navy-200 shadow-sm"
+                className="font-mono text-brand-navy-900 dark:text-white text-sm py-4 px-4 rounded-xl w-full select-all font-bold break-all bg-white dark:bg-slate-900 border border-brand-navy-200 dark:border-slate-700 shadow-sm"
                 style={{ fontFamily: 'var(--font-jetbrains-mono), monospace' }}
               >
                 {token}
@@ -98,8 +98,8 @@ function SuccessView() {
                 onClick={handleCopy}
                 className={`mt-5 py-3 px-6 rounded-xl text-xs font-bold uppercase tracking-widest flex items-center gap-2 transition-all duration-300 ${
                   copied
-                    ? 'bg-brand-amber-500 text-brand-amber-950 shadow-brand-gold border-none'
-                    : 'bg-white border-2 border-brand-navy-100 text-brand-navy-600 hover:border-brand-amber-300 hover:bg-brand-amber-50'
+                    ? 'bg-brand-amber-500 text-brand-navy-950 font-bold border-none'
+                    : 'bg-white dark:bg-slate-800 border-2 border-brand-navy-100 dark:border-slate-700 text-brand-navy-600 dark:text-slate-200 hover:border-brand-amber-300 dark:hover:border-amber-400'
                 }`}
               >
                 {copied ? (
@@ -124,11 +124,11 @@ function SuccessView() {
           >
             <button
               onClick={handleEndSession}
-              className="w-full py-4 px-6 bg-brand-navy-900 text-white rounded-xl font-bold text-xs uppercase tracking-widest hover:bg-brand-navy-800 transition-all flex items-center justify-center shadow-brand hover:shadow-lg hover:-translate-y-0.5"
+              className="w-full py-4 px-6 primary-button text-xs uppercase tracking-widest transition-all flex items-center justify-center shadow-md"
             >
               Selesaikan Sesi <ArrowRight className="w-4 h-4 ml-2" />
             </button>
-            <p className="text-[11px] font-medium text-brand-navy-400 mt-4 flex items-center justify-center gap-1.5">
+            <p className="text-[11px] font-medium text-brand-navy-400 dark:text-slate-500 mt-4 flex items-center justify-center gap-1.5">
               <ShieldCheck className="w-3.5 h-3.5" /> Bilik suara akan direset otomatis
             </p>
           </motion.div>
