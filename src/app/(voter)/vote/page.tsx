@@ -88,6 +88,7 @@ export default async function VotePage() {
     <VoteWizard
       candidates={(candidates as CategorizedCandidate[]) || []}
       voterToken={voterToken}
+      voterId={voterId}
     />
   );
 }

@@ -1,13 +1,16 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
 import { castSplitVote } from '@/lib/actions/vote';
 import { logout } from '@/lib/actions/auth';
 import CandidateCard, { Candidate } from '@/components/CandidateCard';
-import { LogOut, Check, ArrowRight, ArrowLeft, Loader2, ShieldCheck, Vote, X } from 'lucide-react';
+import { LogOut, Check, ArrowRight, ArrowLeft, Loader2, ShieldCheck, Vote, X, WifiOff, Wifi, AlertTriangle } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import NawaLogo from '@/components/NawaLogo';
+import { useOnlineStatus } from '@/hooks/useOnlineStatus';
+import { saveVoteOffline, pendingCount } from '@/lib/offline/offlineQueue';
+import { syncOfflineVotes } from '@/lib/offline/syncVotes';
 
 // Extend Candidate type for categories
 export interface CategorizedCandidate extends Candidate {
@@ -17,10 +20,12 @@ export interface CategorizedCandidate extends Candidate {
 interface VoteWizardProps {
   candidates: CategorizedCandidate[];
   voterToken: string;
+  voterId: string;
 }
 
-export default function VoteWizard({ candidates, voterToken }: VoteWizardProps) {
+export default function VoteWizard({ candidates, voterToken, voterId }: VoteWizardProps) {
   const router = useRouter();
+  const { isOnline, wasOffline } = useOnlineStatus();
 
   // Step Wizard States: 1 = Ketua, 2 = Wakil 1, 3 = Wakil 2
   const [step, setStep] = useState<1 | 2 | 3>(1);
@@ -34,6 +39,40 @@ export default function VoteWizard({ candidates, voterToken }: VoteWizardProps) 
   const [isConfirmOpen, setIsConfirmOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
+
+  // Sync state — shown as a brief toast when reconnecting
+  const [syncStatus, setSyncStatus] = useState<'idle' | 'syncing' | 'done' | 'error'>('idle');
+  const [pendingVotes, setPendingVotes] = useState(0);
+
+  // Auto-sync when connectivity is restored
+  const runSync = useCallback(async () => {
+    const count = pendingCount();
+    if (count === 0) return;
+
+    setSyncStatus('syncing');
+    setPendingVotes(count);
+    const result = await syncOfflineVotes();
+
+    if (result.failed === 0) {
+      setSyncStatus('done');
+    } else {
+      setSyncStatus('error');
+    }
+
+    // Auto-dismiss the done toast after 4 seconds
+    setTimeout(() => setSyncStatus('idle'), 4000);
+  }, []);
+
+  useEffect(() => {
+    if (isOnline && wasOffline) {
+      runSync();
+    }
+  }, [isOnline, wasOffline, runSync]);
+
+  // Refresh pending count when opening the page
+  useEffect(() => {
+    setPendingVotes(pendingCount());
+  }, []);
 
   const getFilteredCandidates = () => {
     if (step === 1) return candidates.filter(c => c.category === 'ketua');
@@ -71,6 +110,21 @@ export default function VoteWizard({ candidates, voterToken }: VoteWizardProps) 
     setIsLoading(true);
     setErrorMessage(null);
 
+    if (!isOnline) {
+      // Offline path: save locally and redirect to offline success page
+      const localId = saveVoteOffline(
+        voterToken,
+        voterId,
+        selectedKetua.id,
+        selectedWakil1.id,
+        selectedWakil2.id
+      );
+      setPendingVotes(pendingCount());
+      setIsConfirmOpen(false);
+      router.push(`/success?token=${localId}&offline=true`);
+      return;
+    }
+
     const res = await castSplitVote(selectedKetua.id, selectedWakil1.id, selectedWakil2.id);
 
     if (res.success && res.token) {
@@ -92,24 +146,89 @@ export default function VoteWizard({ candidates, voterToken }: VoteWizardProps) 
   const currentCandidates = getFilteredCandidates();
   const currentSelection = getSelectedForCurrentStep();
 
+  // Offline colour scheme: amber warning palette replaces navy
+  const offline = !isOnline;
+
   return (
-    <div className="max-w-6xl mx-auto px-4 py-8 relative">
+    <div className={`max-w-6xl mx-auto px-4 py-8 relative transition-colors duration-500`}>
+
+      {/* Offline Banner — fixed top strip */}
+      <AnimatePresence>
+        {offline && (
+          <motion.div
+            key="offline-banner"
+            initial={{ opacity: 0, y: -40 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -40 }}
+            transition={{ duration: 0.3 }}
+            className="fixed top-0 left-0 right-0 z-50 flex items-center justify-center gap-2 py-2.5 px-4 bg-amber-500 text-amber-950 text-xs font-bold uppercase tracking-wider shadow-md"
+          >
+            <WifiOff className="w-4 h-4 flex-shrink-0" />
+            Mode Offline — Suara akan disimpan lokal dan disinkronkan saat koneksi pulih
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      {/* Sync toast — shown on reconnect */}
+      <AnimatePresence>
+        {syncStatus !== 'idle' && (
+          <motion.div
+            key="sync-toast"
+            initial={{ opacity: 0, y: -40 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -40 }}
+            transition={{ duration: 0.3 }}
+            className={`fixed top-0 left-0 right-0 z-50 flex items-center justify-center gap-2 py-2.5 px-4 text-xs font-bold uppercase tracking-wider shadow-md ${
+              syncStatus === 'syncing'
+                ? 'bg-brand-navy-600 text-white'
+                : syncStatus === 'done'
+                ? 'bg-emerald-600 text-white'
+                : 'bg-red-600 text-white'
+            }`}
+          >
+            {syncStatus === 'syncing' && <><Loader2 className="w-4 h-4 animate-spin" /> Menyinkronkan {pendingVotes} suara offline...</>}
+            {syncStatus === 'done' && <><Wifi className="w-4 h-4" /> Semua suara berhasil disinkronkan ke server</>}
+            {syncStatus === 'error' && <><AlertTriangle className="w-4 h-4" /> Sebagian suara gagal disinkronkan. Coba lagi nanti.</>}
+          </motion.div>
+        )}
+      </AnimatePresence>
 
       {/* Top Header metadata bar */}
       <motion.div
         initial={{ opacity: 0, y: -15 }}
         animate={{ opacity: 1, y: 0 }}
-        className="bg-white dark:bg-slate-900 border border-brand-navy-100 dark:border-slate-800 rounded-2xl p-5 mb-8 flex flex-col md:flex-row md:items-center md:justify-between gap-4 shadow-sm relative overflow-hidden transition-colors"
+        className={`border rounded-2xl p-5 mb-8 flex flex-col md:flex-row md:items-center md:justify-between gap-4 shadow-sm relative overflow-hidden transition-colors ${
+          offline
+            ? 'bg-amber-50 dark:bg-amber-950/40 border-amber-200 dark:border-amber-800'
+            : 'bg-white dark:bg-slate-900 border-brand-navy-100 dark:border-slate-800'
+        } ${offline ? 'mt-10' : ''}`}
       >
         <div className="flex items-center gap-4 relative z-10">
-          <div className="flex items-center justify-center w-12 h-12 rounded-xl bg-brand-navy-50 dark:bg-slate-800 text-brand-navy-600 dark:text-slate-300 border border-brand-navy-100 dark:border-slate-700">
-            <Vote className="w-6 h-6 text-brand-navy-700 dark:text-brand-amber-400" />
+          <div className={`flex items-center justify-center w-12 h-12 rounded-xl border ${
+            offline
+              ? 'bg-amber-100 dark:bg-amber-900/40 text-amber-700 dark:text-amber-300 border-amber-200 dark:border-amber-700'
+              : 'bg-brand-navy-50 dark:bg-slate-800 text-brand-navy-600 dark:text-slate-300 border-brand-navy-100 dark:border-slate-700'
+          }`}>
+            {offline
+              ? <WifiOff className="w-6 h-6" />
+              : <Vote className="w-6 h-6 text-brand-navy-700 dark:text-brand-amber-400" />
+            }
           </div>
           <div>
-            <p className="text-[10px] uppercase tracking-wider font-bold text-brand-navy-400 dark:text-slate-400">Sesi Voting Aktif</p>
-            <h2 className="font-bold text-brand-navy-900 dark:text-white flex items-center gap-2 mt-0.5">
+            <p className={`text-[10px] uppercase tracking-wider font-bold ${
+              offline ? 'text-amber-600 dark:text-amber-400' : 'text-brand-navy-400 dark:text-slate-400'
+            }`}>
+              {offline ? 'Mode Offline Aktif' : 'Sesi Voting Aktif'}
+            </p>
+            <h2 className={`font-bold flex items-center gap-2 mt-0.5 ${
+              offline ? 'text-amber-900 dark:text-amber-100' : 'text-brand-navy-900 dark:text-white'
+            }`}>
               Token:{' '}
-              <span className="font-mono text-sm bg-brand-amber-50 dark:bg-amber-950/40 text-brand-amber-700 dark:text-amber-300 px-2 py-0.5 rounded-md border border-brand-amber-100 dark:border-amber-900/50">
+              <span className={`font-mono text-sm px-2 py-0.5 rounded-md border ${
+                offline
+                  ? 'bg-amber-100 dark:bg-amber-900/40 text-amber-800 dark:text-amber-200 border-amber-200 dark:border-amber-700'
+                  : 'bg-brand-amber-50 dark:bg-amber-950/40 text-brand-amber-700 dark:text-amber-300 border-brand-amber-100 dark:border-amber-900/50'
+              }`}>
                 {voterToken}
               </span>
             </h2>
@@ -117,9 +236,15 @@ export default function VoteWizard({ candidates, voterToken }: VoteWizardProps) 
         </div>
 
         <div className="flex items-center gap-4 relative z-10">
-          <div className="hidden sm:flex items-center gap-2 py-2 px-4 rounded-full text-emerald-700 dark:text-emerald-400 bg-emerald-50 dark:bg-emerald-950/40 border border-emerald-100 dark:border-emerald-900/50 text-xs font-bold uppercase tracking-wider">
-            <ShieldCheck className="w-4 h-4" /> Kerahasiaan Terjamin
-          </div>
+          {offline ? (
+            <div className="hidden sm:flex items-center gap-2 py-2 px-4 rounded-full text-amber-700 dark:text-amber-300 bg-amber-100 dark:bg-amber-900/40 border border-amber-200 dark:border-amber-700 text-xs font-bold uppercase tracking-wider">
+              <WifiOff className="w-4 h-4" /> Offline
+            </div>
+          ) : (
+            <div className="hidden sm:flex items-center gap-2 py-2 px-4 rounded-full text-emerald-700 dark:text-emerald-400 bg-emerald-50 dark:bg-emerald-950/40 border border-emerald-100 dark:border-emerald-900/50 text-xs font-bold uppercase tracking-wider">
+              <ShieldCheck className="w-4 h-4" /> Kerahasiaan Terjamin
+            </div>
+          )}
 
           <button
             onClick={() => logout()}
@@ -130,17 +255,34 @@ export default function VoteWizard({ candidates, voterToken }: VoteWizardProps) 
         </div>
       </motion.div>
 
+      {/* Offline warning strip inside content area */}
+      {offline && (
+        <div className="mb-6 flex items-start gap-3 rounded-xl p-4 bg-amber-50 dark:bg-amber-950/30 border border-amber-200 dark:border-amber-800 text-amber-800 dark:text-amber-300 text-sm font-medium">
+          <AlertTriangle className="w-5 h-5 flex-shrink-0 mt-0.5 text-amber-600 dark:text-amber-400" />
+          <span>
+            Koneksi internet terputus. Suara yang masuk akan disimpan di perangkat ini dan dikirim ke server secara otomatis begitu koneksi pulih.
+            {pendingVotes > 0 && (
+              <> <strong className="font-bold">{pendingVotes} suara</strong> sedang menunggu sinkronisasi.</>
+            )}
+          </span>
+        </div>
+      )}
+
       {/* Progress wizard state steps indicator bar */}
       <div className="mb-12 max-w-2xl mx-auto">
         <div className="flex items-center justify-between relative mb-2">
           {/* Connector bar background */}
-          <div className="absolute left-6 right-6 top-6 h-1 bg-brand-navy-100 dark:bg-slate-800 rounded-full z-0" />
+          <div className={`absolute left-6 right-6 top-6 h-1 rounded-full z-0 ${
+            offline ? 'bg-amber-100 dark:bg-amber-900/40' : 'bg-brand-navy-100 dark:bg-slate-800'
+          }`} />
 
           {/* Connector bar fill progress */}
           <motion.div
             initial={{ width: 0 }}
             animate={{ width: step === 1 ? '0%' : step === 2 ? '50%' : '100%' }}
-            className="absolute left-6 top-6 h-1 bg-brand-navy-600 dark:bg-brand-amber-500 rounded-full z-0 transition-all duration-500 ease-out"
+            className={`absolute left-6 top-6 h-1 rounded-full z-0 transition-all duration-500 ease-out ${
+              offline ? 'bg-amber-500' : 'bg-brand-navy-600 dark:bg-brand-amber-500'
+            }`}
           />
 
           {stepLabels.map((lbl) => {
@@ -155,16 +297,26 @@ export default function VoteWizard({ candidates, voterToken }: VoteWizardProps) 
                   onClick={() => setStep(lbl.no as 1 | 2 | 3)}
                   className={`w-12 h-12 rounded-full flex items-center justify-center font-heading font-black text-lg transition-all duration-300 ${
                     isCompleted
-                      ? 'bg-brand-navy-700 dark:bg-brand-amber-500 text-white dark:text-brand-navy-950 shadow-md border border-brand-navy-800 dark:border-brand-amber-400'
+                      ? offline
+                        ? 'bg-amber-500 text-amber-950 shadow-md border border-amber-600'
+                        : 'bg-brand-navy-700 dark:bg-brand-amber-500 text-white dark:text-brand-navy-950 shadow-md border border-brand-navy-800 dark:border-brand-amber-400'
                       : isActive
-                      ? 'bg-white dark:bg-slate-900 text-brand-amber-600 dark:text-brand-amber-400 border-2 border-brand-amber-400 shadow-sm scale-105'
+                      ? offline
+                        ? 'bg-white dark:bg-amber-950 text-amber-600 dark:text-amber-400 border-2 border-amber-400 shadow-sm scale-105'
+                        : 'bg-white dark:bg-slate-900 text-brand-amber-600 dark:text-brand-amber-400 border-2 border-brand-amber-400 shadow-sm scale-105'
+                      : offline
+                      ? 'bg-amber-50 dark:bg-amber-950/20 text-amber-300 dark:text-amber-700 border-2 border-amber-200 dark:border-amber-800 cursor-not-allowed'
                       : 'bg-white dark:bg-slate-900 text-brand-navy-300 dark:text-slate-600 border-2 border-brand-navy-200 dark:border-slate-800 cursor-not-allowed'
                   }`}
                 >
                   {isCompleted ? <Check className="w-6 h-6" /> : lbl.no}
                 </button>
                 <span className={`text-[11px] font-bold mt-3 tracking-wider uppercase ${
-                  isActive ? 'text-brand-amber-600 dark:text-brand-amber-400' : isCompleted ? 'text-brand-navy-700 dark:text-slate-200' : 'text-brand-navy-300 dark:text-slate-500'
+                  isActive
+                    ? offline ? 'text-amber-600 dark:text-amber-400' : 'text-brand-amber-600 dark:text-brand-amber-400'
+                    : isCompleted
+                    ? offline ? 'text-amber-700 dark:text-amber-300' : 'text-brand-navy-700 dark:text-slate-200'
+                    : offline ? 'text-amber-300 dark:text-amber-700' : 'text-brand-navy-300 dark:text-slate-500'
                 }`}>
                   {lbl.name}
                 </span>
@@ -198,7 +350,11 @@ export default function VoteWizard({ candidates, voterToken }: VoteWizardProps) 
 
       {/* Persistent Bottom Action Bar */}
       <div
-        className="fixed bottom-0 left-0 right-0 py-4 px-6 flex justify-between items-center z-30 bg-white/95 dark:bg-slate-900/95 border-t border-brand-navy-100 dark:border-slate-800 shadow-sm transition-colors"
+        className={`fixed bottom-0 left-0 right-0 py-4 px-6 flex justify-between items-center z-30 border-t shadow-sm transition-colors ${
+          offline
+            ? 'bg-amber-50/95 dark:bg-amber-950/90 border-amber-200 dark:border-amber-800'
+            : 'bg-white/95 dark:bg-slate-900/95 border-brand-navy-100 dark:border-slate-800'
+        }`}
       >
         <div className="max-w-6xl w-full mx-auto flex justify-between items-center">
           {/* Back button */}
@@ -217,7 +373,13 @@ export default function VoteWizard({ candidates, voterToken }: VoteWizardProps) 
             onClick={handleNext}
             disabled={!currentSelection}
             className={`py-3 px-8 rounded-xl text-sm font-bold uppercase tracking-wider flex items-center gap-2 transition-all disabled:opacity-50 disabled:cursor-not-allowed ${
-              step === 3 ? 'primary-button' : 'bg-brand-navy-900 dark:bg-brand-amber-500 text-white dark:text-brand-navy-950 hover:bg-brand-navy-800 dark:hover:bg-brand-amber-400'
+              step === 3
+                ? offline
+                  ? 'bg-amber-500 hover:bg-amber-400 text-amber-950 font-bold'
+                  : 'primary-button'
+                : offline
+                ? 'bg-amber-500 hover:bg-amber-400 text-amber-950 font-bold'
+                : 'bg-brand-navy-900 dark:bg-brand-amber-500 text-white dark:text-brand-navy-950 hover:bg-brand-navy-800 dark:hover:bg-brand-amber-400'
             }`}
           >
             {step === 3 ? (
@@ -248,25 +410,43 @@ export default function VoteWizard({ candidates, voterToken }: VoteWizardProps) 
               animate={{ opacity: 1, scale: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.95, y: 20 }}
               transition={{ type: 'spring', duration: 0.4 }}
-              className="relative w-full max-w-md overflow-hidden rounded-2xl z-10 flex flex-col p-8 max-h-[90vh] overflow-y-auto bg-white dark:bg-slate-900 border border-brand-navy-100 dark:border-slate-800 shadow-2xl"
+              className={`relative w-full max-w-md overflow-hidden rounded-2xl z-10 flex flex-col p-8 max-h-[90vh] overflow-y-auto border shadow-2xl ${
+                offline
+                  ? 'bg-amber-50 dark:bg-amber-950 border-amber-200 dark:border-amber-800'
+                  : 'bg-white dark:bg-slate-900 border-brand-navy-100 dark:border-slate-800'
+              }`}
             >
               <button
                 disabled={isLoading}
                 onClick={() => setIsConfirmOpen(false)}
-                className="absolute top-6 right-6 p-2 rounded-full bg-brand-navy-50 dark:bg-slate-800 hover:bg-brand-navy-100 dark:hover:bg-slate-700 text-brand-navy-400 dark:text-slate-400 transition-colors disabled:opacity-50"
+                className={`absolute top-6 right-6 p-2 rounded-full transition-colors disabled:opacity-50 ${
+                  offline
+                    ? 'bg-amber-100 dark:bg-amber-900 hover:bg-amber-200 dark:hover:bg-amber-800 text-amber-600 dark:text-amber-400'
+                    : 'bg-brand-navy-50 dark:bg-slate-800 hover:bg-brand-navy-100 dark:hover:bg-slate-700 text-brand-navy-400 dark:text-slate-400'
+                }`}
               >
                 <X className="w-5 h-5" />
               </button>
 
               <div className="text-center mt-2 mb-6">
-                <div className="flex items-center justify-center w-14 h-14 rounded-full mb-4 self-center mx-auto bg-brand-amber-50 dark:bg-amber-950/40 text-brand-amber-500 border border-brand-amber-100/50 dark:border-amber-900/50">
-                  <ShieldCheck className="w-7 h-7" />
+                <div className={`flex items-center justify-center w-14 h-14 rounded-full mb-4 self-center mx-auto border ${
+                  offline
+                    ? 'bg-amber-100 dark:bg-amber-900/40 text-amber-600 dark:text-amber-400 border-amber-200 dark:border-amber-800'
+                    : 'bg-brand-amber-50 dark:bg-amber-950/40 text-brand-amber-500 border-brand-amber-100/50 dark:border-amber-900/50'
+                }`}>
+                  {offline ? <WifiOff className="w-7 h-7" /> : <ShieldCheck className="w-7 h-7" />}
                 </div>
-                <h2 className="font-heading font-black text-2xl text-brand-navy-900 dark:text-white tracking-tight">
-                  Tinjau Pilihan
+                <h2 className={`font-heading font-black text-2xl tracking-tight ${
+                  offline ? 'text-amber-900 dark:text-amber-100' : 'text-brand-navy-900 dark:text-white'
+                }`}>
+                  {offline ? 'Simpan Suara Offline' : 'Tinjau Pilihan'}
                 </h2>
-                <p className="text-brand-navy-500 dark:text-slate-400 text-xs mt-2 px-2 font-medium">
-                  Pastikan pilihan Anda untuk semua kategori sudah benar sebelum mengirimkan suara.
+                <p className={`text-xs mt-2 px-2 font-medium ${
+                  offline ? 'text-amber-700 dark:text-amber-300' : 'text-brand-navy-500 dark:text-slate-400'
+                }`}>
+                  {offline
+                    ? 'Suara akan disimpan di perangkat ini dan dikirim ke server saat koneksi pulih.'
+                    : 'Pastikan pilihan Anda untuk semua kategori sudah benar sebelum mengirimkan suara.'}
                 </p>
               </div>
 
@@ -278,45 +458,46 @@ export default function VoteWizard({ candidates, voterToken }: VoteWizardProps) 
 
               {/* Choices Summary board */}
               <div className="space-y-3 mb-6 text-sm text-left">
-                {/* Ketua Display */}
-                <div className="rounded-2xl p-4 flex items-center justify-between bg-brand-navy-50/50 dark:bg-slate-800/50 border border-brand-navy-100/80 dark:border-slate-700">
-                  <div>
-                    <span className="text-[10px] font-bold text-brand-navy-400 dark:text-slate-400 uppercase tracking-widest block mb-1">Calon Ketua OSIS</span>
-                    <span className="font-heading font-bold text-base text-brand-navy-900 dark:text-white block truncate max-w-[200px]">{selectedKetua.name}</span>
+                {[
+                  { label: 'Calon Ketua OSIS', candidate: selectedKetua },
+                  { label: 'Calon Wakil Ketua 1', candidate: selectedWakil1 },
+                  { label: 'Calon Wakil Ketua 2', candidate: selectedWakil2 },
+                ].map(({ label, candidate }) => (
+                  <div key={label} className={`rounded-2xl p-4 flex items-center justify-between border ${
+                    offline
+                      ? 'bg-amber-100/50 dark:bg-amber-900/20 border-amber-200 dark:border-amber-800'
+                      : 'bg-brand-navy-50/50 dark:bg-slate-800/50 border-brand-navy-100/80 dark:border-slate-700'
+                  }`}>
+                    <div>
+                      <span className={`text-[10px] font-bold uppercase tracking-widest block mb-1 ${
+                        offline ? 'text-amber-600 dark:text-amber-400' : 'text-brand-navy-400 dark:text-slate-400'
+                      }`}>{label}</span>
+                      <span className={`font-heading font-bold text-base block truncate max-w-[200px] ${
+                        offline ? 'text-amber-900 dark:text-amber-100' : 'text-brand-navy-900 dark:text-white'
+                      }`}>{candidate.name}</span>
+                    </div>
+                    <span className={`flex items-center justify-center w-8 h-8 rounded-full text-xs font-bold border shadow-sm shrink-0 ${
+                      offline
+                        ? 'bg-white dark:bg-amber-950 text-amber-700 dark:text-amber-300 border-amber-200 dark:border-amber-700'
+                        : 'bg-white dark:bg-slate-900 text-brand-navy-600 dark:text-white border-brand-navy-200 dark:border-slate-700'
+                    }`}>
+                      {String(candidate.ordinal_number).padStart(2, '0')}
+                    </span>
                   </div>
-                  <span className="flex items-center justify-center w-8 h-8 rounded-full bg-white dark:bg-slate-900 text-brand-navy-600 dark:text-white text-xs font-bold border border-brand-navy-200 dark:border-slate-700 shadow-sm shrink-0">
-                    {String(selectedKetua.ordinal_number).padStart(2, '0')}
-                  </span>
-                </div>
-
-                {/* Wakil 1 Display */}
-                <div className="rounded-2xl p-4 flex items-center justify-between bg-brand-navy-50/50 dark:bg-slate-800/50 border border-brand-navy-100/80 dark:border-slate-700">
-                  <div>
-                    <span className="text-[10px] font-bold text-brand-navy-400 dark:text-slate-400 uppercase tracking-widest block mb-1">Calon Wakil Ketua 1</span>
-                    <span className="font-heading font-bold text-base text-brand-navy-900 dark:text-white block truncate max-w-[200px]">{selectedWakil1.name}</span>
-                  </div>
-                  <span className="flex items-center justify-center w-8 h-8 rounded-full bg-white dark:bg-slate-900 text-brand-navy-600 dark:text-white text-xs font-bold border border-brand-navy-200 dark:border-slate-700 shadow-sm shrink-0">
-                    {String(selectedWakil1.ordinal_number).padStart(2, '0')}
-                  </span>
-                </div>
-
-                {/* Wakil 2 Display */}
-                <div className="rounded-2xl p-4 flex items-center justify-between bg-brand-navy-50/50 dark:bg-slate-800/50 border border-brand-navy-100/80 dark:border-slate-700">
-                  <div>
-                    <span className="text-[10px] font-bold text-brand-navy-400 dark:text-slate-400 uppercase tracking-widest block mb-1">Calon Wakil Ketua 2</span>
-                    <span className="font-heading font-bold text-base text-brand-navy-900 dark:text-white block truncate max-w-[200px]">{selectedWakil2.name}</span>
-                  </div>
-                  <span className="flex items-center justify-center w-8 h-8 rounded-full bg-white dark:bg-slate-900 text-brand-navy-600 dark:text-white text-xs font-bold border border-brand-navy-200 dark:border-slate-700 shadow-sm shrink-0">
-                    {String(selectedWakil2.ordinal_number).padStart(2, '0')}
-                  </span>
-                </div>
+                ))}
               </div>
 
               {/* Warning Alert box */}
-              <div className="flex items-start gap-3 rounded-2xl p-4 mb-6 text-left text-xs bg-brand-amber-50/80 dark:bg-amber-950/40 text-brand-amber-800 dark:text-amber-300 border border-brand-amber-200/50 dark:border-amber-900/40 font-medium">
-                <Check className="w-4 h-4 text-brand-amber-600 dark:text-brand-amber-400 mt-0.5 flex-shrink-0" />
+              <div className={`flex items-start gap-3 rounded-2xl p-4 mb-6 text-left text-xs font-medium border ${
+                offline
+                  ? 'bg-amber-100 dark:bg-amber-900/30 text-amber-800 dark:text-amber-300 border-amber-200 dark:border-amber-800'
+                  : 'bg-brand-amber-50/80 dark:bg-amber-950/40 text-brand-amber-800 dark:text-amber-300 border-brand-amber-200/50 dark:border-amber-900/40'
+              }`}>
+                {offline ? <WifiOff className="w-4 h-4 text-amber-600 dark:text-amber-400 mt-0.5 flex-shrink-0" /> : <Check className="w-4 h-4 text-brand-amber-600 dark:text-brand-amber-400 mt-0.5 flex-shrink-0" />}
                 <p>
-                  Setelah dikirim, token Anda akan dikunci dan pilihan tidak dapat diubah lagi.
+                  {offline
+                    ? 'Suara disimpan di perangkat. Token Anda akan dikunci dan pilihan tidak dapat diubah saat sinkronisasi terjadi.'
+                    : 'Setelah dikirim, token Anda akan dikunci dan pilihan tidak dapat diubah lagi.'}
                 </p>
               </div>
 
@@ -326,7 +507,11 @@ export default function VoteWizard({ candidates, voterToken }: VoteWizardProps) 
                   type="button"
                   disabled={isLoading}
                   onClick={() => setIsConfirmOpen(false)}
-                  className="flex-1 py-3.5 px-4 rounded-xl bg-white dark:bg-slate-800 border border-brand-navy-200 dark:border-slate-700 text-brand-navy-600 dark:text-slate-300 font-bold text-xs uppercase tracking-widest transition-all hover:bg-brand-navy-50 dark:hover:bg-slate-700"
+                  className={`flex-1 py-3.5 px-4 rounded-xl border font-bold text-xs uppercase tracking-widest transition-all ${
+                    offline
+                      ? 'bg-white dark:bg-amber-950 border-amber-200 dark:border-amber-700 text-amber-700 dark:text-amber-300 hover:bg-amber-50 dark:hover:bg-amber-900'
+                      : 'bg-white dark:bg-slate-800 border-brand-navy-200 dark:border-slate-700 text-brand-navy-600 dark:text-slate-300 hover:bg-brand-navy-50 dark:hover:bg-slate-700'
+                  }`}
                 >
                   Kembali
                 </button>
@@ -334,14 +519,18 @@ export default function VoteWizard({ candidates, voterToken }: VoteWizardProps) 
                   type="button"
                   disabled={isLoading}
                   onClick={handleConfirmSubmit}
-                  className="flex-1 py-3.5 px-4 primary-button text-xs uppercase tracking-widest flex items-center justify-center gap-2"
+                  className={`flex-1 py-3.5 px-4 text-xs uppercase tracking-widest flex items-center justify-center gap-2 rounded-xl font-bold transition-all ${
+                    offline
+                      ? 'bg-amber-500 hover:bg-amber-400 text-amber-950'
+                      : 'primary-button'
+                  }`}
                 >
                   {isLoading ? (
                     <>
-                      <Loader2 className="w-4 h-4 animate-spin" /> Mengirim
+                      <Loader2 className="w-4 h-4 animate-spin" /> {offline ? 'Menyimpan' : 'Mengirim'}
                     </>
                   ) : (
-                    'Kirim Suara'
+                    offline ? 'Simpan Offline' : 'Kirim Suara'
                   )}
                 </button>
               </div>
