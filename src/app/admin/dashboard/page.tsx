@@ -51,6 +51,25 @@ export default async function AdminDashboardPage() {
   const currentStatus = configMap.get('voting_status') || 'closed';
   const showResults = configMap.get('show_results') === 'true';
 
+  let candidateColors: Record<string, 'A' | 'B' | 'C'> = {};
+  try {
+    const rawColors = configMap.get('candidate_colors');
+    if (rawColors) {
+      candidateColors = JSON.parse(rawColors);
+    }
+  } catch {
+    candidateColors = {};
+  }
+
+  const resultsConfig = {
+    activeJabatan: (configMap.get('active_jabatan') as 'ketua' | 'wakil_1' | 'wakil_2') || 'ketua',
+    resultsMode: (configMap.get('results_mode') as 'session' | 'present') || 'session',
+    revealIdentity: configMap.get('reveal_identity') === 'true',
+    activeInterface: (configMap.get('active_interface') as 'cycle' | 'balloon' | 'barchart') || 'cycle',
+    cycleInterval: configMap.get('cycle_interval') || '30',
+    candidateColors,
+  };
+
   const votersNum = totalVoters || 0;
   const votesCastNum = totalVotesCast || 0;
 
@@ -61,6 +80,7 @@ export default async function AdminDashboardPage() {
       initialTotalVotesCast={votesCastNum}
       currentStatus={currentStatus}
       showResults={showResults}
+      resultsConfig={resultsConfig}
     />
   );
 }

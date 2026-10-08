@@ -25,6 +25,7 @@ import {
 } from 'lucide-react';
 
 import { motion, AnimatePresence } from 'framer-motion';
+import ResultsControls from './ResultsControls';
 
 export interface DashboardCandidate {
   id: string;
@@ -40,6 +41,14 @@ interface DashboardConsoleProps {
   initialTotalVotesCast: number;
   currentStatus: string;
   showResults: boolean;
+  resultsConfig?: {
+    activeJabatan: 'ketua' | 'wakil_1' | 'wakil_2';
+    resultsMode: 'session' | 'present';
+    revealIdentity: boolean;
+    activeInterface: 'cycle' | 'balloon' | 'barchart';
+    cycleInterval: string;
+    candidateColors: Record<string, 'A' | 'B' | 'C'>;
+  };
 }
 
 export default function DashboardConsole({
@@ -48,6 +57,14 @@ export default function DashboardConsole({
   initialTotalVotesCast,
   currentStatus,
   showResults,
+  resultsConfig = {
+    activeJabatan: 'ketua',
+    resultsMode: 'session',
+    revealIdentity: false,
+    activeInterface: 'cycle',
+    cycleInterval: '30',
+    candidateColors: {},
+  },
 }: DashboardConsoleProps) {
   const router = useRouter();
   const supabase = createClient();
@@ -439,7 +456,10 @@ export default function DashboardConsole({
 
       </div>
 
-      {/* 4. Three Live SVG Bar Charts Grid */}
+      {/* 4. Results Screen Live Display Controls */}
+      <ResultsControls initialConfig={resultsConfig} candidates={candidates} />
+
+      {/* 5. Three Live SVG Bar Charts Grid */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         {renderCategoryChart('ketua', 'Ketua OSIS')}
         {renderCategoryChart('wakil_1', 'Wakil Ketua 1')}

@@ -143,3 +143,34 @@ h1, h2, h3, h4, h5, h6 {
   background-color: rgba(245, 158, 11, 0.4);
   color: #fef3c7;
 }
+
+/* ========================================
+   BALLOON RESULTS SCREEN ANIMATIONS
+======================================= */
+@keyframes balloon-sway {
+  0% {
+    transform: rotate(-2.5deg);
+  }
+  100% {
+    transform: rotate(2.5deg);
+  }
+}
+
+@keyframes balloon-float {
+  0% {
+    transform: translateY(0px);
+  }
+  100% {
+    transform: translateY(-8px);
+  }
+}
+
+.animate-balloon-sway {
+  animation: balloon-sway 5s ease-in-out infinite alternate;
+  transform-origin: bottom center;
+}
+
+.animate-balloon-float {
+  animation: balloon-float 3s ease-in-out infinite alternate;
+}
+

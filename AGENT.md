@@ -4,6 +4,21 @@ This document outlines the architectural standards, UI/UX principles, and workfl
 
 ---
 
+## 0. Knowledge Graph First-Reference (`graphify-out/`)
+
+- **Look at Graph First (Token Saver)**:
+  - DO NOT blindly scan or grep files across the codebase.
+  - ALWAYS inspect `graphify-out/` first:
+    - Read [`graphify-out/GRAPH_REPORT.md`](file:///C:/Users/Stark/Documents/nawavote/graphify-out/GRAPH_REPORT.md) to understand core abstractions, God Nodes, and community clusters.
+    - Inspect [`graphify-out/graph.json`](file:///C:/Users/Stark/Documents/nawavote/graphify-out/graph.json) or run `/graphify query "<question>"` to trace call flows, import links, and dependencies across files.
+  - Using the graph first saves substantial context tokens and prevents hallucinated cross-file links.
+- **Keep Graph Fresh (Mandatory Update)**:
+  - Whenever code, components, API routes, or documents are added or modified, AI agents MUST update the graph.
+  - Run incremental update: `/graphify --update` (re-extracts only modified/new files).
+  - Alternatively run `graphify hook install` to automate post-commit rebuilds.
+
+---
+
 ## 1. Modular & Dynamic Code Architecture
 
 - **Reusable Components**: Keep UI components decoupled and reusable across views (e.g., `CandidateCard`, `ThemeProvider`, `ThemeToggle`).

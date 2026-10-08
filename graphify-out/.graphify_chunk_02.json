@@ -1,0 +1,19 @@
+{
+  "nodes": [
+    {
+      "id": "src_app_gemini_svg_1_icon",
+      "label": "Arcane Vote Glow Icon",
+      "file_type": "image",
+      "source_file": "C:\\Users\\Stark\\Documents\\nawavote\\src\\app\\gemini-svg (1).svg",
+      "source_location": null,
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null
+    }
+  ],
+  "edges": [],
+  "hyperedges": [],
+  "input_tokens": 0,
+  "output_tokens": 0
+}

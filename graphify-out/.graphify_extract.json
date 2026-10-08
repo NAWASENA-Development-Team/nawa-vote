@@ -1,0 +1,168 @@
+{
+  "nodes": [
+    {
+      "id": "agent_agent_workflow_guidelines",
+      "label": "NAWA-VOTE Agent Workflow & Guidelines",
+      "file_type": "document",
+      "source_file": "C:\\Users\\Stark\\Documents\\nawavote\\AGENT.md",
+      "source_location": null,
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null
+    },
+    {
+      "id": "agent_graphify_first_reference",
+      "label": "Knowledge Graph First-Reference (graphify-out/)",
+      "file_type": "concept",
+      "source_file": "C:\\Users\\Stark\\Documents\\nawavote\\AGENT.md",
+      "source_location": null,
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null
+    },
+    {
+      "id": "agent_graph_freshness_rule",
+      "label": "Keep Graph Fresh Protocol",
+      "file_type": "concept",
+      "source_file": "C:\\Users\\Stark\\Documents\\nawavote\\AGENT.md",
+      "source_location": null,
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null
+    },
+    {
+      "id": "agent_modular_architecture",
+      "label": "Modular & Dynamic Code Architecture",
+      "file_type": "concept",
+      "source_file": "C:\\Users\\Stark\\Documents\\nawavote\\AGENT.md",
+      "source_location": null,
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null
+    },
+    {
+      "id": "agent_ux_excellence",
+      "label": "UX Excellence & Attention to Detail",
+      "file_type": "concept",
+      "source_file": "C:\\Users\\Stark\\Documents\\nawavote\\AGENT.md",
+      "source_location": null,
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null
+    },
+    {
+      "id": "agent_workflow_protocol",
+      "label": "Workflow & Commitment Protocol",
+      "file_type": "concept",
+      "source_file": "C:\\Users\\Stark\\Documents\\nawavote\\AGENT.md",
+      "source_location": null,
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null
+    },
+    {
+      "id": "agents_agents_guidelines",
+      "label": "AGENTS.md Agent Guidelines",
+      "file_type": "document",
+      "source_file": "C:\\Users\\Stark\\Documents\\nawavote\\AGENTS.md",
+      "source_location": null,
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null
+    },
+    {
+      "id": "agents_rule_1_check_graphify",
+      "label": "Rule #1: Check graphify-out First",
+      "file_type": "concept",
+      "source_file": "C:\\Users\\Stark\\Documents\\nawavote\\AGENTS.md",
+      "source_location": null,
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null
+    },
+    {
+      "id": "agents_rule_2_update_graph",
+      "label": "Rule #2: Always Update Graph on Code Changes",
+      "file_type": "concept",
+      "source_file": "C:\\Users\\Stark\\Documents\\nawavote\\AGENTS.md",
+      "source_location": null,
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null
+    }
+  ],
+  "edges": [
+    {
+      "source": "agent_graphify_first_reference",
+      "target": "agent_agent_workflow_guidelines",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "C:\\Users\\Stark\\Documents\\nawavote\\AGENT.md",
+      "source_location": null,
+      "weight": 1.0
+    },
+    {
+      "source": "agent_graph_freshness_rule",
+      "target": "agent_agent_workflow_guidelines",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "C:\\Users\\Stark\\Documents\\nawavote\\AGENT.md",
+      "source_location": null,
+      "weight": 1.0
+    },
+    {
+      "source": "agents_rule_1_check_graphify",
+      "target": "agents_agents_guidelines",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "C:\\Users\\Stark\\Documents\\nawavote\\AGENTS.md",
+      "source_location": null,
+      "weight": 1.0
+    },
+    {
+      "source": "agents_rule_2_update_graph",
+      "target": "agents_agents_guidelines",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "C:\\Users\\Stark\\Documents\\nawavote\\AGENTS.md",
+      "source_location": null,
+      "weight": 1.0
+    },
+    {
+      "source": "agents_rule_1_check_graphify",
+      "target": "agent_graphify_first_reference",
+      "relation": "semantically_similar_to",
+      "confidence": "INFERRED",
+      "confidence_score": 0.95,
+      "source_file": "C:\\Users\\Stark\\Documents\\nawavote\\AGENTS.md",
+      "source_location": null,
+      "weight": 1.0
+    },
+    {
+      "source": "agents_rule_2_update_graph",
+      "target": "agent_graph_freshness_rule",
+      "relation": "semantically_similar_to",
+      "confidence": "INFERRED",
+      "confidence_score": 0.95,
+      "source_file": "C:\\Users\\Stark\\Documents\\nawavote\\AGENTS.md",
+      "source_location": null,
+      "weight": 1.0
+    }
+  ],
+  "hyperedges": [],
+  "input_tokens": 0,
+  "output_tokens": 0
+}

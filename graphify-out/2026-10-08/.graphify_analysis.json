@@ -1,0 +1,487 @@
+{
+  "communities": {
+    "0": [
+      "ref_next",
+      "ref_papaparse",
+      "src_app_admin_candidates_candidateeditor",
+      "src_app_admin_candidates_candidateeditor_candidate",
+      "src_app_admin_candidates_candidateeditor_candidateeditor",
+      "src_app_admin_candidates_candidateeditor_candidateeditorprops",
+      "src_app_admin_candidates_page",
+      "src_app_admin_candidates_page_admincandidatespage",
+      "src_app_admin_candidates_page_dynamic",
+      "src_app_admin_candidates_page_revalidate",
+      "src_app_admin_dashboard_dashboardconsole",
+      "src_app_admin_dashboard_dashboardconsole_dashboardcandidate",
+      "src_app_admin_dashboard_dashboardconsole_dashboardconsole",
+      "src_app_admin_dashboard_dashboardconsole_dashboardconsoleprops",
+      "src_app_admin_dashboard_dashboardcontrols",
+      "src_app_admin_dashboard_dashboardcontrols_dashboardcontrols",
+      "src_app_admin_dashboard_dashboardcontrols_dashboardcontrolsprops",
+      "src_app_admin_dashboard_page",
+      "src_app_admin_dashboard_page_admindashboardpage",
+      "src_app_admin_dashboard_page_dynamic",
+      "src_app_admin_dashboard_page_revalidate",
+      "src_app_admin_voters_page",
+      "src_app_admin_voters_page_adminvoterspage",
+      "src_app_admin_voters_page_dynamic",
+      "src_app_admin_voters_page_revalidate",
+      "src_app_admin_voters_votersmanager",
+      "src_app_admin_voters_votersmanager_votersmanager",
+      "src_app_admin_voters_votersmanager_votersmanagerprops",
+      "src_app_admin_voters_votersmanager_votertoken",
+      "src_app_verify_page",
+      "src_app_verify_page_publicverifypage",
+      "src_lib_actions_admin",
+      "src_lib_actions_admin_deletecandidate",
+      "src_lib_actions_admin_generatesecuretoken",
+      "src_lib_actions_admin_generatevotertokens",
+      "src_lib_actions_admin_resetvotingdata",
+      "src_lib_actions_admin_updatesystemconfig",
+      "src_lib_actions_admin_upsertcandidate",
+      "src_lib_actions_vote",
+      "src_lib_actions_vote_verificationresponse",
+      "src_lib_actions_vote_verifyvotetoken",
+      "src_lib_actions_vote_voteresponse",
+      "src_lib_supabase_server",
+      "src_lib_supabase_server_createadminclient",
+      "src_lib_supabase_server_createclient"
+    ],
+    "1": [
+      "src_app_voter_vote_votewizard",
+      "src_app_voter_vote_votewizard_categorizedcandidate",
+      "src_app_voter_vote_votewizard_votewizard",
+      "src_app_voter_vote_votewizard_votewizardprops",
+      "src_components_candidatecard",
+      "src_components_candidatecard_candidate",
+      "src_components_candidatecard_candidatecard",
+      "src_components_candidatecard_candidatecardprops",
+      "src_hooks_useonlinestatus",
+      "src_hooks_useonlinestatus_useonlinestatus",
+      "src_lib_actions_auth_loginvotertoken",
+      "src_lib_actions_vote_castsplitvote",
+      "src_lib_offline_offlinequeue",
+      "src_lib_offline_offlinequeue_clearsynced",
+      "src_lib_offline_offlinequeue_getofflinequeue",
+      "src_lib_offline_offlinequeue_getpendingqueue",
+      "src_lib_offline_offlinequeue_marksynced",
+      "src_lib_offline_offlinequeue_marksyncerror",
+      "src_lib_offline_offlinequeue_offlinevote",
+      "src_lib_offline_offlinequeue_pendingcount",
+      "src_lib_offline_offlinequeue_readqueue",
+      "src_lib_offline_offlinequeue_savevoteoffline",
+      "src_lib_offline_offlinequeue_writequeue",
+      "src_lib_offline_syncvotes",
+      "src_lib_offline_syncvotes_acquirecrosstablock",
+      "src_lib_offline_syncvotes_releasecrosstablock",
+      "src_lib_offline_syncvotes_syncofflinevotes",
+      "src_lib_offline_syncvotes_syncresult",
+      "src_lib_supabase_client",
+      "src_lib_supabase_client_createclient"
+    ],
+    "2": [
+      "ref_framer_motion",
+      "ref_lucide_react",
+      "ref_react",
+      "src_app_admin_layout",
+      "src_app_admin_layout_adminlayout",
+      "src_app_auth_login_page",
+      "src_app_auth_login_page_loginform",
+      "src_app_auth_login_page_loginpage",
+      "src_app_page",
+      "src_app_page_landingpage",
+      "src_app_results_leaderboardclient",
+      "src_app_results_leaderboardclient_candidate",
+      "src_app_results_leaderboardclient_leaderboardclient",
+      "src_app_results_page",
+      "src_app_results_page_publicresultspage",
+      "src_app_results_page_revalidate",
+      "src_app_voter_success_page",
+      "src_app_voter_success_page_successpage",
+      "src_app_voter_success_page_successview",
+      "src_components_nawalogo",
+      "src_components_nawalogo_nawalogo",
+      "src_components_nawalogo_nawalogoprops",
+      "src_components_themeprovider_usetheme",
+      "src_components_themetoggle",
+      "src_components_themetoggle_themetoggle",
+      "src_lib_actions_auth",
+      "src_lib_actions_auth_authresponse",
+      "src_lib_actions_auth_loginadmin",
+      "src_lib_actions_auth_logout"
+    ],
+    "3": [
+      "agent_civic_institutional_identity",
+      "agent_clean_layer_separation",
+      "agent_guidelines",
+      "agent_hydration_safe_dark_mode",
+      "agent_modular_dynamic_code_architecture",
+      "agent_smooth_micro_interactions",
+      "agent_workflow_commitment_protocol",
+      "code_of_conduct_enforcement",
+      "code_of_conduct_overview",
+      "code_of_conduct_pledge",
+      "code_of_conduct_responsibilities",
+      "code_of_conduct_standards",
+      "contributing_branching_strategy",
+      "contributing_code_style_and_typescript",
+      "contributing_conventional_commits",
+      "contributing_getting_started",
+      "contributing_guidelines",
+      "contributing_pull_request_process",
+      "readme_deployment",
+      "readme_getting_started",
+      "readme_key_features",
+      "readme_overview",
+      "readme_technology_stack",
+      "security_policy",
+      "security_secure_development_practices",
+      "security_supported_versions",
+      "security_vulnerability_reporting"
+    ],
+    "4": [
+      "package",
+      "package_name",
+      "package_packagemanager",
+      "package_private",
+      "package_scripts",
+      "package_scripts_build",
+      "package_scripts_dev",
+      "package_scripts_lint",
+      "package_scripts_start",
+      "package_version",
+      "ref_eslint",
+      "ref_eslint_config_next",
+      "ref_netlify_plugin_nextjs",
+      "ref_postcss",
+      "ref_react_dom",
+      "ref_react_is",
+      "ref_supabase_ssr",
+      "ref_tailwindcss",
+      "ref_types_node",
+      "ref_types_papaparse",
+      "ref_types_react",
+      "ref_types_react_dom",
+      "ref_typescript",
+      "src_middleware",
+      "src_middleware_config",
+      "src_middleware_middleware"
+    ],
+    "5": [
+      "tsconfig",
+      "tsconfig_compileroptions",
+      "tsconfig_compileroptions_allowjs",
+      "tsconfig_compileroptions_esmoduleinterop",
+      "tsconfig_compileroptions_incremental",
+      "tsconfig_compileroptions_isolatedmodules",
+      "tsconfig_compileroptions_jsx",
+      "tsconfig_compileroptions_lib",
+      "tsconfig_compileroptions_module",
+      "tsconfig_compileroptions_moduleresolution",
+      "tsconfig_compileroptions_noemit",
+      "tsconfig_compileroptions_paths",
+      "tsconfig_compileroptions_plugins",
+      "tsconfig_compileroptions_resolvejsonmodule",
+      "tsconfig_compileroptions_skiplibcheck",
+      "tsconfig_compileroptions_strict",
+      "tsconfig_exclude",
+      "tsconfig_include"
+    ],
+    "6": [
+      "src_app_globals",
+      "src_app_layout",
+      "src_app_layout_inter",
+      "src_app_layout_jetbrainsmono",
+      "src_app_layout_metadata",
+      "src_app_layout_plusjakartasans",
+      "src_app_layout_rootlayout",
+      "src_components_serviceworkerregistration",
+      "src_components_serviceworkerregistration_serviceworkerregistration",
+      "src_components_themeprovider",
+      "src_components_themeprovider_theme",
+      "src_components_themeprovider_themecontext",
+      "src_components_themeprovider_themecontexttype",
+      "src_components_themeprovider_themeprovider",
+      "src_hooks_useserviceworker",
+      "src_hooks_useserviceworker_useserviceworker"
+    ],
+    "7": [
+      "package_dependencies",
+      "package_dependencies_framer_motion",
+      "package_dependencies_lucide_react",
+      "package_dependencies_next",
+      "package_dependencies_papaparse",
+      "package_dependencies_react",
+      "package_dependencies_react_dom",
+      "package_dependencies_react_is",
+      "package_dependencies_recharts",
+      "package_dependencies_supabase_ssr",
+      "package_dependencies_supabase_supabase_js"
+    ],
+    "8": [
+      "package_devdependencies",
+      "package_devdependencies_eslint",
+      "package_devdependencies_eslint_config_next",
+      "package_devdependencies_netlify_plugin_nextjs",
+      "package_devdependencies_postcss",
+      "package_devdependencies_tailwindcss",
+      "package_devdependencies_types_node",
+      "package_devdependencies_types_papaparse",
+      "package_devdependencies_types_react",
+      "package_devdependencies_types_react_dom",
+      "package_devdependencies_typescript"
+    ],
+    "9": [
+      "ref_fs",
+      "ref_path",
+      "ref_supabase_supabase_js",
+      "scripts_generate_tokens",
+      "scripts_generate_tokens_createclient",
+      "scripts_generate_tokens_envpath",
+      "scripts_generate_tokens_fs",
+      "scripts_generate_tokens_generatetoken",
+      "scripts_generate_tokens_main",
+      "scripts_generate_tokens_path",
+      "scripts_generate_tokens_supabase"
+    ],
+    "10": [
+      "public_manifest",
+      "public_manifest_background_color",
+      "public_manifest_description",
+      "public_manifest_display",
+      "public_manifest_icons",
+      "public_manifest_name",
+      "public_manifest_short_name",
+      "public_manifest_start_url",
+      "public_manifest_theme_color"
+    ],
+    "11": [
+      "ref_recharts",
+      "src_app_admin_analytics_analyticsdashboard",
+      "src_app_admin_analytics_analyticsdashboard_analyticsdashboard",
+      "src_app_admin_analytics_analyticsdashboard_analyticsdashboardprops",
+      "src_app_admin_analytics_analyticsdashboard_dashboardcandidate",
+      "src_app_admin_analytics_page",
+      "src_app_admin_analytics_page_adminanalyticspage",
+      "src_app_admin_analytics_page_dynamic",
+      "src_app_admin_analytics_page_revalidate"
+    ],
+    "12": [
+      "public_sw",
+      "public_sw_cachefirstsafe",
+      "public_sw_cacheimage",
+      "public_sw_handlerscrequest",
+      "public_sw_networkfirstpage",
+      "public_sw_offlinefallback",
+      "public_sw_postofflineintercept"
+    ],
+    "13": [
+      "eslintrc",
+      "eslintrc_extends",
+      "ref_next_core_web_vitals",
+      "ref_next_typescript"
+    ],
+    "14": [
+      "src_app_voter_vote_page",
+      "src_app_voter_vote_page_dynamic",
+      "src_app_voter_vote_page_revalidate",
+      "src_app_voter_vote_page_votepage"
+    ],
+    "15": [
+      "src_lib_utils_validate",
+      "src_lib_utils_validate_validatenis",
+      "src_lib_utils_validate_validatepin",
+      "src_lib_utils_validate_validateuuid"
+    ],
+    "16": [
+      "next",
+      "next_config",
+      "next_config_nextconfig"
+    ],
+    "17": [
+      "postcss_config",
+      "postcss_config_config",
+      "postcss_load_config"
+    ],
+    "18": [
+      "src_app_gemini_svg_2_arcane_crown_glow",
+      "src_app_gemini_svg_2_icon"
+    ],
+    "19": [
+      "tailwind_config",
+      "tailwindcss"
+    ],
+    "20": [
+      "src_app_gemini_svg_1_icon"
+    ]
+  },
+  "cohesion": {
+    "0": 0.09898989898989899,
+    "1": 0.16551724137931034,
+    "2": 0.16009852216748768,
+    "3": 0.08547008547008547,
+    "4": 0.07692307692307693,
+    "5": 0.1111111111111111,
+    "6": 0.175,
+    "7": 0.18181818181818182,
+    "8": 0.18181818181818182,
+    "9": 0.2,
+    "10": 0.2222222222222222,
+    "11": 0.2777777777777778,
+    "12": 0.3333333333333333,
+    "13": 0.5,
+    "14": 0.5,
+    "15": 0.5,
+    "16": 0.6666666666666666,
+    "17": 0.6666666666666666,
+    "18": 1.0,
+    "19": 1.0,
+    "20": 1.0
+  },
+  "gods": [
+    {
+      "id": "ref_react",
+      "label": "react",
+      "degree": 23
+    },
+    {
+      "id": "src_lib_supabase_server_createclient",
+      "label": "createClient()",
+      "degree": 23
+    },
+    {
+      "id": "ref_next",
+      "label": "next",
+      "degree": 22
+    },
+    {
+      "id": "ref_lucide_react",
+      "label": "lucide-react",
+      "degree": 16
+    },
+    {
+      "id": "src_app_voter_vote_votewizard_votewizard",
+      "label": "VoteWizard()",
+      "degree": 16
+    },
+    {
+      "id": "tsconfig_compileroptions",
+      "label": "compilerOptions",
+      "degree": 15
+    },
+    {
+      "id": "ref_framer_motion",
+      "label": "framer-motion",
+      "degree": 11
+    },
+    {
+      "id": "src_lib_offline_syncvotes_syncofflinevotes",
+      "label": "syncOfflineVotes()",
+      "degree": 10
+    },
+    {
+      "id": "src_components_nawalogo_nawalogo",
+      "label": "NawaLogo()",
+      "degree": 9
+    },
+    {
+      "id": "src_components_themetoggle_themetoggle",
+      "label": "ThemeToggle()",
+      "degree": 8
+    }
+  ],
+  "surprises": [
+    {
+      "source": "Modular & Dynamic Code Architecture",
+      "target": "Code Style & TypeScript Guidelines",
+      "source_files": [
+        "AGENT.md",
+        "CONTRIBUTING.md"
+      ],
+      "confidence": "INFERRED",
+      "relation": "conceptually_related_to",
+      "why": "inferred connection - not explicitly stated in source; connects across different repos/directories"
+    },
+    {
+      "source": "Clean Layer Separation",
+      "target": "Architecture & Technology Stack",
+      "source_files": [
+        "AGENT.md",
+        "README.md"
+      ],
+      "confidence": "INFERRED",
+      "relation": "conceptually_related_to",
+      "why": "inferred connection - not explicitly stated in source; connects across different repos/directories"
+    },
+    {
+      "source": "Workflow & Commitment Protocol",
+      "target": "Conventional Commits Specification",
+      "source_files": [
+        "AGENT.md",
+        "CONTRIBUTING.md"
+      ],
+      "confidence": "INFERRED",
+      "relation": "conceptually_related_to",
+      "why": "inferred connection - not explicitly stated in source; connects across different repos/directories"
+    },
+    {
+      "source": "Workflow & Commitment Protocol",
+      "target": "Getting Started & Local Setup",
+      "source_files": [
+        "AGENT.md",
+        "README.md"
+      ],
+      "confidence": "INFERRED",
+      "relation": "conceptually_related_to",
+      "why": "inferred connection - not explicitly stated in source; connects across different repos/directories"
+    },
+    {
+      "source": "Secure Development Practices",
+      "target": "Pull Request Process",
+      "source_files": [
+        "SECURITY.md",
+        "CONTRIBUTING.md"
+      ],
+      "confidence": "INFERRED",
+      "relation": "conceptually_related_to",
+      "why": "inferred connection - not explicitly stated in source; connects across different repos/directories"
+    }
+  ],
+  "questions": [
+    {
+      "type": "bridge_node",
+      "question": "Why does `next` connect `Community 0` to `Community 1`, `Community 2`, `Community 4`, `Community 6`, `Community 11`, `Community 14`?",
+      "why": "High betweenness centrality (0.144) - this node is a cross-community bridge."
+    },
+    {
+      "type": "bridge_node",
+      "question": "Why does `react` connect `Community 2` to `Community 0`, `Community 1`, `Community 4`, `Community 6`, `Community 11`?",
+      "why": "High betweenness centrality (0.108) - this node is a cross-community bridge."
+    },
+    {
+      "type": "bridge_node",
+      "question": "Why does `dependencies` connect `Community 7` to `Community 4`?",
+      "why": "High betweenness centrality (0.051) - this node is a cross-community bridge."
+    },
+    {
+      "type": "isolated_nodes",
+      "question": "What connects `next/core-web-vitals`, `next/typescript`, `nextConfig` to the rest of the system?",
+      "why": "122 weakly-connected nodes found - possible documentation gaps or missing edges."
+    },
+    {
+      "type": "low_cohesion",
+      "question": "Should `Community 0` be split into smaller, more focused modules?",
+      "why": "Cohesion score 0.09898989898989899 - nodes in this community are weakly interconnected."
+    },
+    {
+      "type": "low_cohesion",
+      "question": "Should `Community 3` be split into smaller, more focused modules?",
+      "why": "Cohesion score 0.08547008547008547 - nodes in this community are weakly interconnected."
+    },
+    {
+      "type": "low_cohesion",
+      "question": "Should `Community 4` be split into smaller, more focused modules?",
+      "why": "Cohesion score 0.07692307692307693 - nodes in this community are weakly interconnected."
+    }
+  ]
+}
