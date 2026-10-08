@@ -9,8 +9,13 @@ import { LogOut, Check, ArrowRight, ArrowLeft, Loader2, ShieldCheck, Vote, X, Wi
 import { motion, AnimatePresence } from 'framer-motion';
 import NawaLogo from '@/components/NawaLogo';
 import { useOnlineStatus } from '@/hooks/useOnlineStatus';
+import { useServiceWorker } from '@/hooks/useServiceWorker';
 import { saveVoteOffline, pendingCount } from '@/lib/offline/offlineQueue';
 import { syncOfflineVotes } from '@/lib/offline/syncVotes';
+
+// sessionStorage key for persisting voter session data so the SW-cached
+// page shell can rehydrate from local storage when the network is unavailable.
+const SESSION_KEY = 'nawa_voter_session';
 
 // Extend Candidate type for categories
 export interface CategorizedCandidate extends Candidate {
@@ -18,14 +23,62 @@ export interface CategorizedCandidate extends Candidate {
 }
 
 interface VoteWizardProps {
-  candidates: CategorizedCandidate[];
-  voterToken: string;
-  voterId: string;
+  // Props are optional so the SW-cached shell can rehydrate from sessionStorage
+  // when the page loads offline without hitting the server.
+  candidates?: CategorizedCandidate[];
+  voterToken?: string;
+  voterId?: string;
 }
 
-export default function VoteWizard({ candidates, voterToken, voterId }: VoteWizardProps) {
+export default function VoteWizard({
+  candidates: propCandidates,
+  voterToken: propVoterToken,
+  voterId: propVoterId,
+}: VoteWizardProps) {
   const router = useRouter();
   const { isOnline, wasOffline } = useOnlineStatus();
+
+  // Register the service worker for offline caching (no-op if unsupported)
+  useServiceWorker();
+
+  // ── Session rehydration ──────────────────────────────────────────────────
+  // When the page is served from SW cache (offline), server props are missing.
+  // Fall back to what was persisted in sessionStorage on the last online load.
+  const [candidates, setCandidates] = useState<CategorizedCandidate[]>(propCandidates ?? []);
+  const [voterToken, setVoterToken] = useState(propVoterToken ?? '');
+  const [voterId, setVoterId] = useState(propVoterId ?? '');
+
+  useEffect(() => {
+    if (propCandidates && propCandidates.length > 0 && propVoterToken && propVoterId) {
+      // Online load — persist fresh data for the offline shell
+      try {
+        sessionStorage.setItem(
+          SESSION_KEY,
+          JSON.stringify({
+            candidates: propCandidates,
+            voterToken: propVoterToken,
+            voterId: propVoterId,
+          })
+        );
+      } catch {
+        // sessionStorage full or blocked — non-fatal
+      }
+    } else {
+      // Offline load (SW-cached shell) — rehydrate from sessionStorage
+      try {
+        const raw = sessionStorage.getItem(SESSION_KEY);
+        if (raw) {
+          const saved = JSON.parse(raw);
+          if (saved.candidates?.length) setCandidates(saved.candidates);
+          if (saved.voterToken) setVoterToken(saved.voterToken);
+          if (saved.voterId) setVoterId(saved.voterId);
+        }
+      } catch {
+        // Corrupt or missing — user will see empty candidates, which is fine
+      }
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []); // mount only — props are stable from server render
 
   // Step Wizard States: 1 = Ketua, 2 = Wakil 1, 3 = Wakil 2
   const [step, setStep] = useState<1 | 2 | 3>(1);
@@ -87,6 +140,7 @@ export default function VoteWizard({ candidates, voterToken, voterId }: VoteWiza
       runSync();
     }
   }, [isOnline, wasOffline, runSync]);
+
 
   const getFilteredCandidates = () => {
     if (step === 1) return candidates.filter(c => c.category === 'ketua');
