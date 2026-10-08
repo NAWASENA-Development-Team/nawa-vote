@@ -1,9 +1,16 @@
 // Client-side sync: replays the offline queue to Supabase when connectivity returns.
 // Uses the browser Supabase client (anon key) to call the same RPC as the server action.
-// Each vote is attempted independently — one failure doesn't abort the batch.
+// Each vote is attempted independently — one failure does not abort the batch.
+//
+// SAFETY GUARANTEES:
+//   1. Module-level lock (isSyncing) prevents concurrent runs from racing.
+//   2. Snapshot of pending taken at start — votes added mid-run are not included.
+//   3. markSynced() called per-vote immediately on success.
+//   4. clearSynced() called at end — removes all synced entries from localStorage.
+//   5. "Already voted" DB errors treated as success to prevent infinite retry loops.
 
 import { createClient } from '@/lib/supabase/client';
-import { getPendingQueue, markSynced, markSyncError } from './offlineQueue';
+import { getPendingQueue, markSynced, markSyncError, clearSynced } from './offlineQueue';
 
 export interface SyncResult {
   total: number;
@@ -12,18 +19,29 @@ export interface SyncResult {
   errors: { localId: string; voterToken: string; error: string }[];
 }
 
+// Module-level lock — only one sync run at a time across all callers.
+let isSyncing = false;
+
 /**
  * Sync all pending offline votes to Supabase.
- * Returns a summary of what happened so the caller can surface a toast.
+ * Safe to call multiple times: concurrent calls are silently skipped.
+ * Returns a summary so the caller can surface a toast.
  */
 export async function syncOfflineVotes(): Promise<SyncResult> {
-  const supabase = createClient();
+  if (isSyncing) {
+    return { total: 0, succeeded: 0, failed: 0, errors: [] };
+  }
+
+  // Snapshot the queue now — votes saved after this point are NOT included in this run.
   const pending = getPendingQueue();
 
   if (pending.length === 0) {
     return { total: 0, succeeded: 0, failed: 0, errors: [] };
   }
 
+  isSyncing = true;
+
+  const supabase = createClient();
   const result: SyncResult = {
     total: pending.length,
     succeeded: 0,
@@ -42,11 +60,12 @@ export async function syncOfflineVotes(): Promise<SyncResult> {
       });
 
       if (error) {
-        // "Voter has already voted" is a no-op — treat as success to avoid retry loops
+        // "Voter has already voted" in the DB — vote is already recorded, treat as success.
+        // This prevents infinite retries when the DB already has the vote.
         const alreadyVoted =
           error.message?.toLowerCase().includes('sudah') ||
           error.message?.toLowerCase().includes('already') ||
-          error.code === 'P0001'; // plpgsql RAISE
+          error.code === 'P0001'; // plpgsql RAISE exception code
 
         if (alreadyVoted) {
           markSynced(vote.localId);
@@ -68,5 +87,10 @@ export async function syncOfflineVotes(): Promise<SyncResult> {
     }
   }
 
+  // Remove all successfully synced entries from localStorage immediately.
+  // Failed ones stay so they are retried on the next reconnect.
+  clearSynced();
+
+  isSyncing = false;
   return result;
 }

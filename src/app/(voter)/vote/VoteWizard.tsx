@@ -59,20 +59,30 @@ export default function VoteWizard({ candidates, voterToken, voterId }: VoteWiza
       setSyncStatus('error');
     }
 
-    // Auto-dismiss the done toast after 4 seconds
+    // Update pending count after sync
+    setPendingVotes(pendingCount());
+
+    // Auto-dismiss the done/error toast after 4 seconds
     setTimeout(() => setSyncStatus('idle'), 4000);
   }, []);
 
+  // On mount: if already online and there are pending votes from a previous session
+  // (e.g. device rebooted), sync immediately without waiting for a reconnect event.
+  useEffect(() => {
+    if (isOnline && pendingCount() > 0) {
+      runSync();
+    }
+    // Refresh the pending badge count regardless
+    setPendingVotes(pendingCount());
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []); // intentionally empty — mount only
+
+  // Mid-session reconnect: wasOffline flips true after an offline episode in this session.
   useEffect(() => {
     if (isOnline && wasOffline) {
       runSync();
     }
   }, [isOnline, wasOffline, runSync]);
-
-  // Refresh pending count when opening the page
-  useEffect(() => {
-    setPendingVotes(pendingCount());
-  }, []);
 
   const getFilteredCandidates = () => {
     if (step === 1) return candidates.filter(c => c.category === 'ketua');
