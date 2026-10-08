@@ -150,9 +150,9 @@
     "semantic_hash": "1e211b4799407e1f42fc1d5db06bcf03"
   },
   "src/components/CandidateCard.tsx": {
-    "mtime": 1791486705.789058,
-    "seen": 1791486858.8743608,
-    "ast_hash": "8aa963863fe7253f052c47fb36741eea",
+    "mtime": 1791487162.5017917,
+    "seen": 1791487234.3677053,
+    "ast_hash": "20c785fdd523bed20ecd6a28fab77ee1",
     "semantic_hash": ""
   },
   "src/components/NawaLogo.tsx": {
