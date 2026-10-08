@@ -52,25 +52,22 @@ export default function CandidateCard({
   };
 
   return (
-    <motion.div
-      initial={{ opacity: 0, y: 12 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.3 }}
-      className={`relative flex flex-col h-full rounded-2xl overflow-hidden transition-all duration-300 bg-white ${
+    <div
+      className={`relative flex flex-col h-full rounded-2xl overflow-hidden transition-all duration-300 bg-white dark:bg-slate-900 ${
         isSelected 
-          ? 'border-2 border-brand-amber-400 shadow-lg shadow-brand-amber-500/10 ring-2 ring-brand-amber-100'
-          : 'border border-brand-navy-100 shadow-sm hover:border-brand-navy-200'
+          ? 'border-2 border-brand-amber-500 shadow-lg shadow-brand-amber-500/10 ring-2 ring-brand-amber-400/20'
+          : 'border border-brand-navy-100 dark:border-slate-800 shadow-sm hover:border-brand-navy-200 dark:hover:border-slate-700'
       }`}
     >
       {/* Ordinal Number Badge */}
       <div className="absolute top-4 left-4 z-10">
-        <div className="flex items-center justify-center rounded-full bg-white/95 text-brand-navy-900 font-black border border-brand-navy-100 shadow-sm w-10 h-10 text-lg">
+        <div className="flex items-center justify-center rounded-full bg-white/95 dark:bg-slate-900/95 text-brand-navy-900 dark:text-white font-black border border-brand-navy-100 dark:border-slate-800 shadow-sm w-10 h-10 text-lg">
           {formattedNumber}
         </div>
       </div>
 
       {/* Candidate Image Container */}
-      <div className="relative w-full bg-brand-navy-50 overflow-hidden group transition-all duration-500 aspect-[3/4]">
+      <div className="relative w-full bg-brand-navy-50 dark:bg-slate-950 overflow-hidden group transition-all duration-500 aspect-[3/4]">
         {candidate.photo_url ? (
           <Image
             src={candidate.photo_url}
@@ -92,7 +89,7 @@ export default function CandidateCard({
         )}
         
         {/* Gradient Overlay for Text Readability */}
-        <div className="absolute inset-0 bg-gradient-to-t from-brand-navy-950/90 via-brand-navy-900/30 to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-t from-brand-navy-950/90 via-brand-navy-900/30 to-transparent dark:from-slate-950 dark:via-slate-950/40" />
 
         {/* Absolute Titles on Image */}
         <div className="absolute left-5 right-5 transition-all duration-300 bottom-5">
@@ -112,7 +109,7 @@ export default function CandidateCard({
         {isCompact && (
           <button
             onClick={() => setIsExpanded(true)}
-            className="text-xs font-semibold text-brand-navy-500 hover:text-brand-navy-800 mb-4 flex items-center justify-center gap-1 transition-colors"
+            className="text-xs font-semibold text-brand-navy-500 dark:text-slate-400 hover:text-brand-navy-800 dark:hover:text-white mb-4 flex items-center justify-center gap-1 transition-colors"
           >
             Lihat Visi & Misi
           </button>
@@ -122,7 +119,7 @@ export default function CandidateCard({
         {!isCompact && compact && (
            <button
             onClick={() => setIsExpanded(false)}
-            className="text-xs font-semibold text-brand-navy-500 hover:text-brand-navy-800 mb-4 flex items-center justify-center gap-1 transition-colors"
+            className="text-xs font-semibold text-brand-navy-500 dark:text-slate-400 hover:text-brand-navy-800 dark:hover:text-white mb-4 flex items-center justify-center gap-1 transition-colors"
           >
             Sembunyikan
           </button>
@@ -130,11 +127,11 @@ export default function CandidateCard({
 
         {/* Vision Section */}
         {!isCompact && candidate.vision && (
-          <div className="mb-4 flex-grow bg-brand-navy-50/50 border border-brand-navy-100 p-4 rounded-xl relative overflow-hidden">
-            <h4 className="text-xs uppercase tracking-wide font-bold text-brand-navy-500 mb-2">
+          <div className="mb-4 flex-grow bg-brand-navy-50/50 dark:bg-slate-800/40 border border-brand-navy-100 dark:border-slate-800 p-4 rounded-xl relative overflow-hidden">
+            <h4 className="text-xs uppercase tracking-wide font-bold text-brand-navy-500 dark:text-slate-400 mb-2">
               Visi
             </h4>
-            <p className="text-brand-navy-800 text-sm font-medium leading-relaxed">
+            <p className="text-brand-navy-800 dark:text-slate-200 text-sm font-medium leading-relaxed">
               &ldquo;{candidate.vision}&rdquo;
             </p>
           </div>
@@ -142,13 +139,13 @@ export default function CandidateCard({
 
         {/* Mission Section (Accordion) */}
         {!isCompact && candidate.mission && candidate.mission.length > 0 && (
-          <div className="mb-6 bg-white border border-brand-navy-100 rounded-xl overflow-hidden shadow-sm transition-all hover:border-brand-navy-200">
+          <div className="mb-6 bg-white dark:bg-slate-900 border border-brand-navy-100 dark:border-slate-800 rounded-xl overflow-hidden shadow-sm transition-all hover:border-brand-navy-200 dark:hover:border-slate-700">
             <button
               onClick={() => setShowMissions(!showMissions)}
-              className="flex items-center justify-between w-full text-left text-xs uppercase tracking-wide font-bold text-brand-navy-700 p-4 hover:bg-brand-navy-50/50 transition-colors"
+              className="flex items-center justify-between w-full text-left text-xs uppercase tracking-wide font-bold text-brand-navy-700 dark:text-slate-300 p-4 hover:bg-brand-navy-50/50 dark:hover:bg-slate-800/50 transition-colors"
             >
               <span>{showMissions ? 'Sembunyikan Misi' : 'Lihat Misi'}</span>
-              {showMissions ? <ChevronUp className="w-4 h-4 text-brand-navy-400" /> : <ChevronDown className="w-4 h-4 text-brand-navy-400" />}
+              {showMissions ? <ChevronUp className="w-4 h-4 text-brand-navy-400 dark:text-slate-400" /> : <ChevronDown className="w-4 h-4 text-brand-navy-400 dark:text-slate-400" />}
             </button>
 
             <AnimatePresence initial={false}>
@@ -158,12 +155,12 @@ export default function CandidateCard({
                   animate={{ height: 'auto', opacity: 1 }}
                   exit={{ height: 0, opacity: 0 }}
                   transition={{ duration: 0.2 }}
-                  className="bg-brand-navy-50/30 border-t border-brand-navy-100"
+                  className="bg-brand-navy-50/30 dark:bg-slate-950/40 border-t border-brand-navy-100 dark:border-slate-800"
                 >
-                  <ul className="space-y-3 p-4 text-sm text-brand-navy-700 font-medium">
+                  <ul className="space-y-3 p-4 text-sm text-brand-navy-700 dark:text-slate-300 font-medium">
                     {candidate.mission.map((item, idx) => (
                       <li key={idx} className="flex items-start gap-3">
-                        <span className="flex-shrink-0 flex items-center justify-center w-5 h-5 rounded-full bg-brand-navy-100 text-brand-navy-700 text-[10px] font-bold mt-0.5">
+                        <span className="flex-shrink-0 flex items-center justify-center w-5 h-5 rounded-full bg-brand-navy-100 dark:bg-slate-800 text-brand-navy-700 dark:text-slate-300 text-[10px] font-bold mt-0.5">
                           {idx + 1}
                         </span>
                         <span className="leading-relaxed">{item}</span>
@@ -180,10 +177,10 @@ export default function CandidateCard({
         {showVoteButton && onSelect && (
           <button
             onClick={() => onSelect(candidate)}
-            className={`w-full px-4 rounded-xl font-bold uppercase tracking-wider text-xs transition-all duration-300 flex items-center justify-center gap-2 mt-auto py-3.5 ${
+            className={`w-full px-4 rounded-xl font-bold uppercase tracking-wider text-xs transition-all duration-200 flex items-center justify-center gap-2 mt-auto py-3.5 ${
               isSelected
-                ? 'bg-brand-amber-500 text-brand-navy-950 font-bold border-none'
-                : 'bg-white border-2 border-brand-navy-100 text-brand-navy-700 hover:border-brand-amber-400 hover:bg-brand-amber-50/50'
+                ? 'bg-brand-amber-500 text-brand-navy-950 font-bold border-none shadow-md'
+                : 'bg-white dark:bg-slate-800 border-2 border-brand-navy-100 dark:border-slate-700 text-brand-navy-700 dark:text-slate-200 hover:border-brand-amber-400 hover:bg-brand-amber-50/50 dark:hover:bg-slate-700'
             }`}
           >
             {isSelected ? (
@@ -196,6 +193,6 @@ export default function CandidateCard({
           </button>
         )}
       </div>
-    </motion.div>
+    </div>
   );
 }
