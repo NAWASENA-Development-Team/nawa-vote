@@ -5363,7 +5363,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "src/app/(voter)/vote/VoteWizard.tsx",
-      "source_location": "L1012",
+      "source_location": "L1014",
       "weight": 1.0
     },
     {
@@ -12280,5 +12280,5 @@
     }
   ],
   "hyperedges": [],
-  "built_at_commit": "ec482046ea1ae648c47bb74af6f44d9a8db7df7d"
+  "built_at_commit": "26409d477b4b593537b6d8f9ff02ed24485004b1"
 }

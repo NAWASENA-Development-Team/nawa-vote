@@ -1002,20 +1002,22 @@ export default function VoteWizard({
           animate={{ opacity: 1, y: 0 }}
           exit={{ opacity: 0, y: -10 }}
           transition={{ duration: 0.2 }}
-          className="flex flex-wrap justify-center items-start gap-8 mt-4 px-2 w-full mx-auto"
+          className={`w-full grid gap-6 items-start mt-4 px-2 mx-auto ${
+            currentCandidates.length === 1
+              ? 'grid-cols-1 max-w-sm'
+              : currentCandidates.length === 2
+              ? 'grid-cols-1 sm:grid-cols-2 max-w-2xl'
+              : 'grid-cols-1 sm:grid-cols-3 max-w-5xl'
+          }`}
         >
           {currentCandidates.map((cand) => (
-            <div
+            <CandidateCard
               key={cand.id}
-              className="w-full sm:w-[350px] lg:w-[360px] max-w-[380px] flex-shrink-0"
-            >
-              <CandidateCard
-                candidate={cand}
-                onSelect={handleSelect}
-                isSelected={currentSelection?.id === cand.id}
-                compact={true}
-              />
-            </div>
+              candidate={cand}
+              onSelect={handleSelect}
+              isSelected={currentSelection?.id === cand.id}
+              compact={true}
+            />
           ))}
         </motion.div>
       </AnimatePresence>
