@@ -6,10 +6,10 @@
     "semantic_hash": "f09740d526f714b8a04de7631b2e9c50"
   },
   "next.config.mjs": {
-    "mtime": 1791391126.4412374,
-    "seen": 1791470626.284766,
-    "ast_hash": "4bfdfa4832cde2981b108b6e397ecf80",
-    "semantic_hash": "4bfdfa4832cde2981b108b6e397ecf80"
+    "mtime": 1791485642.0967047,
+    "seen": 1791485813.0249314,
+    "ast_hash": "a54c87cb8bb36921368daced055d2610",
+    "semantic_hash": ""
   },
   "package.json": {
     "mtime": 1791392879.4408605,
@@ -30,9 +30,9 @@
     "semantic_hash": "0b5f1d96ef9d32d5c697c0f9d25fc1a6"
   },
   "public/sw.js": {
-    "mtime": 1791484598.260491,
-    "seen": 1791484955.5918617,
-    "ast_hash": "ebb23a96215100b064c1452b350b9fa6",
+    "mtime": 1791485707.0267549,
+    "seen": 1791485813.0253642,
+    "ast_hash": "a2d6a835dcb29961075520999a29a7c0",
     "semantic_hash": ""
   },
   "scripts/generate-tokens.js": {
@@ -54,9 +54,9 @@
     "semantic_hash": "91602a575536d2b1584ac39c3f667d45"
   },
   "src/app/(voter)/vote/VoteWizard.tsx": {
-    "mtime": 1791484877.277024,
-    "seen": 1791484955.5923269,
-    "ast_hash": "7f430f8c171d89923a167f4fe626cfed",
+    "mtime": 1791485723.1139376,
+    "seen": 1791485813.0257828,
+    "ast_hash": "141b63a4f24802783a46a2c6d3e6d007",
     "semantic_hash": ""
   },
   "src/app/(voter)/vote/page.tsx": {
@@ -150,10 +150,10 @@
     "semantic_hash": "1e211b4799407e1f42fc1d5db06bcf03"
   },
   "src/components/CandidateCard.tsx": {
-    "mtime": 1791469517.638385,
-    "seen": 1791470626.2847881,
-    "ast_hash": "1dc069205d04180385636670c362bb43",
-    "semantic_hash": "1dc069205d04180385636670c362bb43"
+    "mtime": 1791485659.8346643,
+    "seen": 1791485813.0292325,
+    "ast_hash": "0d0ab81cff09a4fea78967d80ccb3f06",
+    "semantic_hash": ""
   },
   "src/components/NawaLogo.tsx": {
     "mtime": 1791391126.4711843,

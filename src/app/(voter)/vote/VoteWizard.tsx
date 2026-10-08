@@ -182,8 +182,10 @@ export default function VoteWizard({
 
   // Inline Token Input state (when voterToken is missing, e.g. after kiosk reset)
   const [tokenInput, setTokenInput] = useState('');
+  const [tokenSuffix, setTokenSuffix] = useState('');
   const [tokenInputError, setTokenInputError] = useState<string | null>(null);
   const [isTokenSubmitting, setIsTokenSubmitting] = useState(false);
+  const tokenInputRef = useRef<HTMLInputElement>(null);
 
   // Auto-sync when connectivity is restored
   const runSync = useCallback(async () => {
@@ -256,6 +258,8 @@ export default function VoteWizard({
     setCopied(false);
     setVoterToken('');
     setVoterId('');
+    setTokenInput('');
+    setTokenSuffix('');
     setResetCountdown(3);
 
     if (typeof window !== 'undefined') {
@@ -284,24 +288,29 @@ export default function VoteWizard({
   };
 
   // ── Inline Token Input Formatter ─────────────────────────────────────────────
-  const handleTokenInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const raw = e.target.value.toUpperCase();
-    const withoutPrefix = raw.startsWith('NW-') ? raw.slice(3) : raw;
-    const suffix = withoutPrefix.replace(/[^A-Z0-9]/g, '').slice(0, 6);
+  const handleTokenSuffixChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    let raw = e.target.value.toUpperCase();
+    if (raw.startsWith('NW-')) raw = raw.slice(3);
+    else if (raw.startsWith('NW')) raw = raw.slice(2);
+    const cleanSuffix = raw.replace(/[^A-Z0-9]/g, '').slice(0, 6);
 
-    if (suffix.length === 0 && raw.length <= 3) {
-      setTokenInput(raw.slice(0, 3));
-    } else {
-      setTokenInput('NW-' + suffix);
-    }
+    setTokenSuffix(cleanSuffix);
+    setTokenInput(cleanSuffix ? `NW-${cleanSuffix}` : '');
     setTokenInputError(null);
+  };
+
+  const handleClearToken = () => {
+    setTokenSuffix('');
+    setTokenInput('');
+    setTokenInputError(null);
+    tokenInputRef.current?.focus();
   };
 
   // ── Inline Token Submit Handler ──────────────────────────────────────────────
   const handleInlineTokenSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setTokenInputError(null);
-    const clean = tokenInput.trim().toUpperCase();
+    const clean = (tokenSuffix ? `NW-${tokenSuffix}` : tokenInput).trim().toUpperCase();
 
     const tokenRegex = /^NW-[A-Z0-9]{6}$/;
     if (!tokenRegex.test(clean)) {
@@ -328,6 +337,7 @@ export default function VoteWizard({
       document.cookie = `nawa_voter_token=${clean}; path=/; max-age=1800; SameSite=Lax`;
       document.cookie = `nawa_voter_id=offline-${clean}; path=/; max-age=1800; SameSite=Lax`;
       setTokenInput('');
+      setTokenSuffix('');
       return;
     }
 
@@ -350,6 +360,7 @@ export default function VoteWizard({
         document.cookie = `nawa_voter_token=${clean}; path=/; max-age=1800; SameSite=Lax`;
         document.cookie = `nawa_voter_id=offline-${clean}; path=/; max-age=1800; SameSite=Lax`;
         setTokenInput('');
+        setTokenSuffix('');
       } else if (res.success) {
         setVoterToken(clean);
         const resolvedId = 'voterId' in res && res.voterId ? (res.voterId as string) : clean;
@@ -358,6 +369,7 @@ export default function VoteWizard({
         document.cookie = `nawa_voter_token=${clean}; path=/; max-age=1800; SameSite=Lax`;
         document.cookie = `nawa_voter_id=${resolvedId}; path=/; max-age=1800; SameSite=Lax`;
         setTokenInput('');
+        setTokenSuffix('');
       } else {
         setTokenInputError(res.error || 'Gagal masuk bilik suara');
       }
@@ -369,6 +381,7 @@ export default function VoteWizard({
       document.cookie = `nawa_voter_token=${clean}; path=/; max-age=1800; SameSite=Lax`;
       document.cookie = `nawa_voter_id=offline-${clean}; path=/; max-age=1800; SameSite=Lax`;
       setTokenInput('');
+      setTokenSuffix('');
     } finally {
       setIsTokenSubmitting(false);
     }
@@ -537,24 +550,45 @@ export default function VoteWizard({
             )}
 
             <form onSubmit={handleInlineTokenSubmit} className="space-y-6">
-              <div className="relative group">
-                <Ticket className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400" />
+              <div className="relative flex items-center rounded-2xl border-2 border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 shadow-sm focus-within:border-brand-amber-500 focus-within:ring-4 focus-within:ring-brand-amber-500/20 transition-all overflow-hidden group">
+                {/* Fixed NW- Prefix badge */}
+                <div className="flex items-center gap-2 pl-4 pr-3 py-4 bg-slate-50 dark:bg-slate-800/90 border-r border-slate-200 dark:border-slate-700/80 text-brand-navy-900 dark:text-brand-amber-400 font-mono font-black text-lg sm:text-xl tracking-wider select-none">
+                  <Ticket className="w-5 h-5 text-brand-amber-500 flex-shrink-0" />
+                  <span>NW-</span>
+                </div>
+
+                {/* Suffix Input field */}
                 <input
+                  ref={tokenInputRef}
                   type="text"
-                  maxLength={9}
-                  placeholder="NW-XXXXXX"
-                  value={tokenInput}
-                  onChange={handleTokenInputChange}
+                  maxLength={6}
+                  placeholder="XXXXXX"
+                  value={tokenSuffix}
+                  onChange={handleTokenSuffixChange}
                   disabled={isTokenSubmitting}
                   autoFocus
-                  className="w-full pl-12 pr-4 py-4 rounded-xl border border-slate-200 dark:border-slate-700 font-mono text-center text-lg font-bold tracking-widest uppercase bg-white dark:bg-slate-800 text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-brand-amber-500"
+                  autoComplete="off"
+                  spellCheck="false"
+                  className="flex-1 min-w-0 px-3 py-4 font-mono text-lg sm:text-xl font-black tracking-widest uppercase bg-transparent text-slate-900 dark:text-white placeholder:text-slate-300 dark:placeholder:text-slate-600 focus:outline-none"
                 />
+
+                {/* Clear Button */}
+                {tokenSuffix && !isTokenSubmitting && (
+                  <button
+                    type="button"
+                    onClick={handleClearToken}
+                    aria-label="Hapus token"
+                    className="p-2 mr-3 rounded-xl text-slate-400 hover:text-slate-600 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-700/60 transition-colors focus:outline-none focus:ring-2 focus:ring-brand-amber-400"
+                  >
+                    <X className="w-5 h-5" />
+                  </button>
+                )}
               </div>
 
               <button
                 type="submit"
-                disabled={isTokenSubmitting || tokenInput.length < 9}
-                className="w-full py-4 px-6 primary-button text-xs font-bold uppercase tracking-widest flex items-center justify-center gap-2 rounded-xl shadow-md disabled:opacity-50"
+                disabled={isTokenSubmitting || tokenSuffix.length < 6}
+                className="w-full py-4 px-6 primary-button text-xs font-bold uppercase tracking-widest flex items-center justify-center gap-2 rounded-xl shadow-md disabled:opacity-40 disabled:cursor-not-allowed transition-all"
               >
                 {isTokenSubmitting ? (
                   <>
@@ -968,7 +1002,7 @@ export default function VoteWizard({
           animate={{ opacity: 1, y: 0 }}
           exit={{ opacity: 0, y: -10 }}
           transition={{ duration: 0.2 }}
-          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 justify-center items-stretch mt-4 px-2"
+          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 justify-center items-start mt-4 px-2"
         >
           {currentCandidates.map((cand) => (
             <CandidateCard

@@ -1120,7 +1120,7 @@
       "file_type": "code",
       "norm_label": "cachefirstsafe()",
       "source_file": "public/sw.js",
-      "source_location": "L133"
+      "source_location": "L135"
     },
     {
       "id": "public_sw_cacheimage",
@@ -1132,7 +1132,7 @@
       "file_type": "code",
       "norm_label": "cacheimage()",
       "source_file": "public/sw.js",
-      "source_location": "L195"
+      "source_location": "L196"
     },
     {
       "id": "public_sw_handlerscrequest",
@@ -1144,7 +1144,7 @@
       "file_type": "code",
       "norm_label": "handlerscrequest()",
       "source_file": "public/sw.js",
-      "source_location": "L262"
+      "source_location": "L321"
     },
     {
       "id": "public_sw_networkfirstpage",
@@ -1156,7 +1156,7 @@
       "file_type": "code",
       "norm_label": "networkfirstpage()",
       "source_file": "public/sw.js",
-      "source_location": "L222"
+      "source_location": "L281"
     },
     {
       "id": "public_sw_offlinefallback",
@@ -1168,7 +1168,7 @@
       "file_type": "code",
       "norm_label": "offlinefallback()",
       "source_file": "public/sw.js",
-      "source_location": "L292"
+      "source_location": "L351"
     },
     {
       "id": "public_sw_postofflineintercept",
@@ -1180,7 +1180,7 @@
       "file_type": "code",
       "norm_label": "postofflineintercept()",
       "source_file": "public/sw.js",
-      "source_location": "L278"
+      "source_location": "L337"
     },
     {
       "id": "src_app_admin_analytics_analyticsdashboard_analyticsdashboard",
@@ -4199,7 +4199,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "public/sw.js",
-      "source_location": "L255",
+      "source_location": "L314",
       "weight": 1.0
     },
     {
@@ -5375,7 +5375,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "src/app/(voter)/vote/VoteWizard.tsx",
-      "source_location": "L189",
+      "source_location": "L190",
       "weight": 1.0
     },
     {
@@ -5387,7 +5387,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "src/app/(voter)/vote/VoteWizard.tsx",
-      "source_location": "L194",
+      "source_location": "L195",
       "weight": 1.0
     },
     {
@@ -5399,7 +5399,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "src/app/(voter)/vote/VoteWizard.tsx",
-      "source_location": "L271",
+      "source_location": "L272",
       "weight": 1.0
     },
     {
@@ -5411,7 +5411,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "src/app/(voter)/vote/VoteWizard.tsx",
-      "source_location": "L311",
+      "source_location": "L312",
       "weight": 1.0
     },
     {
@@ -5423,7 +5423,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "src/app/(voter)/vote/VoteWizard.tsx",
-      "source_location": "L340",
+      "source_location": "L341",
       "weight": 1.0
     },
     {
@@ -5435,7 +5435,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "src/app/(voter)/vote/VoteWizard.tsx",
-      "source_location": "L415",
+      "source_location": "L416",
       "weight": 1.0
     },
     {
@@ -5447,7 +5447,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "src/app/(voter)/vote/VoteWizard.tsx",
-      "source_location": "L452",
+      "source_location": "L453",
       "weight": 1.0
     },
     {
@@ -5459,7 +5459,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "src/app/(voter)/vote/VoteWizard.tsx",
-      "source_location": "L489",
+      "source_location": "L490",
       "weight": 1.0
     },
     {
@@ -5471,7 +5471,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "src/app/(voter)/vote/VoteWizard.tsx",
-      "source_location": "L499",
+      "source_location": "L500",
       "weight": 1.0
     },
     {
@@ -5507,7 +5507,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "src/app/(voter)/vote/VoteWizard.tsx",
-      "source_location": "L973",
+      "source_location": "L974",
       "weight": 1.0
     },
     {
@@ -5951,7 +5951,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "public/sw.js",
-      "source_location": "L133",
+      "source_location": "L135",
       "weight": 1.0
     },
     {
@@ -5963,7 +5963,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "public/sw.js",
-      "source_location": "L195",
+      "source_location": "L196",
       "weight": 1.0
     },
     {
@@ -5975,7 +5975,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "public/sw.js",
-      "source_location": "L222",
+      "source_location": "L281",
       "weight": 1.0
     },
     {
@@ -5987,7 +5987,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "public/sw.js",
-      "source_location": "L262",
+      "source_location": "L321",
       "weight": 1.0
     },
     {
@@ -5999,7 +5999,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "public/sw.js",
-      "source_location": "L278",
+      "source_location": "L337",
       "weight": 1.0
     },
     {
@@ -9872,7 +9872,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "public/sw.js",
-      "source_location": "L292",
+      "source_location": "L351",
       "weight": 1.0
     },
     {
@@ -12280,5 +12280,5 @@
     }
   ],
   "hyperedges": [],
-  "built_at_commit": "6ec2b0ad669e676c270dc81413750d8abab1a470"
+  "built_at_commit": "5f9aa6c43d303e506f11828753c276862ad1ff6d"
 }
