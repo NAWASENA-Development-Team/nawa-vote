@@ -51,11 +51,11 @@ export default async function AdminVotersPage() {
     <div className="space-y-8">
       {/* Page Title Block */}
       <div>
-        <h1 className="font-heading font-black text-2xl md:text-3xl text-brand-navy-900 tracking-tight leading-tight flex items-center gap-2">
-          <Users2 className="w-8 h-8 text-brand-navy-700" /> Database Token Pemilih (DPT)
+        <h1 className="font-heading font-black text-2xl md:text-3xl text-brand-navy-900 dark:text-white tracking-tight leading-tight flex items-center gap-2">
+          <Users2 className="w-8 h-8 text-brand-navy-700 dark:text-brand-amber-400" /> Database Token Pemilih (DPT)
         </h1>
-        <p className="text-slate-500 text-xs mt-1 font-semibold flex items-center gap-1.5">
-          <ShieldAlert className="w-3.5 h-3.5 text-brand-navy-500" /> Pusat tata kelola kredensial token siswa. Bulk generate token langsung dari dashboard, cetak kartu PIN, serta pantau status kehadiran.
+        <p className="text-brand-navy-500 dark:text-slate-400 text-xs mt-1 font-semibold flex items-center gap-1.5">
+          <ShieldAlert className="w-3.5 h-3.5 text-brand-amber-500" /> Pusat tata kelola kredensial token siswa. Bulk generate token langsung dari dashboard, cetak kartu PIN, serta pantau status kehadiran.
         </p>
       </div>
 

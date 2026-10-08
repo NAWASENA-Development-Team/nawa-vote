@@ -69,12 +69,12 @@ export default function DashboardControls({
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
       {/* 1. Voting Period Status Controls */}
-      <div className="glass-panel rounded-3xl p-6 border border-white/50 flex flex-col justify-between">
+      <div className="app-card p-6 flex flex-col justify-between">
         <div>
-          <h3 className="font-heading font-extrabold text-sm text-brand-navy-900 mb-1">
+          <h3 className="font-heading font-extrabold text-sm text-brand-navy-900 dark:text-white mb-1">
             Status Periode Voting
           </h3>
-          <p className="text-slate-400 text-xs mb-5 font-semibold">
+          <p className="text-brand-navy-500 dark:text-slate-400 text-xs mb-5 font-semibold">
             Buka, tutup, atau akhiri pemungutan suara pilketos.
           </p>
         </div>
@@ -86,8 +86,8 @@ export default function DashboardControls({
             disabled={isLoading || currentStatus === 'closed'}
             className={`py-3.5 px-3 rounded-2xl text-[10px] font-bold uppercase tracking-wider transition-all flex flex-col items-center justify-center gap-1.5 border ${
               currentStatus === 'closed'
-                ? 'bg-slate-200 border-slate-300 text-slate-700 shadow-inner'
-                : 'bg-white border-slate-200 text-slate-500 hover:bg-slate-50'
+                ? 'bg-brand-navy-100 dark:bg-slate-800 border-brand-navy-300 dark:border-slate-700 text-brand-navy-900 dark:text-white'
+                : 'bg-white dark:bg-slate-900 border-brand-navy-100 dark:border-slate-800 text-brand-navy-400 dark:text-slate-500 hover:bg-brand-navy-50 dark:hover:bg-slate-800'
             }`}
           >
             <Square className="w-4 h-4" />
@@ -100,8 +100,8 @@ export default function DashboardControls({
             disabled={isLoading || currentStatus === 'open'}
             className={`py-3.5 px-3 rounded-2xl text-[10px] font-bold uppercase tracking-wider transition-all flex flex-col items-center justify-center gap-1.5 border ${
               currentStatus === 'open'
-                ? 'bg-brand-emerald-500 border-brand-emerald-400 text-white shadow-brand shadow-emerald-500/20'
-                : 'bg-white border-slate-200 text-slate-500 hover:bg-slate-50'
+                ? 'bg-emerald-600 border-emerald-600 text-white shadow-md'
+                : 'bg-white dark:bg-slate-900 border-brand-navy-100 dark:border-slate-800 text-brand-navy-400 dark:text-slate-500 hover:bg-brand-navy-50 dark:hover:bg-slate-800'
             }`}
           >
             <Play className="w-4 h-4" />
@@ -114,8 +114,8 @@ export default function DashboardControls({
             disabled={isLoading || currentStatus === 'ended'}
             className={`py-3.5 px-3 rounded-2xl text-[10px] font-bold uppercase tracking-wider transition-all flex flex-col items-center justify-center gap-1.5 border ${
               currentStatus === 'ended'
-                ? 'bg-red-600 border-red-500 text-white shadow-lg shadow-red-500/25'
-                : 'bg-white border-slate-200 text-slate-500 hover:bg-slate-50'
+                ? 'bg-red-600 border-red-600 text-white shadow-md'
+                : 'bg-white dark:bg-slate-900 border-brand-navy-100 dark:border-slate-800 text-brand-navy-400 dark:text-slate-500 hover:bg-brand-navy-50 dark:hover:bg-slate-800'
             }`}
           >
             <CircleCheck className="w-4 h-4" />
@@ -125,15 +125,15 @@ export default function DashboardControls({
       </div>
 
       {/* 2. Public Results Config & System Reset Controls */}
-      <div className="glass-panel rounded-3xl p-6 border border-white/50 flex flex-col md:flex-row gap-4 items-stretch justify-stretch">
+      <div className="app-card p-6 flex flex-col sm:flex-row gap-4 items-stretch justify-stretch">
         
         {/* Public Results Visibility Toggle */}
-        <div className="flex-1 bg-white/40 p-4 rounded-2xl border border-slate-200/40 flex flex-col justify-between items-start">
+        <div className="flex-1 bg-brand-navy-50/50 dark:bg-slate-800/40 p-4 border border-brand-navy-100 dark:border-slate-800 rounded-xl flex flex-col justify-between items-start">
           <div>
-            <h4 className="font-heading font-bold text-xs text-brand-navy-900 mb-1">
+            <h4 className="font-heading font-bold text-xs text-brand-navy-900 dark:text-white mb-1">
               Visibilitas Hasil Publik
             </h4>
-            <p className="text-[10px] text-slate-400 font-semibold mb-3">
+            <p className="text-[10px] text-brand-navy-500 dark:text-slate-400 font-semibold mb-3">
               Perolehan suara diakses publik tanpa login.
             </p>
           </div>
@@ -143,8 +143,8 @@ export default function DashboardControls({
             disabled={isLoading}
             className={`w-full py-3 px-4 rounded-xl text-[10px] font-extrabold uppercase tracking-wider transition-all duration-300 flex items-center justify-center gap-2 ${
               showResults
-                ? 'bg-brand-amber-500 text-white shadow-brand-gold'
-                : 'bg-slate-100 hover:bg-slate-200 text-slate-600'
+                ? 'bg-brand-navy-700 text-white dark:bg-brand-amber-500 dark:text-brand-navy-950'
+                : 'bg-white dark:bg-slate-900 border border-brand-navy-200 dark:border-slate-700 text-brand-navy-700 dark:text-slate-200 hover:bg-brand-navy-50'
             }`}
           >
             {showResults ? (
@@ -160,12 +160,12 @@ export default function DashboardControls({
         </div>
 
         {/* Database Clear Reset */}
-        <div className="flex-1 bg-red-50/20 p-4 rounded-2xl border border-red-100/40 flex flex-col justify-between items-start">
+        <div className="flex-1 bg-red-50/50 dark:bg-red-950/20 p-4 rounded-xl border border-red-100 dark:border-red-900/40 flex flex-col justify-between items-start">
           <div>
-            <h4 className="font-heading font-bold text-xs text-red-800 mb-1">
+            <h4 className="font-heading font-bold text-xs text-red-700 dark:text-red-400 mb-1">
               Reset Data Pemilihan
             </h4>
-            <p className="text-[10px] text-red-500 font-semibold mb-3">
+            <p className="text-[10px] text-red-600/80 dark:text-red-400/80 font-semibold mb-3">
               Bersihkan seluruh suara masuk secara permanen.
             </p>
           </div>
@@ -173,7 +173,7 @@ export default function DashboardControls({
           <button
             onClick={() => setIsResetOpen(true)}
             disabled={isLoading}
-            className="w-full py-3 px-4 rounded-xl bg-red-50 border border-red-100 text-red-600 hover:bg-red-100 font-extrabold text-[10px] uppercase tracking-wider transition-colors flex items-center justify-center gap-2"
+            className="w-full py-3 px-4 bg-white dark:bg-slate-900 text-red-600 dark:text-red-400 rounded-xl text-[10px] font-extrabold uppercase tracking-wider hover:bg-red-50 dark:hover:bg-red-950/40 border border-red-200 dark:border-red-900/50 transition-colors flex items-center justify-center gap-2"
           >
             <ShieldAlert className="w-4 h-4" /> Kosongkan Kotak Suara
           </button>
@@ -199,29 +199,29 @@ export default function DashboardControls({
               initial={{ scale: 0.95, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
               exit={{ scale: 0.95, opacity: 0 }}
-              className="relative bg-white rounded-3xl p-8 max-w-md w-full border border-slate-200 shadow-2xl z-10 flex flex-col"
+              className="relative bg-white dark:bg-slate-900 rounded-3xl p-8 max-w-md w-full border border-brand-navy-100 dark:border-slate-800 shadow-2xl z-10 flex flex-col"
             >
-              <div className="flex items-center justify-center w-14 h-14 rounded-full bg-red-100 text-red-600 mb-4 self-center animate-pulse">
+              <div className="flex items-center justify-center w-14 h-14 rounded-full bg-red-100 dark:bg-red-950/40 text-red-600 dark:text-red-400 mb-4 self-center animate-pulse">
                 <ShieldAlert className="w-7 h-7" />
               </div>
               
-              <h3 className="font-heading font-black text-xl text-center text-brand-navy-900 leading-tight">
+              <h3 className="font-heading font-black text-xl text-center text-brand-navy-900 dark:text-white leading-tight">
                 Apakah Anda Yakin?
               </h3>
-              <p className="text-slate-500 text-xs text-center mt-2 leading-relaxed px-2">
+              <p className="text-brand-navy-500 dark:text-slate-400 text-xs text-center mt-2 leading-relaxed px-2 font-medium">
                 Tindakan ini akan <strong>menghapus seluruh hasil suara</strong>, mengatur ulang status pemilih menjadi belum memilih, dan membersihkan logs secara permanen. Tindakan ini <strong>tidak dapat dibatalkan</strong>.
               </p>
 
               {resetError && (
-                <div className="bg-red-50 border border-red-100 text-red-800 rounded-xl p-3 text-xs mt-4 text-center font-semibold">
+                <div className="bg-red-50 dark:bg-red-950/40 border border-red-100 dark:border-red-900/50 text-red-600 dark:text-red-400 rounded-xl p-3 text-xs mt-4 text-center font-semibold">
                   {resetError}
                 </div>
               )}
 
               <form onSubmit={handleReset} className="mt-6 space-y-4">
                 <div>
-                  <label className="block text-[10px] uppercase font-extrabold tracking-wider text-slate-400 mb-1 ml-1 text-left">
-                    Ketik <span className="text-red-600 font-black">RESET</span> untuk konfirmasi
+                  <label className="block text-[10px] uppercase font-extrabold tracking-wider text-brand-navy-400 dark:text-slate-400 mb-1 ml-1 text-left">
+                    Ketik <span className="text-red-600 dark:text-red-400 font-black">RESET</span> untuk konfirmasi
                   </label>
                   <input
                     type="text"
@@ -229,7 +229,7 @@ export default function DashboardControls({
                     placeholder="Ketik RESET"
                     value={resetConfirmText}
                     onChange={(e) => setResetConfirmText(e.target.value)}
-                    className="w-full py-3 px-4 rounded-xl border border-slate-200 text-sm text-center font-bold placeholder-slate-300 focus:outline-none focus:ring-2 focus:ring-red-500"
+                    className="w-full py-3 px-4 modern-input text-sm text-center font-bold"
                   />
                 </div>
 
@@ -240,7 +240,7 @@ export default function DashboardControls({
                       setIsResetOpen(false);
                       setResetConfirmText('');
                     }}
-                    className="flex-1 py-3.5 px-4 rounded-xl border border-slate-200 hover:bg-slate-50 text-slate-600 font-bold uppercase tracking-wider text-[10px] transition-colors"
+                    className="flex-1 py-3.5 px-4 rounded-xl border border-brand-navy-200 dark:border-slate-700 hover:bg-brand-navy-50 dark:hover:bg-slate-800 text-brand-navy-700 dark:text-slate-300 font-bold uppercase tracking-wider text-[10px] transition-colors"
                   >
                     Batal
                   </button>

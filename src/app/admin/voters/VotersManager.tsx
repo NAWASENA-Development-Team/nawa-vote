@@ -192,26 +192,26 @@ export default function VotersManager({ initialVoters }: VotersManagerProps) {
         </div>
 
         {/* Database Status Info box */}
-        <div className="app-card bg-brand-navy-900 dark:bg-slate-900 border border-brand-navy-800 dark:border-slate-800 text-white p-6 flex flex-col justify-between shadow-lg">
+        <div className="rounded-2xl bg-brand-navy-900 dark:bg-slate-900 border border-brand-navy-800 dark:border-slate-800 text-white p-6 flex flex-col justify-between shadow-lg">
           <div>
             <span className="text-[9px] uppercase tracking-widest font-extrabold text-brand-amber-400">DATABASE DPT</span>
             <h3 className="font-heading font-black text-lg text-white mt-1 leading-none flex items-center gap-1.5">
               <Users className="w-5 h-5 text-brand-amber-500" /> Ringkasan Token
             </h3>
-            <p className="text-slate-300 dark:text-slate-400 text-[10px] font-semibold mt-1">
+            <p className="text-brand-navy-200 dark:text-slate-400 text-[10px] font-semibold mt-1">
               Pantau total kuota dan status penggunaan token.
             </p>
           </div>
 
-          <div className="mt-6 flex justify-between items-end border-t border-white/10 dark:border-slate-800 pt-4 text-xs font-semibold">
+          <div className="mt-6 flex justify-between items-end border-t border-brand-navy-800 dark:border-slate-800 pt-4 text-xs font-semibold">
             <div>
-              <span className="text-[9px] text-slate-300 dark:text-slate-400 uppercase font-extrabold block">TOTAL TOKEN</span>
+              <span className="text-[9px] text-brand-navy-300 dark:text-slate-400 uppercase font-extrabold block">TOTAL TOKEN</span>
               <span className="font-heading font-black text-2xl text-white">
                 {initialVoters.length.toLocaleString('id-ID')}
               </span>
             </div>
             <div className="text-right">
-              <span className="text-[9px] text-slate-300 dark:text-slate-400 uppercase font-extrabold block">SUDAH MEMILIH</span>
+              <span className="text-[9px] text-brand-navy-300 dark:text-slate-400 uppercase font-extrabold block">SUDAH MEMILIH</span>
               <span className="font-heading font-black text-2xl text-brand-amber-400">
                 {initialVoters.filter(v => v.has_voted).length.toLocaleString('id-ID')}
               </span>

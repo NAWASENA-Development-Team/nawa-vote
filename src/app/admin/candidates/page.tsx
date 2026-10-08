@@ -31,10 +31,10 @@ export default async function AdminCandidatesPage() {
     <div className="space-y-8">
       {/* Title Header */}
       <div>
-        <h1 className="font-heading font-black text-2xl md:text-3xl text-brand-navy-900 tracking-tight leading-tight flex items-center gap-2">
-          <Users2 className="w-8 h-8 text-brand-navy-700" /> Pengelolaan Kandidat OSIS
+        <h1 className="font-heading font-black text-2xl md:text-3xl text-brand-navy-900 dark:text-white tracking-tight leading-tight flex items-center gap-2">
+          <Users2 className="w-8 h-8 text-brand-navy-700 dark:text-brand-amber-400" /> Pengelolaan Kandidat OSIS
         </h1>
-        <p className="text-slate-500 text-xs mt-1 font-semibold flex items-center gap-1.5">
+        <p className="text-brand-navy-500 dark:text-slate-400 text-xs mt-1 font-semibold flex items-center gap-1.5">
           <Sparkles className="w-3.5 h-3.5 text-brand-amber-500" /> Tambah, edit, dan hapus calon Ketua, Wakil Ketua 1, dan Wakil Ketua 2.
         </p>
       </div>

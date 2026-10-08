@@ -48,11 +48,11 @@ export default async function AdminAnalyticsPage() {
     <div className="space-y-8">
       {/* Page Title Block */}
       <div>
-        <h1 className="font-heading font-black text-2xl md:text-3xl text-black tracking-tight leading-tight flex items-center gap-3">
-          <Activity className="w-8 h-8 text-[#f43f5e]" /> Statistik & Analitik Suara
+        <h1 className="font-heading font-black text-2xl md:text-3xl text-brand-navy-900 dark:text-white tracking-tight leading-tight flex items-center gap-3">
+          <Activity className="w-8 h-8 text-brand-navy-700 dark:text-brand-amber-400" /> Statistik & Analitik Suara
         </h1>
-        <p className="text-black text-sm mt-2 font-bold flex items-center gap-1.5 bg-[#fde047] w-fit px-3 py-1 border-2 border-black rounded-lg shadow-[2px_2px_0px_0px_#000]">
-          <ShieldAlert className="w-4 h-4 text-black" /> Visualisasi interaktif perolehan suara secara real-time.
+        <p className="text-brand-navy-500 dark:text-slate-400 text-xs mt-1 font-semibold flex items-center gap-1.5">
+          <ShieldAlert className="w-3.5 h-3.5 text-brand-amber-500" /> Visualisasi interaktif perolehan suara secara real-time.
         </p>
       </div>
 
