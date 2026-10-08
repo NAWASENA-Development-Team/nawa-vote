@@ -1,11 +1,12 @@
-// NAWA-VOTE Service Worker (v4) — Complete Offline PWA & Kiosk Support
-// Fixes:
-//   - Pre-caches shell AND all linked JS/CSS chunks on install
-//   - Matches cache by URL string so browser F5/reload (Cache-Control: max-age=0 / cache: 'reload') does not bypass cache
-//   - Never caches redirects (status 3xx or response.redirected) — only clean 200 OK shells
+// NAWA-VOTE Service Worker (v5) — Unified Offline Kiosk Booth
+// Features:
+//   - Pre-caches unified root kiosk shell ('/') and all JS/CSS static bundles on install
+//   - Matches cache with { ignoreSearch: true, ignoreVary: true } to eliminate Vary / F5 bypasses
 //   - Safe 200 OK fallbacks for missing assets and images (prevents NS_ERROR in Firefox)
+//   - Intercepts POST server actions when offline to return structured JSON
+//   - Network-First for navigations, instantly falling back to cached kiosk shell
 
-const CACHE_VERSION = 'nawa-v4';
+const CACHE_VERSION = 'nawa-v5';
 const STATIC_CACHE  = `${CACHE_VERSION}-static`;
 const PAGE_CACHE    = `${CACHE_VERSION}-pages`;
 const IMAGE_CACHE   = `${CACHE_VERSION}-images`;
@@ -19,18 +20,18 @@ self.addEventListener('install', (event) => {
       const staticCache = await caches.open(STATIC_CACHE);
 
       try {
-        // Fetch the root landing page shell — always returns 200 OK with full React & script tags
+        // Fetch the unified root kiosk shell
         const res = await fetch('/', { cache: 'no-cache' });
-        if (res && res.status === 200 && !res.redirected) {
+        if (res && res.status === 200) {
           const html = await res.clone().text();
 
-          // Pre-cache clean 200 OK shells for all voter routes
+          // Pre-cache clean 200 OK shells
           await pageCache.put('/', res.clone());
           await pageCache.put('/vote', res.clone());
           await pageCache.put('/success', res.clone());
 
-          // Extract and pre-cache all JS chunks and CSS stylesheets referenced in the HTML
-          const assetMatches = html.match(/\/(_next\/static\/[a-zA-Z0-9_\-\.\/]+)/g) || [];
+          // Extract and pre-cache all JS chunks and CSS stylesheets referenced in HTML
+          const assetMatches = html.match(/\/(_next\/static\/[a-zA-Z0-9_\-\.\/\(\)]+)/g) || [];
           const uniqueAssets = Array.from(new Set(assetMatches));
 
           await Promise.allSettled(
@@ -123,9 +124,12 @@ self.addEventListener('fetch', (event) => {
 async function cacheFirstSafe(request, cacheName) {
   const url = new URL(request.url);
   const cache = await caches.open(cacheName);
+  const matchOpts = { ignoreSearch: true, ignoreVary: true };
 
   // 1. Match by URL string (ignores request.cache: 'reload' from browser refresh)
-  let cached = (await cache.match(request.url)) || (await cache.match(url.pathname));
+  let cached =
+    (await cache.match(request.url, matchOpts)) ||
+    (await cache.match(url.pathname, matchOpts));
   if (cached) return cached;
 
   // 2. Try network if online
@@ -138,7 +142,7 @@ async function cacheFirstSafe(request, cacheName) {
     return response;
   } catch {
     // 3. Re-check cache with ignoreSearch
-    cached = await cache.match(request.url, { ignoreSearch: true });
+    cached = await cache.match(request.url, matchOpts);
     if (cached) return cached;
 
     // 4. Return valid 200 empty response so browser never throws SyntaxError or NS_ERROR
@@ -164,8 +168,11 @@ async function cacheFirstSafe(request, cacheName) {
 async function cacheImage(request) {
   const cache = await caches.open(IMAGE_CACHE);
   const url = new URL(request.url);
+  const matchOpts = { ignoreSearch: true, ignoreVary: true };
 
-  let cached = (await cache.match(request.url)) || (await cache.match(url.pathname));
+  let cached =
+    (await cache.match(request.url, matchOpts)) ||
+    (await cache.match(url.pathname, matchOpts));
   if (cached) return cached;
 
   try {
@@ -185,12 +192,13 @@ async function cacheImage(request) {
 
 /**
  * Network-First for navigations.
- * Caches ONLY clean 200 OK responses (no redirects).
- * On offline refresh (F5), matches by clean URL string so browser reload mode does not bypass cache.
+ * Caches clean 200 OK responses.
+ * On offline refresh (F5), matches with ignoreVary: true so reload mode does not bypass cache.
  */
 async function networkFirstPage(request) {
   const cache = await caches.open(PAGE_CACHE);
   const url = new URL(request.url);
+  const matchOpts = { ignoreSearch: true, ignoreVary: true };
 
   try {
     const response = await fetch(request);
@@ -203,19 +211,18 @@ async function networkFirstPage(request) {
     return response;
   } catch {
     // Network failed (OFFLINE or F5 refresh while offline):
-    // Match by URL string so 'reload' mode from F5 does not bypass cache!
     let cached =
-      (await cache.match(url.pathname)) ||
-      (await cache.match(request.url)) ||
-      (await cache.match('/vote')) ||
-      (await cache.match('/'));
+      (await cache.match(url.pathname, matchOpts)) ||
+      (await cache.match(request.url, matchOpts)) ||
+      (await cache.match('/', matchOpts)) ||
+      (await cache.match('/vote', matchOpts));
 
     if (cached) return cached;
 
     // Fallback to ANY 200 OK entry in PAGE_CACHE
     const keys = await cache.keys();
     for (const key of keys) {
-      const entry = await cache.match(key);
+      const entry = await cache.match(key, matchOpts);
       if (entry && entry.status === 200) {
         return entry;
       }
@@ -226,7 +233,7 @@ async function networkFirstPage(request) {
 }
 
 /**
- * Handle RSC Flight requests. If offline, return 503 so Next.js router gracefully falls back to navigate.
+ * Handle RSC Flight requests. If offline, return 503 so Next.js router gracefully falls back.
  */
 async function handleRscRequest(request) {
   try {

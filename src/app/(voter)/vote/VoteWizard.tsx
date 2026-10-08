@@ -6,6 +6,7 @@ import { castSplitVote } from '@/lib/actions/vote';
 import { loginVoterToken, logout } from '@/lib/actions/auth';
 import { createClient } from '@/lib/supabase/client';
 import CandidateCard, { Candidate } from '@/components/CandidateCard';
+import Link from 'next/link';
 import {
   LogOut,
   Check,
@@ -21,9 +22,11 @@ import {
   Wifi,
   AlertTriangle,
   Ticket,
+  KeyRound,
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import NawaLogo from '@/components/NawaLogo';
+import { ThemeToggle } from '@/components/ThemeToggle';
 import { useOnlineStatus } from '@/hooks/useOnlineStatus';
 import { useServiceWorker } from '@/hooks/useServiceWorker';
 import { saveVoteOffline, pendingCount, getPendingQueue } from '@/lib/offline/offlineQueue';
@@ -307,11 +310,29 @@ export default function VoteWizard({
 
     setIsTokenSubmitting(true);
     try {
-      const res = await loginVoterToken(clean);
-      if (res.success) {
+      const timeoutPromise = new Promise<{ success: boolean; error?: string; timeout: boolean }>((resolve) =>
+        setTimeout(() => resolve({ success: false, timeout: true }), 3500)
+      );
+
+      const res = await Promise.race([
+        loginVoterToken(clean),
+        timeoutPromise,
+      ]);
+
+      if ('timeout' in res && res.timeout) {
+        // Network timeout / intermittent connectivity: fallback to offline token session immediately
+        setVoterToken(clean);
+        setVoterId(`offline-${clean}`);
+        localStorage.setItem('nawa_active_voter', JSON.stringify({ token: clean, id: `offline-${clean}` }));
+        document.cookie = `nawa_voter_token=${clean}; path=/; max-age=1800; SameSite=Lax`;
+        document.cookie = `nawa_voter_id=offline-${clean}; path=/; max-age=1800; SameSite=Lax`;
+        setTokenInput('');
+      } else if (res.success) {
         setVoterToken(clean);
         setVoterId(clean);
         localStorage.setItem('nawa_active_voter', JSON.stringify({ token: clean, id: clean }));
+        document.cookie = `nawa_voter_token=${clean}; path=/; max-age=1800; SameSite=Lax`;
+        document.cookie = `nawa_voter_id=${clean}; path=/; max-age=1800; SameSite=Lax`;
         setTokenInput('');
       } else {
         setTokenInputError(res.error || 'Gagal masuk bilik suara');
@@ -321,6 +342,8 @@ export default function VoteWizard({
       setVoterToken(clean);
       setVoterId(`offline-${clean}`);
       localStorage.setItem('nawa_active_voter', JSON.stringify({ token: clean, id: `offline-${clean}` }));
+      document.cookie = `nawa_voter_token=${clean}; path=/; max-age=1800; SameSite=Lax`;
+      document.cookie = `nawa_voter_id=offline-${clean}; path=/; max-age=1800; SameSite=Lax`;
       setTokenInput('');
     } finally {
       setIsTokenSubmitting(false);
@@ -393,9 +416,16 @@ export default function VoteWizard({
     }
 
     try {
-      const res = await castSplitVote(selectedKetua.id, selectedWakil1.id, selectedWakil2.id);
+      const timeoutPromise = new Promise<{ success: boolean; error?: string; timeout: boolean; token?: string; offline?: boolean }>((resolve) =>
+        setTimeout(() => resolve({ success: false, timeout: true, offline: true }), 3500)
+      );
 
-      if (!res.success && (res.error === 'OFFLINE' || res.offline)) {
+      const res = await Promise.race([
+        castSplitVote(selectedKetua.id, selectedWakil1.id, selectedWakil2.id),
+        timeoutPromise,
+      ]);
+
+      if (('timeout' in res && res.timeout) || (!res.success && (res.error === 'OFFLINE' || ('offline' in res && res.offline)))) {
         saveOfflineFallback();
         return;
       }
@@ -427,6 +457,10 @@ export default function VoteWizard({
   if (!voterToken) {
     return (
       <div className="flex-1 flex items-center justify-center p-4 relative z-10 w-full min-h-screen">
+        <div className="absolute top-4 right-4 z-50">
+          <ThemeToggle />
+        </div>
+
         <div className="w-full max-w-md relative z-10">
           <div className="text-center mb-8 flex flex-col items-center">
             <motion.div
@@ -504,6 +538,18 @@ export default function VoteWizard({
                 )}
               </button>
             </form>
+          </div>
+
+          <div className="mt-8 flex flex-col items-center gap-3">
+            <Link
+              href="/login"
+              className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-slate-400 hover:text-slate-600 dark:hover:text-white transition-colors duration-200"
+            >
+              <KeyRound className="w-3.5 h-3.5" /> Portal Panitia
+            </Link>
+            <p className="text-[11px] text-slate-400 dark:text-slate-500 font-medium">
+              nawa-vote · Pemilihan Ketua OSIS
+            </p>
           </div>
         </div>
       </div>

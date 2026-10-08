@@ -61,14 +61,19 @@ export async function middleware(request: NextRequest) {
     }
   }
 
-  // 2. Protect Voter Routes (/vote and /success)
-  if (path.startsWith('/vote') || path.startsWith('/success')) {
+  // 2. Voter Routing: / is the unified bilik suara kiosk.
+  // Redirect legacy /vote path to / so everything stays on the robust single-page kiosk.
+  if (path === '/vote') {
+    url.pathname = '/';
+    return NextResponse.redirect(url);
+  }
+
+  if (path.startsWith('/success')) {
     const voterToken = request.cookies.get('nawa_voter_token')?.value;
     const voterId = request.cookies.get('nawa_voter_id')?.value;
 
     if (!voterToken || !voterId) {
       url.pathname = '/';
-      url.searchParams.set('error', 'unauthorized');
       return NextResponse.redirect(url);
     }
   }
@@ -81,18 +86,6 @@ export async function middleware(request: NextRequest) {
     
     if (user && (adminRole === 'admin' || adminRole === 'supervisor')) {
       url.pathname = '/admin/dashboard';
-      return NextResponse.redirect(url);
-    }
-  }
-
-  // 4. Redirect active voter sessions from landing page (/) to vote
-  // Note: /vote page handles the double-vote check and redirects to /success if already voted.
-  if (path === '/' && !url.searchParams.has('error')) {
-    const voterToken = request.cookies.get('nawa_voter_token')?.value;
-    const voterId = request.cookies.get('nawa_voter_id')?.value;
-
-    if (voterToken && voterId) {
-      url.pathname = '/vote';
       return NextResponse.redirect(url);
     }
   }
