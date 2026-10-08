@@ -138,6 +138,21 @@ export default function VoteWizard({
     }
   }, [propCandidates, isOnline, candidates.length, voterToken, voterId]);
 
+  // Pre-cache candidate photos into browser & service worker cache when online
+  useEffect(() => {
+    if (typeof window !== 'undefined' && isOnline && candidates.length > 0) {
+      candidates.forEach((c) => {
+        const photoUrl = c.photo_url;
+        if (photoUrl) {
+          [640, 750, 828, 1080].forEach((w) => {
+            const img = new Image();
+            img.src = `/_next/image?url=${encodeURIComponent(photoUrl)}&w=${w}&q=75`;
+          });
+        }
+      });
+    }
+  }, [isOnline, candidates]);
+
   // Step Wizard States: 1 = Ketua, 2 = Wakil 1, 3 = Wakil 2
   const [step, setStep] = useState<1 | 2 | 3>(1);
 

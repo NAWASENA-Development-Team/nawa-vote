@@ -1,12 +1,13 @@
-// NAWA-VOTE Service Worker (v5) — Unified Offline Kiosk Booth
+// NAWA-VOTE Service Worker (v6) — Unified Offline Kiosk Booth
 // Features:
 //   - Pre-caches unified root kiosk shell ('/') and all JS/CSS static bundles on install
 //   - Matches cache with { ignoreSearch: true, ignoreVary: true } to eliminate Vary / F5 bypasses
 //   - Safe 200 OK fallbacks for missing assets and images (prevents NS_ERROR in Firefox)
 //   - Intercepts POST server actions when offline to return structured JSON
 //   - Network-First for navigations, instantly falling back to cached kiosk shell
+//   - Individual image caching using exact query parameters (fixes duplicate candidate photos)
 
-const CACHE_VERSION = 'nawa-v5';
+const CACHE_VERSION = 'nawa-v6';
 const STATIC_CACHE  = `${CACHE_VERSION}-static`;
 const PAGE_CACHE    = `${CACHE_VERSION}-pages`;
 const IMAGE_CACHE   = `${CACHE_VERSION}-images`;
@@ -162,17 +163,16 @@ async function cacheFirstSafe(request, cacheName) {
 }
 
 /**
- * Image Cache: Cache-First.
+ * Image Cache: Cache-First with strict URL matching.
+ * Preserves query string (?url=...&w=...&q=...) so each candidate's photo is cached individually.
+ * NEVER uses ignoreSearch or url.pathname matching for images.
  * If offline and un-cached, returns an SVG placeholder instead of throwing.
  */
 async function cacheImage(request) {
   const cache = await caches.open(IMAGE_CACHE);
-  const url = new URL(request.url);
-  const matchOpts = { ignoreSearch: true, ignoreVary: true };
 
-  let cached =
-    (await cache.match(request.url, matchOpts)) ||
-    (await cache.match(url.pathname, matchOpts));
+  // Exact request.url match (NEVER ignoreSearch, NEVER url.pathname)
+  let cached = await cache.match(request.url);
   if (cached) return cached;
 
   try {
