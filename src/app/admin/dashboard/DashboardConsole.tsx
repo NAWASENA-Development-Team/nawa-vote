@@ -21,7 +21,9 @@ import {
   Radio,
   HelpCircle,
   Activity,
-  RefreshCw
+  RefreshCw,
+  Tv,
+  ExternalLink,
 } from 'lucide-react';
 
 import { motion, AnimatePresence } from 'framer-motion';
@@ -68,6 +70,36 @@ export default function DashboardConsole({
 }: DashboardConsoleProps) {
   const router = useRouter();
   const supabase = createClient();
+
+  // Tab State
+  const [activeTab, setActiveTab] = useState<'overview' | 'results'>('overview');
+  const [showResultsState, setShowResultsState] = useState(showResults);
+
+  useEffect(() => {
+    setShowResultsState(showResults);
+  }, [showResults]);
+
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      const tabParam = new URLSearchParams(window.location.search).get('tab');
+      if (tabParam === 'results') {
+        setActiveTab('results');
+      }
+    }
+  }, []);
+
+  const handleTabChange = (tab: 'overview' | 'results') => {
+    setActiveTab(tab);
+    if (typeof window !== 'undefined') {
+      const url = new URL(window.location.href);
+      if (tab === 'results') {
+        url.searchParams.set('tab', 'results');
+      } else {
+        url.searchParams.delete('tab');
+      }
+      window.history.replaceState({}, '', url.toString());
+    }
+  };
 
   // Database Tally and Concurrency States
   const [candidates, setCandidates] = useState<DashboardCandidate[]>(initialCandidates);
@@ -154,11 +186,14 @@ export default function DashboardConsole({
 
   const handleShowResultsToggle = async () => {
     setIsLoading(true);
-    const res = await updateSystemConfig('show_results', showResults ? 'false' : 'true');
+    const nextVal = !showResultsState;
+    setShowResultsState(nextVal);
+    const res = await updateSystemConfig('show_results', nextVal ? 'true' : 'false');
     setIsLoading(false);
     if (res.success) {
       router.refresh();
     } else {
+      setShowResultsState(!nextVal);
       alert(res.error || 'Gagal mengubah visibilitas hasil');
     }
   };
@@ -262,289 +297,331 @@ export default function DashboardConsole({
   };
 
   return (
-    <div className="space-y-8">
+    <div className="space-y-6">
       
-      {/* 1. Realtime indicator header */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between app-card py-3.5 px-5 gap-2">
-        <div className="flex items-center gap-2 text-sm font-medium">
+      {/* 1. Navigation Tabs & Realtime Indicator Header */}
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 app-card py-3 px-4">
+        {/* Navigation Tabs */}
+        <div className="inline-flex p-1 rounded-xl bg-brand-navy-100/70 dark:bg-slate-800 border border-brand-navy-200/50 dark:border-slate-700">
+          <button
+            type="button"
+            onClick={() => handleTabChange('overview')}
+            className={`px-3.5 py-1.5 rounded-lg text-xs font-bold transition-all flex items-center gap-2 ${
+              activeTab === 'overview'
+                ? 'bg-brand-navy-900 text-white shadow-sm dark:bg-brand-amber-500 dark:text-brand-navy-950'
+                : 'text-brand-navy-600 dark:text-slate-400 hover:text-brand-navy-900 dark:hover:text-white'
+            }`}
+          >
+            <Activity className="w-3.5 h-3.5" />
+            <span>Overview & Suara</span>
+          </button>
+          <button
+            type="button"
+            onClick={() => handleTabChange('results')}
+            className={`px-3.5 py-1.5 rounded-lg text-xs font-bold transition-all flex items-center gap-2 ${
+              activeTab === 'results'
+                ? 'bg-brand-navy-900 text-white shadow-sm dark:bg-brand-amber-500 dark:text-brand-navy-950'
+                : 'text-brand-navy-600 dark:text-slate-400 hover:text-brand-navy-900 dark:hover:text-white'
+            }`}
+          >
+            <Tv className="w-3.5 h-3.5" />
+            <span>Hasil Publik (/results)</span>
+            {showResultsState && (
+              <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
+            )}
+          </button>
+        </div>
+
+        {/* Realtime Status Indicator */}
+        <div className="flex items-center gap-2 text-xs font-medium self-end sm:self-center">
           {connectionStatus === 'connected' ? (
             <>
-              <span className="relative flex h-2.5 w-2.5">
+              <span className="relative flex h-2 w-2">
                 <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
-                <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-emerald-500"></span>
+                <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
               </span>
               <span className="text-emerald-600 dark:text-emerald-400 font-semibold flex items-center gap-1.5 text-xs">
-                <Radio className="w-4 h-4" /> Realtime Sync Aktif
+                <Radio className="w-3.5 h-3.5" /> Realtime Sync Aktif
               </span>
             </>
           ) : (
             <>
-              <RefreshCw className="w-4 h-4 animate-spin text-brand-amber-500" />
+              <RefreshCw className="w-3.5 h-3.5 animate-spin text-brand-amber-500" />
               <span className="text-brand-amber-600 dark:text-brand-amber-400 text-xs font-semibold">Menghubungkan ulang...</span>
             </>
           )}
         </div>
-        
-        <div className="text-xs text-brand-navy-400 dark:text-slate-400 font-semibold flex items-center gap-1.5">
-          <Activity className="w-4 h-4" /> Nawa Vote Console
-        </div>
       </div>
 
-      {/* 2. Turnout Metrics badges */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-        {/* Total Tokens */}
-        <div className="app-card p-5 flex items-center gap-4 border-l-4 border-l-brand-navy-700 dark:border-l-brand-navy-500">
-          <div className="flex items-center justify-center w-12 h-12 rounded-xl bg-brand-navy-50 dark:bg-slate-800 text-brand-navy-700 dark:text-brand-amber-400">
-            <Users className="w-6 h-6" />
-          </div>
-          <div>
-            <span className="text-[10px] uppercase font-bold text-brand-navy-400 dark:text-slate-400 block mb-1">Total Token DPT</span>
-            <span className="font-heading text-2xl font-black text-brand-navy-900 dark:text-white">
-              {totalVoters.toLocaleString('id-ID')}
-            </span>
-          </div>
-        </div>
+      {/* 2. TAB: OVERVIEW & SUARA */}
+      {activeTab === 'overview' && (
+        <div className="space-y-8">
+          {/* Turnout Metrics badges */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+            {/* Total Tokens */}
+            <div className="app-card p-5 flex items-center gap-4 border-l-4 border-l-brand-navy-700 dark:border-l-brand-navy-500">
+              <div className="flex items-center justify-center w-12 h-12 rounded-xl bg-brand-navy-50 dark:bg-slate-800 text-brand-navy-700 dark:text-brand-amber-400">
+                <Users className="w-6 h-6" />
+              </div>
+              <div>
+                <span className="text-[10px] uppercase font-bold text-brand-navy-400 dark:text-slate-400 block mb-1">Total Token DPT</span>
+                <span className="font-heading text-2xl font-black text-brand-navy-900 dark:text-white">
+                  {totalVoters.toLocaleString('id-ID')}
+                </span>
+              </div>
+            </div>
 
-        {/* Valid Turnout Votes */}
-        <div className="app-card p-5 flex items-center gap-4 border-l-4 border-l-brand-amber-500">
-          <div className="flex items-center justify-center w-12 h-12 rounded-xl bg-brand-navy-50 dark:bg-slate-800 text-brand-amber-500">
-            <UserCheck className="w-6 h-6" />
-          </div>
-          <div>
-            <span className="text-[10px] uppercase font-bold text-brand-navy-400 dark:text-slate-400 block mb-1">Suara Masuk</span>
-            <span className="font-heading text-2xl font-black text-brand-navy-900 dark:text-white">
-              {totalVotesCast.toLocaleString('id-ID')}
-            </span>
-          </div>
-        </div>
+            {/* Valid Turnout Votes */}
+            <div className="app-card p-5 flex items-center gap-4 border-l-4 border-l-brand-amber-500">
+              <div className="flex items-center justify-center w-12 h-12 rounded-xl bg-brand-navy-50 dark:bg-slate-800 text-brand-amber-500">
+                <UserCheck className="w-6 h-6" />
+              </div>
+              <div>
+                <span className="text-[10px] uppercase font-bold text-brand-navy-400 dark:text-slate-400 block mb-1">Suara Masuk</span>
+                <span className="font-heading text-2xl font-black text-brand-navy-900 dark:text-white">
+                  {totalVotesCast.toLocaleString('id-ID')}
+                </span>
+              </div>
+            </div>
 
-        {/* Turnout Percentages */}
-        <div className="app-card p-5 flex items-center gap-4 border-l-4 border-l-brand-navy-500 dark:border-l-brand-navy-400">
-          <div className="flex items-center justify-center w-12 h-12 rounded-xl bg-brand-navy-50 dark:bg-slate-800 text-brand-navy-600 dark:text-slate-200">
-            <Percent className="w-6 h-6" />
-          </div>
-          <div>
-            <span className="text-[10px] uppercase font-bold text-brand-navy-400 dark:text-slate-400 block mb-1">Partisipasi</span>
-            <span className="font-heading text-2xl font-black text-brand-navy-900 dark:text-white">
-              {participationRate.toFixed(1)}%
-            </span>
-          </div>
-        </div>
+            {/* Turnout Percentages */}
+            <div className="app-card p-5 flex items-center gap-4 border-l-4 border-l-brand-navy-500 dark:border-l-brand-navy-400">
+              <div className="flex items-center justify-center w-12 h-12 rounded-xl bg-brand-navy-50 dark:bg-slate-800 text-brand-navy-600 dark:text-slate-200">
+                <Percent className="w-6 h-6" />
+              </div>
+              <div>
+                <span className="text-[10px] uppercase font-bold text-brand-navy-400 dark:text-slate-400 block mb-1">Partisipasi</span>
+                <span className="font-heading text-2xl font-black text-brand-navy-900 dark:text-white">
+                  {participationRate.toFixed(1)}%
+                </span>
+              </div>
+            </div>
 
-        {/* Golput metrics */}
-        <div className="app-card p-5 flex items-center gap-4 border-l-4 border-l-slate-400 dark:border-l-slate-600">
-          <div className="flex items-center justify-center w-12 h-12 rounded-xl bg-brand-navy-50 dark:bg-slate-800 text-slate-500 dark:text-slate-400">
-            <HelpCircle className="w-6 h-6" />
+            {/* Golput metrics */}
+            <div className="app-card p-5 flex items-center gap-4 border-l-4 border-l-slate-400 dark:border-l-slate-600">
+              <div className="flex items-center justify-center w-12 h-12 rounded-xl bg-brand-navy-50 dark:bg-slate-800 text-slate-500 dark:text-slate-400">
+                <HelpCircle className="w-6 h-6" />
+              </div>
+              <div>
+                <span className="text-[10px] uppercase font-bold text-brand-navy-400 dark:text-slate-400 block mb-1">Belum Memilih</span>
+                <span className="font-heading text-2xl font-black text-brand-navy-900 dark:text-white">
+                  {golputCount.toLocaleString('id-ID')}
+                </span>
+              </div>
+            </div>
           </div>
-          <div>
-            <span className="text-[10px] uppercase font-bold text-brand-navy-400 dark:text-slate-400 block mb-1">Belum Memilih</span>
-            <span className="font-heading text-2xl font-black text-brand-navy-900 dark:text-white">
-              {golputCount.toLocaleString('id-ID')}
-            </span>
-          </div>
-        </div>
-      </div>
 
-      {/* 3. Toggles & settings control bar */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        
-        {/* Status toggles */}
-        <div className="app-card p-6 flex flex-col justify-between">
-          <div>
-            <h3 className="text-lg font-bold text-brand-navy-900 dark:text-white mb-1">
-              Status Periode Voting
+          {/* Voting Period Status & Reset Controls (2 Kolom Seimbang) */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            {/* Status toggles */}
+            <div className="app-card p-6 flex flex-col justify-between">
+              <div>
+                <h3 className="text-lg font-bold text-brand-navy-900 dark:text-white mb-1">
+                  Status Periode Voting
+                </h3>
+                <p className="text-brand-navy-500 dark:text-slate-400 text-xs mb-5 font-medium">
+                  Tentukan periode status pemungutan suara secara realtime.
+                </p>
+              </div>
+
+              <div className="grid grid-cols-3 gap-3">
+                <button
+                  onClick={() => handleStatusChange('closed')}
+                  disabled={isLoading || currentStatus === 'closed'}
+                  className={`py-3 px-2 rounded-xl text-[10px] font-bold uppercase tracking-wider transition-all flex flex-col items-center justify-center gap-1.5 border ${
+                    currentStatus === 'closed'
+                      ? 'bg-brand-navy-100 dark:bg-slate-800 border-brand-navy-300 dark:border-slate-700 text-brand-navy-900 dark:text-white'
+                      : 'bg-white dark:bg-slate-900 border-brand-navy-100 dark:border-slate-800 text-brand-navy-400 dark:text-slate-500 hover:bg-brand-navy-50 dark:hover:bg-slate-800'
+                  }`}
+                >
+                  <Square className="w-4 h-4" />
+                  <span>Closed</span>
+                </button>
+
+                <button
+                  onClick={() => handleStatusChange('open')}
+                  disabled={isLoading || currentStatus === 'open'}
+                  className={`py-3 px-2 rounded-xl text-[10px] font-bold uppercase tracking-wider transition-all flex flex-col items-center justify-center gap-1.5 border ${
+                    currentStatus === 'open'
+                      ? 'bg-emerald-600 border-emerald-600 text-white shadow-md'
+                      : 'bg-white dark:bg-slate-900 border-brand-navy-100 dark:border-slate-800 text-brand-navy-400 dark:text-slate-500 hover:bg-brand-navy-50 dark:hover:bg-slate-800'
+                  }`}
+                >
+                  <Play className="w-4 h-4" />
+                  <span>Open</span>
+                </button>
+
+                <button
+                  onClick={() => handleStatusChange('ended')}
+                  disabled={isLoading || currentStatus === 'ended'}
+                  className={`py-3 px-2 rounded-xl text-[10px] font-bold uppercase tracking-wider transition-all flex flex-col items-center justify-center gap-1.5 border ${
+                    currentStatus === 'ended'
+                      ? 'bg-red-600 border-red-600 text-white shadow-md'
+                      : 'bg-white dark:bg-slate-900 border-brand-navy-100 dark:border-slate-800 text-brand-navy-400 dark:text-slate-500 hover:bg-brand-navy-50 dark:hover:bg-slate-800'
+                  }`}
+                >
+                  <CircleCheck className="w-4 h-4" />
+                  <span>Ended</span>
+                </button>
+              </div>
+            </div>
+
+            {/* Reset Database Card */}
+            <div className="app-card p-6 flex flex-col justify-between border-l-4 border-l-red-500">
+              <div>
+                <h3 className="text-lg font-bold text-red-700 dark:text-red-400 mb-1">
+                  Reset Kotak Suara
+                </h3>
+                <p className="text-brand-navy-500 dark:text-slate-400 text-xs mb-5 font-medium">
+                  Hapus permanen seluruh suara masuk, audit log, dan kembalikan hak pilih token.
+                </p>
+              </div>
+
+              <button
+                onClick={() => setIsResetOpen(true)}
+                disabled={isLoading}
+                className="w-full py-3 px-3 bg-red-50 dark:bg-red-950/30 text-red-600 dark:text-red-400 rounded-xl text-xs font-bold hover:bg-red-100 dark:hover:bg-red-900/40 border border-red-200 dark:border-red-900/50 transition-colors flex items-center justify-center gap-2"
+              >
+                <ShieldAlert className="w-4 h-4" /> Reset Kotak Suara
+              </button>
+            </div>
+          </div>
+
+          {/* Three Live SVG Bar Charts Grid */}
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            {renderCategoryChart('ketua', 'Ketua OSIS')}
+            {renderCategoryChart('wakil_1', 'Wakil Ketua 1')}
+            {renderCategoryChart('wakil_2', 'Wakil Ketua 2')}
+          </div>
+
+          {/* Secure Audit Token Verifier Card */}
+          <div className="app-card p-8 mb-10">
+            <h3 className="text-lg font-bold text-brand-navy-900 dark:text-white mb-1 flex items-center gap-2">
+              <CheckCircle2 className="w-5 h-5 text-emerald-500" /> Audit Independen Token Suara
             </h3>
-            <p className="text-brand-navy-500 dark:text-slate-400 text-xs mb-5 font-medium">
-              Tentukan periode status pemungutan suara secara realtime.
+            <p className="text-brand-navy-500 dark:text-slate-400 text-xs mb-6 font-medium">
+              Verifikasi keabsahan data tanpa merusak kerahasiaan pilihan voter (UUID v4).
             </p>
-          </div>
 
-          <div className="grid grid-cols-3 gap-3">
-            <button
-              onClick={() => handleStatusChange('closed')}
-              disabled={isLoading || currentStatus === 'closed'}
-              className={`py-3 px-2 rounded-xl text-[10px] font-bold uppercase tracking-wider transition-all flex flex-col items-center justify-center gap-1.5 border ${
-                currentStatus === 'closed'
-                  ? 'bg-brand-navy-100 dark:bg-slate-800 border-brand-navy-300 dark:border-slate-700 text-brand-navy-900 dark:text-white'
-                  : 'bg-white dark:bg-slate-900 border-brand-navy-100 dark:border-slate-800 text-brand-navy-400 dark:text-slate-500 hover:bg-brand-navy-50 dark:hover:bg-slate-800'
-              }`}
-            >
-              <Square className="w-4 h-4" />
-              <span>Closed</span>
-            </button>
+            <form onSubmit={handleVerifyToken} className="flex flex-col sm:flex-row gap-4 items-end sm:items-center">
+              <div className="flex-1 w-full text-left">
+                <input
+                  type="text"
+                  required
+                  disabled={isVerifying}
+                  placeholder="Masukkan UUID Token Suara"
+                  value={verifyTokenInput}
+                  onChange={(e) => setVerifyTokenInput(e.target.value)}
+                  className="w-full py-3 px-4 modern-input text-sm"
+                />
+              </div>
+              <button
+                type="submit"
+                disabled={isVerifying}
+                className="w-full sm:w-auto py-3 px-6 primary-button text-xs uppercase tracking-wider disabled:opacity-50"
+              >
+                {isVerifying ? (
+                  <>
+                    <Loader2 className="w-4 h-4 animate-spin mr-1.5" /> Memeriksa
+                  </>
+                ) : (
+                  <>
+                    <Search className="w-4 h-4 mr-1.5" /> Verifikasi
+                  </>
+                )}
+              </button>
+            </form>
 
-            <button
-              onClick={() => handleStatusChange('open')}
-              disabled={isLoading || currentStatus === 'open'}
-              className={`py-3 px-2 rounded-xl text-[10px] font-bold uppercase tracking-wider transition-all flex flex-col items-center justify-center gap-1.5 border ${
-                currentStatus === 'open'
-                  ? 'bg-emerald-600 border-emerald-600 text-white shadow-md'
-                  : 'bg-white dark:bg-slate-900 border-brand-navy-100 dark:border-slate-800 text-brand-navy-400 dark:text-slate-500 hover:bg-brand-navy-50 dark:hover:bg-slate-800'
-              }`}
-            >
-              <Play className="w-4 h-4" />
-              <span>Open</span>
-            </button>
-
-            <button
-              onClick={() => handleStatusChange('ended')}
-              disabled={isLoading || currentStatus === 'ended'}
-              className={`py-3 px-2 rounded-xl text-[10px] font-bold uppercase tracking-wider transition-all flex flex-col items-center justify-center gap-1.5 border ${
-                currentStatus === 'ended'
-                  ? 'bg-red-600 border-red-600 text-white shadow-md'
-                  : 'bg-white dark:bg-slate-900 border-brand-navy-100 dark:border-slate-800 text-brand-navy-400 dark:text-slate-500 hover:bg-brand-navy-50 dark:hover:bg-slate-800'
-              }`}
-            >
-              <CircleCheck className="w-4 h-4" />
-              <span>Ended</span>
-            </button>
-          </div>
-        </div>
-
-        {/* Results config & Clear database */}
-        <div className="app-card p-6 flex flex-col sm:flex-row gap-4 items-stretch justify-stretch">
-          <div className="flex-1 bg-brand-navy-50/50 dark:bg-slate-800/40 p-4 border border-brand-navy-100 dark:border-slate-800 rounded-xl flex flex-col justify-between items-start">
-            <div>
-              <h4 className="text-sm font-bold text-brand-navy-900 dark:text-white mb-1">
-                Hasil Publik
-              </h4>
-              <p className="text-xs text-brand-navy-500 dark:text-slate-400 mb-4 font-medium">
-                Visibilitas hasil tanpa login.
-              </p>
-            </div>
-
-            <button
-              onClick={handleShowResultsToggle}
-              disabled={isLoading}
-              className={`w-full py-2.5 px-3 rounded-lg text-xs font-bold transition-all duration-200 flex items-center justify-center gap-2 ${
-                showResults
-                  ? 'bg-brand-navy-700 text-white dark:bg-brand-amber-500 dark:text-brand-navy-950'
-                  : 'bg-white dark:bg-slate-900 border border-brand-navy-200 dark:border-slate-700 text-brand-navy-700 dark:text-slate-200 hover:bg-brand-navy-50'
-              }`}
-            >
-              {showResults ? (
-                <>
-                  <Eye className="w-4 h-4" /> Terlihat
-                </>
-              ) : (
-                <>
-                  <EyeOff className="w-4 h-4" /> Tersembunyi
-                </>
-              )}
-            </button>
-          </div>
-
-          <div className="flex-1 bg-red-50/50 dark:bg-red-950/20 p-4 border border-red-100 dark:border-red-900/40 rounded-xl flex flex-col justify-between items-start">
-            <div>
-              <h4 className="text-sm font-bold text-red-700 dark:text-red-400 mb-1">
-                Reset Data
-              </h4>
-              <p className="text-xs text-red-600/80 dark:text-red-400/80 mb-4 font-medium">
-                Hapus suara secara permanen.
-              </p>
-            </div>
-
-            <button
-              onClick={() => setIsResetOpen(true)}
-              disabled={isLoading}
-              className="w-full py-2.5 px-3 bg-white dark:bg-slate-900 text-red-600 dark:text-red-400 rounded-lg text-xs font-bold hover:bg-red-50 dark:hover:bg-red-950/40 border border-red-200 dark:border-red-900/50 transition-colors flex items-center justify-center gap-2"
-            >
-              <ShieldAlert className="w-4 h-4" /> Reset Kotak Suara
-            </button>
-          </div>
-        </div>
-
-      </div>
-
-      {/* 4. Results Screen Live Display Controls */}
-      <ResultsControls initialConfig={resultsConfig} candidates={candidates} />
-
-      {/* 5. Three Live SVG Bar Charts Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-        {renderCategoryChart('ketua', 'Ketua OSIS')}
-        {renderCategoryChart('wakil_1', 'Wakil Ketua 1')}
-        {renderCategoryChart('wakil_2', 'Wakil Ketua 2')}
-      </div>
-
-      {/* 5. Secure Audit Token Verifier Card */}
-      <div className="app-card p-8 mb-10">
-        <h3 className="text-lg font-bold text-brand-navy-900 dark:text-white mb-1 flex items-center gap-2">
-          <CheckCircle2 className="w-5 h-5 text-emerald-500" /> Audit Independen Token Suara
-        </h3>
-        <p className="text-brand-navy-500 dark:text-slate-400 text-xs mb-6 font-medium">
-          Verifikasi keabsahan data tanpa merusak kerahasiaan pilihan voter (UUID v4).
-        </p>
-
-        <form onSubmit={handleVerifyToken} className="flex flex-col sm:flex-row gap-4 items-end sm:items-center">
-          <div className="flex-1 w-full text-left">
-            <input
-              type="text"
-              required
-              disabled={isVerifying}
-              placeholder="Masukkan UUID Token Suara"
-              value={verifyTokenInput}
-              onChange={(e) => setVerifyTokenInput(e.target.value)}
-              className="w-full py-3 px-4 modern-input text-sm"
-            />
-          </div>
-          <button
-            type="submit"
-            disabled={isVerifying}
-            className="w-full sm:w-auto py-3 px-6 primary-button text-xs uppercase tracking-wider disabled:opacity-50"
-          >
-            {isVerifying ? (
-              <>
-                <Loader2 className="w-4 h-4 animate-spin mr-1.5" /> Memeriksa
-              </>
-            ) : (
-              <>
-                <Search className="w-4 h-4 mr-1.5" /> Verifikasi
-              </>
-            )}
-          </button>
-        </form>
-
-        {/* Verification Result details */}
-        <AnimatePresence>
-          {verifyResult && (
-            <motion.div
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: 10 }}
-              className="mt-6"
-            >
-              {verifyResult.verified ? (
-                <div className="rounded-xl border border-emerald-100 dark:border-emerald-900/50 bg-emerald-50/50 dark:bg-emerald-950/30 p-4 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-                  <div className="flex items-start gap-3">
-                    <CheckCircle2 className="w-5 h-5 text-emerald-500 flex-shrink-0 mt-0.5" />
-                    <div>
-                      <h4 className="font-bold text-emerald-700 dark:text-emerald-400 text-sm">Suara Terverifikasi Sah!</h4>
-                      <p className="text-xs text-emerald-600/80 dark:text-emerald-400/80 mt-1 font-medium">
-                        Token tervalidasi resmi di kotak suara digital. Hak suara aman dihitung.
-                      </p>
+            {/* Verification Result details */}
+            <AnimatePresence>
+              {verifyResult && (
+                <motion.div
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: 10 }}
+                  className="mt-6"
+                >
+                  {verifyResult.verified ? (
+                    <div className="rounded-xl border border-emerald-100 dark:border-emerald-900/50 bg-emerald-50/50 dark:bg-emerald-950/30 p-4 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                      <div className="flex items-start gap-3">
+                        <CheckCircle2 className="w-5 h-5 text-emerald-500 flex-shrink-0 mt-0.5" />
+                        <div>
+                          <h4 className="font-bold text-emerald-700 dark:text-emerald-400 text-sm">Suara Terverifikasi Sah!</h4>
+                          <p className="text-xs text-emerald-600/80 dark:text-emerald-400/80 mt-1 font-medium">
+                            Token tervalidasi resmi di kotak suara digital. Hak suara aman dihitung.
+                          </p>
+                        </div>
+                      </div>
+                      {verifyResult.votedAt && (
+                        <div className="bg-white dark:bg-slate-900 border border-emerald-100 dark:border-emerald-900/50 rounded-lg py-1.5 px-3 text-[10px] font-bold text-emerald-600 dark:text-emerald-400 font-mono">
+                          DITERIMA: {new Date(verifyResult.votedAt).toLocaleString('id-ID')}
+                        </div>
+                      )}
                     </div>
-                  </div>
-                  {verifyResult.votedAt && (
-                    <div className="bg-white dark:bg-slate-900 border border-emerald-100 dark:border-emerald-900/50 rounded-lg py-1.5 px-3 text-[10px] font-bold text-emerald-600 dark:text-emerald-400 font-mono">
-                      DITERIMA: {new Date(verifyResult.votedAt).toLocaleString('id-ID')}
+                  ) : (
+                    <div className="rounded-xl border border-red-100 dark:border-red-900/50 bg-red-50/50 dark:bg-red-950/30 p-4 flex items-start gap-3">
+                      <ShieldAlert className="w-5 h-5 text-red-500 flex-shrink-0 mt-0.5" />
+                      <div>
+                        <h4 className="font-bold text-red-700 dark:text-red-400 text-sm">Token Tidak Terdaftar / Tidak Valid</h4>
+                        <p className="text-xs text-red-600/80 dark:text-red-400/80 mt-1 font-medium">
+                          {verifyResult.error || 'Token suara di atas tidak ditemukan di dalam kotak suara digital.'}
+                        </p>
+                      </div>
                     </div>
                   )}
-                </div>
-              ) : (
-                <div className="rounded-xl border border-red-100 dark:border-red-900/50 bg-red-50/50 dark:bg-red-950/30 p-4 flex items-start gap-3">
-                  <ShieldAlert className="w-5 h-5 text-red-500 flex-shrink-0 mt-0.5" />
-                  <div>
-                    <h4 className="font-bold text-red-700 dark:text-red-400 text-sm">Token Tidak Terdaftar / Tidak Valid</h4>
-                    <p className="text-xs text-red-600/80 dark:text-red-400/80 mt-1 font-medium">
-                      {verifyResult.error || 'Token suara di atas tidak ditemukan di dalam kotak suara digital.'}
-                    </p>
-                  </div>
-                </div>
+                </motion.div>
               )}
-            </motion.div>
-          )}
-        </AnimatePresence>
-      </div>
+            </AnimatePresence>
+          </div>
+        </div>
+      )}
+
+      {/* 3. TAB: HASIL PUBLIK (/results) */}
+      {activeTab === 'results' && (
+        <div className="space-y-6">
+          {/* Dense Unified Results Controls */}
+          <ResultsControls
+            showResults={showResultsState}
+            onToggleShowResults={handleShowResultsToggle}
+            initialConfig={resultsConfig}
+            candidates={candidates}
+          />
+
+          {/* Quick Data Review for Active Jabatan */}
+          <div className="app-card p-6">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pb-4 mb-4 border-b border-brand-navy-100 dark:border-slate-800">
+              <div>
+                <span className="text-[10px] font-bold text-brand-navy-400 dark:text-slate-400 uppercase tracking-wider">
+                  Tinjauan Data Siaran
+                </span>
+                <h3 className="text-base font-bold text-brand-navy-900 dark:text-white">
+                  Data Terkini: {resultsConfig.activeJabatan === 'ketua' ? 'Ketua OSIS' : resultsConfig.activeJabatan === 'wakil_1' ? 'Wakil Ketua 1' : 'Wakil Ketua 2'}
+                </h3>
+              </div>
+              <a
+                href="/results"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-xs font-bold text-brand-amber-600 hover:text-brand-amber-500 flex items-center gap-1.5 self-start sm:self-auto"
+              >
+                <span>Lihat Layar Hasil /results</span>
+                <ExternalLink className="w-3.5 h-3.5" />
+              </a>
+            </div>
+
+            <div className="max-w-md">
+              {renderCategoryChart(
+                resultsConfig.activeJabatan,
+                resultsConfig.activeJabatan === 'ketua'
+                  ? 'Ketua OSIS'
+                  : resultsConfig.activeJabatan === 'wakil_1'
+                  ? 'Wakil Ketua 1'
+                  : 'Wakil Ketua 2'
+              )}
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* Database Reset confirmation overlay */}
       <AnimatePresence>

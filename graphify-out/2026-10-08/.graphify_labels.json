@@ -1,1 +1,27 @@
-{"0": "Candidate Management & CSV Parsing", "1": "Voting Wizard & Card UI", "2": "Admin Dashboard Layout & Navigation", "3": "Architecture & Agent Design Principles", "4": "NPM Package Scripts & Configuration", "5": "TypeScript Compiler Configuration", "6": "App Root Layout & Typography", "7": "Production Runtime Dependencies", "8": "Dev Dependencies & Build Tooling", "9": "Supabase Database & Token Generation", "10": "Web App Manifest & PWA Metadata", "11": "Analytics Dashboard & Data Visuals", "12": "Service Worker & PWA Caching", "13": "ESLint Rules & Code Standards", "14": "Vote Page Routing & SSR", "15": "Input Validation Utilities", "16": "Next.js Framework Configuration", "17": "PostCSS Styling Pipeline", "18": "Arcane Crown UI Assets", "19": "Tailwind CSS Configuration", "20": "Arcane Vote Glow UI Asset", "21": "Community 21", "22": "Community 22", "23": "Community 23", "24": "Community 24", "25": "Community 25"}
+{
+  "0": "createClient",
+  "1": "VoteWizard.tsx",
+  "2": "package.json",
+  "3": "react",
+  "4": "Nawa Vote Platform Overview",
+  "5": "compilerOptions",
+  "6": "app/layout.tsx",
+  "7": "dependencies",
+  "8": "ResultsClient.tsx",
+  "9": "generate-tokens.js",
+  "10": "manifest.json",
+  "11": "analytics/page.tsx",
+  "12": "sw.js",
+  "13": "NAWA-VOTE Agent Workflow & Guidelines",
+  "15": "extends",
+  "16": "vote/page.tsx",
+  "17": "validate.ts",
+  "18": "next.config.mjs",
+  "19": "postcss.config.mjs",
+  "20": "Arcane Crown Glow",
+  "21": "tailwind.config.js",
+  "22": "Modular & Dynamic Code Architecture",
+  "23": "UX Excellence & Attention to Detail",
+  "24": "Workflow & Commitment Protocol",
+  "25": "Arcane Vote Glow Icon"
+}
