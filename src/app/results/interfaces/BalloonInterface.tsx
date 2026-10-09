@@ -310,37 +310,68 @@ function ConfettiLayer() {
 // ── Normal flying balloon actors (session mode) ───────────────────────────────
 
 function BalloonActor({
-  balloon, cand, colors, tokenTextColor, isRevealed, onPop, onComplete,
+  balloon, cand, colors, tokenTextColor, isRevealed, onPop,
 }: {
   balloon: BalloonInstance; cand: LiveCandidate; colors: SlotColors;
   tokenTextColor: string; isRevealed: boolean;
-  onPop: (uid: string, e: React.MouseEvent) => void;
-  onComplete: (uid: string) => void;
+  onPop: (uid: string, x: number, y: number) => void;
 }) {
   const gradId = `bshine-${balloon.uid}`;
+  const elRef = useRef<HTMLDivElement>(null);
+
+  // Flight duration: starts from bottom (off-screen bottom) and rises to top (0px from top of container, right below header)
   return (
     <motion.div
-      className="absolute pointer-events-none"
-      style={{ left: `${balloon.x}%`, bottom: '72px' }}
-      initial={{ y: 60 }}
-      animate={{ y: -2400 }}
-      transition={{ duration: balloon.duration, ease: 'linear' }}
-      onAnimationComplete={() => onComplete(balloon.uid)}
+      ref={elRef}
+      className="absolute z-10 touch-none select-none"
+      style={{ left: `${balloon.x}%`, top: 0 }}
+      initial={{ y: '105vh' }}
+      animate={{ y: 8 }}
+      transition={{
+        duration: Math.min(balloon.duration, 5),
+        ease: [0.16, 1, 0.3, 1], // natural upward deceleration as if bumping into header
+      }}
+      drag
+      dragMomentum={false}
+      onDragEnd={(_, info) => {
+        // If dragged down below top header area and released, float smoothly back up to header
+        if (elRef.current) {
+          const rect = elRef.current.getBoundingClientRect();
+          if (rect.top > 60) {
+            // Balloon has natural buoyancy to float back to header
+            const parent = elRef.current.parentElement;
+            const parentTop = parent ? parent.getBoundingClientRect().top : 0;
+            const currentRelY = rect.top - parentTop;
+            elRef.current.style.transition = 'transform 2.2s cubic-bezier(0.2, 0.9, 0.3, 1)';
+            elRef.current.style.transform = `translate3d(${info.offset.x}px, 8px, 0)`;
+          }
+        }
+      }}
     >
       <motion.div
-        animate={{ x: [0, balloon.swayAmount, -balloon.swayAmount * 0.7, balloon.swayAmount * 0.4, 0] }}
-        transition={{ duration: balloon.duration * 0.55, repeat: Infinity, ease: 'easeInOut' }}
-        className="flex flex-col items-center cursor-pointer pointer-events-auto select-none"
-        onClick={(e) => onPop(balloon.uid, e)}
-        title="Klik untuk letupkan!"
+        animate={{ x: [0, balloon.swayAmount * 0.5, -balloon.swayAmount * 0.4, 0] }}
+        transition={{ duration: 4.5, repeat: Infinity, ease: 'easeInOut' }}
+        className="flex flex-col items-center cursor-grab active:cursor-grabbing select-none"
+        onClick={(e) => {
+          e.stopPropagation();
+          if (elRef.current) {
+            const rect = elRef.current.getBoundingClientRect();
+            const parent = elRef.current.parentElement;
+            const pRect = parent ? parent.getBoundingClientRect() : { left: 0, top: 0 };
+            onPop(balloon.uid, rect.left - pRect.left + rect.width / 2, rect.top - pRect.top + rect.height / 2);
+          } else {
+            onPop(balloon.uid, e.clientX, e.clientY);
+          }
+        }}
+        title="Tarik atau klik untuk letupkan!"
       >
         {isRevealed && (
-          <div className="mb-0.5 text-center bg-white/90 px-2 py-0.5 rounded-md shadow-sm max-w-[110px]">
+          <div className="mb-0.5 text-center bg-white/95 px-2 py-0.5 rounded-md shadow-sm max-w-[110px] pointer-events-none">
             <div className="text-[8px] font-bold uppercase tracking-wide text-brand-navy-500 font-heading">No. {cand.ordinal_number}</div>
             <div className="text-[10px] font-black text-brand-navy-900 truncate font-heading">{cand.name}</div>
           </div>
         )}
-        <svg viewBox="0 0 100 130" className="w-20 h-28 md:w-24 md:h-32 drop-shadow-md">
+        <svg viewBox="0 0 100 130" className="w-20 h-28 md:w-24 md:h-32 drop-shadow-md pointer-events-none">
           <defs>
             <radialGradient id={gradId} cx="35%" cy="30%" r="60%">
               <stop offset="0%"   stopColor={colors.shine} />
@@ -353,11 +384,11 @@ function BalloonActor({
           <circle cx="24" cy="62" r="3.5" fill="#ffffff" opacity={0.22} />
           <polygon points="44,116 56,116 53,123 47,123" fill={colors.knot} />
         </svg>
-        <svg viewBox="0 0 20 56" className="w-3 h-10 fill-none -mt-0.5" style={{ stroke: colors.string, strokeWidth: 1.5 }}>
+        <svg viewBox="0 0 20 56" className="w-3 h-10 fill-none -mt-0.5 pointer-events-none" style={{ stroke: colors.string, strokeWidth: 1.5 }}>
           <path d="M 10 0 Q 14 14 8 28 T 10 56" />
         </svg>
         <div
-          className="px-2 py-0.5 rounded-md text-[10px] font-mono font-bold shadow-xs border border-black/10 -mt-0.5 whitespace-nowrap flex items-center gap-1"
+          className="px-2 py-0.5 rounded-md text-[10px] font-mono font-bold shadow-xs border border-black/10 -mt-0.5 whitespace-nowrap flex items-center gap-1 pointer-events-none"
           style={{ backgroundColor: colors.fill, color: tokenTextColor }}
         >
           <span>{balloon.tokenLabel}</span>
@@ -452,11 +483,8 @@ export default function BalloonInterface({
     setBalloons(prev => prev.filter(b => b.uid !== uid));
   }, []);
 
-  const handlePop = useCallback((uid: string, e: React.MouseEvent) => {
-    let popX: number | undefined, popY: number | undefined;
-    const el = containerRef.current;
-    if (el) { const r = el.getBoundingClientRect(); popX = e.clientX - r.left; popY = e.clientY - r.top; }
-    setBalloons(prev => prev.map(b => b.uid === uid ? { ...b, popped: true, popX, popY } : b));
+  const handlePop = useCallback((uid: string, popX?: number, popY?: number) => {
+    setBalloons(prev => prev.map(b => b.uid === uid ? { ...b, popped: true, popX: popX ?? 200, popY: popY ?? 200 } : b));
     playBalloonPop();
   }, []);
 
@@ -587,7 +615,7 @@ export default function BalloonInterface({
           <BalloonActor
             key={balloon.uid} balloon={balloon} cand={cand} colors={colors}
             tokenTextColor={tokenTextColor} isRevealed={isRevealed}
-            onPop={handlePop} onComplete={removeBalloon}
+            onPop={handlePop}
           />
         );
       })}

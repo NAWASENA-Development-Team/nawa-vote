@@ -26,10 +26,34 @@ export default async function PublicResultsPage() {
     .select('id, name, category, vote_count, ordinal_number')
     .order('ordinal_number', { ascending: true });
 
-  // 3. Fetch Total Votes Count
-  const { count: totalVotesCast } = await supabase
-    .from('votes')
-    .select('*', { count: 'exact', head: true });
+  // 3. Fetch Total Votes Count (with fallback if anon role is RLS-restricted on votes table)
+  let totalVotesCast = 0;
+  if (process.env.SUPABASE_SERVICE_ROLE_KEY) {
+    try {
+      const { createAdminClient } = await import('@/lib/supabase/server');
+      const adminClient = createAdminClient();
+      const { count } = await adminClient.from('votes').select('*', { count: 'exact', head: true });
+      if (count !== null && count !== undefined) {
+        totalVotesCast = count;
+      }
+    } catch {
+      // fallback below
+    }
+  }
+
+  if (!totalVotesCast) {
+    const { count } = await supabase
+      .from('votes')
+      .select('*', { count: 'exact', head: true });
+    totalVotesCast = count || 0;
+  }
+
+  // If votes table count returned 0 or null due to public RLS, derive total unique voter ballots from 'ketua'
+  const ketuaVotesSum = (candidates || [])
+    .filter((c: any) => c.category === 'ketua')
+    .reduce((acc: number, curr: any) => acc + (Number(curr.vote_count) || 0), 0);
+
+  const safeTotalVotes = Math.max(totalVotesCast, ketuaVotesSum);
 
   const rawConfigRecord: Record<string, string | undefined> = {
     show_results: showResults,
@@ -45,7 +69,7 @@ export default async function PublicResultsPage() {
     <ResultsClient
       initialRawConfig={rawConfigRecord}
       initialCandidates={(candidates as any) || []}
-      initialTotalVotesCast={totalVotesCast || 0}
+      initialTotalVotesCast={safeTotalVotes}
       isAdmin={isAdmin}
     />
   );

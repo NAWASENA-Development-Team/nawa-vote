@@ -119,13 +119,35 @@ export function useLiveResults(
       )
       .subscribe();
 
-    // Fallback polling every 3s to guarantee live data updates
+    // Guaranteed live polling every 2.5s via /api/results-stats and direct supabase fallback
     const fetchFreshData = async () => {
+      try {
+        // 1. Try our dedicated endpoint which bypasses anon RLS limitations
+        const res = await fetch(`/api/results-stats?_t=${Date.now()}`, {
+          cache: 'no-store',
+        });
+        if (res.ok) {
+          const json = await res.json();
+          if (json.success) {
+            if (Array.isArray(json.candidates) && json.candidates.length > 0) {
+              setCandidates(json.candidates as LiveCandidate[]);
+            }
+            if (typeof json.totalVotesCast === 'number') {
+              setTotalVotesCast(json.totalVotesCast);
+              return;
+            }
+          }
+        }
+      } catch {
+        // Fallback to direct client query below
+      }
+
       try {
         const { data: candData } = await supabase
           .from('candidates')
           .select('id, name, category, vote_count, ordinal_number')
           .order('ordinal_number', { ascending: true });
+
         if (candData) {
           setCandidates(candData as LiveCandidate[]);
         }
@@ -133,8 +155,14 @@ export function useLiveResults(
         const { count } = await supabase
           .from('votes')
           .select('*', { count: 'exact', head: true });
-        if (count !== null && count !== undefined) {
-          setTotalVotesCast(count);
+
+        const ketuaSum = (candData || [])
+          .filter((c: any) => c.category === 'ketua')
+          .reduce((acc: number, curr: any) => acc + (Number(curr.vote_count) || 0), 0);
+
+        const safeCount = Math.max(Number(count) || 0, ketuaSum);
+        if (safeCount > 0 || (count !== null && count !== undefined)) {
+          setTotalVotesCast(safeCount);
         }
       } catch (err) {
         console.error('Live data poll error:', err);
@@ -142,7 +170,7 @@ export function useLiveResults(
     };
 
     fetchFreshData();
-    const pollInterval = setInterval(fetchFreshData, 3000);
+    const pollInterval = setInterval(fetchFreshData, 2500);
 
     return () => {
       clearInterval(pollInterval);
