@@ -288,10 +288,26 @@ export default function VoteWizard({
   };
 
   // ── Inline Token Input Formatter ─────────────────────────────────────────────
+  const handleTokenPaste = (e: React.ClipboardEvent<HTMLInputElement>) => {
+    e.preventDefault();
+    const pasted = e.clipboardData.getData('text').trim().toUpperCase();
+    let clean = pasted;
+    if (clean.startsWith('NW-')) clean = clean.slice(3);
+    else if (clean.startsWith('NW')) clean = clean.slice(2);
+    clean = clean.replace(/[^A-Z0-9]/g, '').slice(0, 6);
+
+    setTokenSuffix(clean);
+    setTokenInput(clean ? `NW-${clean}` : '');
+    setTokenInputError(null);
+  };
+
   const handleTokenSuffixChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     let raw = e.target.value.toUpperCase();
-    if (raw.startsWith('NW-')) raw = raw.slice(3);
-    else if (raw.startsWith('NW')) raw = raw.slice(2);
+    
+    // Only strip full 'NW-' prefix if user explicitly typed or pasted it with a hyphen
+    if (raw.startsWith('NW-')) {
+      raw = raw.slice(3);
+    }
     const cleanSuffix = raw.replace(/[^A-Z0-9]/g, '').slice(0, 6);
 
     setTokenSuffix(cleanSuffix);
@@ -565,6 +581,7 @@ export default function VoteWizard({
                   placeholder="XXXXXX"
                   value={tokenSuffix}
                   onChange={handleTokenSuffixChange}
+                  onPaste={handleTokenPaste}
                   disabled={isTokenSubmitting}
                   autoFocus
                   autoComplete="off"
