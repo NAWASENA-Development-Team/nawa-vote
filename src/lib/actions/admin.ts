@@ -265,3 +265,91 @@ export async function resetVotingData(): Promise<{ success: boolean; error?: str
     return { success: false, error: error.message || 'Gagal mereset data voting' };
   }
 }
+
+/**
+ * Reset an individual voter token so it can vote again.
+ * If the token already cast a vote, decrements the vote counts for the candidates
+ * voted for and deletes the vote record.
+ */
+export async function resetIndividualToken(voterId: string): Promise<{ success: boolean; error?: string }> {
+  try {
+    const supabase = createClient();
+
+    // Verify admin
+    const { data: { user } } = await supabase.auth.getUser();
+    if (!user || user.app_metadata?.role !== 'admin') {
+      return { success: false, error: 'Akses ditolak' };
+    }
+
+    const adminClient = createAdminClient();
+
+    // 1. Fetch the voter record
+    const { data: voter, error: voterFetchErr } = await adminClient
+      .from('voters')
+      .select('id, token, has_voted, vote_token')
+      .eq('id', voterId)
+      .maybeSingle();
+
+    if (voterFetchErr || !voter) {
+      return { success: false, error: 'Token pemilih tidak ditemukan' };
+    }
+
+    // 2. If the voter had voted and has a vote_token, revert candidate vote counts and remove the vote
+    if (voter.has_voted && voter.vote_token) {
+      const { data: voteRecord } = await adminClient
+        .from('votes')
+        .select('id, ketua_id, wakil1_id, wakil2_id')
+        .eq('vote_token', voter.vote_token)
+        .maybeSingle();
+
+      if (voteRecord) {
+        // Decrement candidate counts
+        const candIds = [voteRecord.ketua_id, voteRecord.wakil1_id, voteRecord.wakil2_id].filter(Boolean);
+        for (const cId of candIds) {
+          const { data: cand } = await adminClient
+            .from('candidates')
+            .select('vote_count')
+            .eq('id', cId)
+            .maybeSingle();
+          if (cand && typeof cand.vote_count === 'number' && cand.vote_count > 0) {
+            await adminClient
+              .from('candidates')
+              .update({ vote_count: cand.vote_count - 1 })
+              .eq('id', cId);
+          }
+        }
+
+        // Delete the vote row
+        await adminClient.from('votes').delete().eq('id', voteRecord.id);
+      }
+    }
+
+    // 3. Reset the voter's status
+    const { error: updateErr } = await adminClient
+      .from('voters')
+      .update({
+        has_voted: false,
+        vote_token: null,
+        voted_at: null,
+      })
+      .eq('id', voterId);
+
+    if (updateErr) throw updateErr;
+
+    // 4. Log audit event
+    await adminClient.from('audit_log').insert({
+      voter_id: voter.id,
+      action: `TOKEN_RESET_INDIVIDUAL: ${voter.token}`,
+    });
+
+    revalidatePath('/admin/voters');
+    revalidatePath('/admin/dashboard');
+    revalidatePath('/results');
+
+    return { success: true };
+  } catch (error: any) {
+    console.error('Reset individual token error:', error);
+    return { success: false, error: error.message || 'Gagal mereset token' };
+  }
+}
+

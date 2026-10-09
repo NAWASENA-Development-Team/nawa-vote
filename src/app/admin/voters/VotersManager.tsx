@@ -2,7 +2,7 @@
 
 import React, { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { generateVoterTokens } from '@/lib/actions/admin';
+import { generateVoterTokens, resetIndividualToken } from '@/lib/actions/admin';
 import Papa from 'papaparse';
 import {
   Search,
@@ -15,7 +15,8 @@ import {
   Unlock,
   Users,
   Ticket,
-  Plus
+  Plus,
+  RotateCcw,
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 
@@ -38,6 +39,34 @@ export default function VotersManager({ initialVoters }: VotersManagerProps) {
   const [tokenCount, setTokenCount] = useState<number>(50);
   
   const [feedbackMsg, setFeedbackMsg] = useState<{ type: 'success' | 'error'; text: string } | null>(null);
+  const [resettingTokenId, setResettingTokenId] = useState<string | null>(null);
+
+  const handleResetToken = async (voter: VoterToken) => {
+    const confirmMsg = voter.has_voted
+      ? `Yakin ingin mereset token ${voter.token}? Status akan dikembalikan menjadi 'Aktif' dan suara yang telah dimasukkan akan ditarik kembali.`
+      : `Reset token ${voter.token}?`;
+
+    if (!window.confirm(confirmMsg)) return;
+
+    setResettingTokenId(voter.id);
+    setFeedbackMsg(null);
+
+    const res = await resetIndividualToken(voter.id);
+    setResettingTokenId(null);
+
+    if (res.success) {
+      setFeedbackMsg({
+        type: 'success',
+        text: `Token ${voter.token} berhasil di-reset menjadi aktif!`,
+      });
+      router.refresh();
+    } else {
+      setFeedbackMsg({
+        type: 'error',
+        text: res.error || `Gagal mereset token ${voter.token}`,
+      });
+    }
+  };
 
   // Filter DPT list
   const filteredVoters = initialVoters.filter((v) => {
@@ -268,6 +297,7 @@ export default function VotersManager({ initialVoters }: VotersManagerProps) {
                 <th className="py-3.5 px-6 font-extrabold text-center">Status</th>
                 <th className="py-3.5 px-6 font-extrabold">Waktu Memilih</th>
                 <th className="py-3.5 px-6 font-extrabold">KODE VERIFIKASI (AUDIT)</th>
+                <th className="py-3.5 px-6 font-extrabold text-center">Aksi</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-brand-navy-100 dark:divide-slate-800 font-semibold text-brand-navy-900 dark:text-slate-100">
@@ -290,11 +320,30 @@ export default function VotersManager({ initialVoters }: VotersManagerProps) {
                       {v.voted_at ? new Date(v.voted_at).toLocaleString('id-ID', { hourCycle: 'h24' }) : '-'}
                     </td>
                     <td className="py-3.5 px-6 font-mono text-[10px] text-brand-navy-500 dark:text-slate-400 break-all">{v.vote_token || '-'}</td>
+                    <td className="py-3.5 px-6 text-center">
+                      <button
+                        onClick={() => handleResetToken(v)}
+                        disabled={resettingTokenId === v.id}
+                        title={`Reset status token ${v.token}`}
+                        className={`inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg text-[10px] font-bold tracking-wide transition-all border ${
+                          v.has_voted
+                            ? 'bg-amber-50 hover:bg-amber-100 dark:bg-amber-950/40 dark:hover:bg-amber-900/60 text-amber-800 dark:text-amber-300 border-amber-200 dark:border-amber-800/80 shadow-xs'
+                            : 'bg-white hover:bg-brand-navy-50 dark:bg-slate-800 dark:hover:bg-slate-700 text-brand-navy-600 dark:text-slate-300 border-brand-navy-200 dark:border-slate-700'
+                        } disabled:opacity-50`}
+                      >
+                        {resettingTokenId === v.id ? (
+                          <Loader2 className="w-3 h-3 animate-spin" />
+                        ) : (
+                          <RotateCcw className="w-3 h-3" />
+                        )}
+                        <span>Reset</span>
+                      </button>
+                    </td>
                   </tr>
                 ))
               ) : (
                 <tr>
-                  <td colSpan={4} className="py-10 text-center text-brand-navy-400 dark:text-slate-500 font-medium">
+                  <td colSpan={5} className="py-10 text-center text-brand-navy-400 dark:text-slate-500 font-medium">
                     Tidak ada token pemilih terdaftar yang cocok dengan pencarian
                   </td>
                 </tr>
