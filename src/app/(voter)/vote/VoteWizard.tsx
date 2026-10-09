@@ -434,9 +434,13 @@ export default function VoteWizard({
   };
 
   // ── Vote Submit Handler ──────────────────────────────────────────────────────
+  const isSubmittingVoteRef = useRef(false);
+
   const handleConfirmSubmit = async () => {
     if (!selectedKetua || !selectedWakil1 || !selectedWakil2) return;
+    if (isSubmittingVoteRef.current || isLoading) return;
 
+    isSubmittingVoteRef.current = true;
     setIsLoading(true);
     setErrorMessage(null);
 
@@ -461,6 +465,7 @@ export default function VoteWizard({
 
       setOfflineSaved(true);
       setIsLoading(false);
+      isSubmittingVoteRef.current = false;
     };
 
     let activeOnline = isOnline;
@@ -475,7 +480,7 @@ export default function VoteWizard({
 
     try {
       const timeoutPromise = new Promise<{ success: boolean; error?: string; timeout: boolean; token?: string; offline?: boolean }>((resolve) =>
-        setTimeout(() => resolve({ success: false, timeout: true, offline: true }), 3500)
+        setTimeout(() => resolve({ success: false, timeout: true, offline: true }), 10000)
       );
 
       const res = await Promise.race([
@@ -492,9 +497,24 @@ export default function VoteWizard({
         setIsConfirmOpen(false);
         setOnlineSuccessToken(res.token);
         setIsLoading(false);
+        isSubmittingVoteRef.current = false;
       } else {
+        const errMsg = res.error || '';
+        // If it was already committed by this session or server processed it
+        if (
+          errMsg.toLowerCase().includes('already been used') ||
+          errMsg.toLowerCase().includes('sudah digunakan')
+        ) {
+          setIsConfirmOpen(false);
+          setOnlineSuccessToken(voterToken || 'TERVERIFIKASI');
+          setIsLoading(false);
+          isSubmittingVoteRef.current = false;
+          return;
+        }
+
         setErrorMessage(res.error || 'Gagal mengirimkan pilihan suara Anda.');
         setIsLoading(false);
+        isSubmittingVoteRef.current = false;
       }
     } catch {
       saveOfflineFallback();
