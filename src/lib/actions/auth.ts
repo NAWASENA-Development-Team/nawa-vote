@@ -8,6 +8,8 @@ interface AuthResponse {
   success: boolean;
   error?: string;
   role?: 'voter' | 'admin';
+  voterId?: string;
+  voterToken?: string;
 }
 
 /**
@@ -84,7 +86,7 @@ export async function loginVoterToken(token: string): Promise<AuthResponse> {
       ip_address: ip,
     }).then();
 
-    return { success: true, role: 'voter' };
+    return { success: true, role: 'voter', voterId: voter.id, voterToken: cleanToken };
   } catch (error: any) {
     console.error('Voter token login error:', error);
     return { success: false, error: 'Terjadi kesalahan internal pada server' };
