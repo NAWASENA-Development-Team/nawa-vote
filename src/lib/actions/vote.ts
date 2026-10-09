@@ -39,36 +39,18 @@ export interface OfflineSyncResponse {
 export async function castSplitVote(
   ketuaId: string,
   wakil1Id: string,
-  wakil2Id: string,
-  clientVoterToken?: string
+  wakil2Id: string
 ): Promise<VoteResponse> {
   try {
-    const voterToken = clientVoterToken || cookies().get('nawa_voter_token')?.value;
-    let voterId = cookies().get('nawa_voter_id')?.value;
+    const voterToken = cookies().get('nawa_voter_token')?.value;
+    const voterId = cookies().get('nawa_voter_id')?.value;
     const ip = headers().get('x-forwarded-for') || headers().get('x-real-ip') || 'unknown';
 
-    if (!voterToken) {
+    if (!voterToken || !voterId) {
       return { success: false, error: 'Sesi voting tidak valid atau telah berakhir.' };
     }
 
     const supabase = createClient();
-
-    // If voterId is an offline placeholder or missing, resolve the true ID from the database
-    if (!voterId || voterId.startsWith('offline-')) {
-      const { data: voter, error: vErr } = await supabase
-        .from('voters')
-        .select('id, has_voted')
-        .eq('token', voterToken.trim().toUpperCase())
-        .maybeSingle();
-
-      if (vErr || !voter) {
-        return { success: false, error: 'Token pemilih tidak valid atau tidak terdaftar.' };
-      }
-      if (voter.has_voted) {
-        return { success: false, error: 'Token ini sudah digunakan untuk memberikan suara.' };
-      }
-      voterId = voter.id;
-    }
 
     // Call the revised RPC split vote function
     const { data: voteToken, error: rpcError } = await supabase.rpc('submit_split_vote', {

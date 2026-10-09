@@ -105,7 +105,7 @@
       "file_type": "code",
       "norm_label": "votersmanagerprops",
       "source_file": "src/app/admin/voters/VotersManager.tsx",
-      "source_location": "L31"
+      "source_location": "L30"
     },
     {
       "id": "src_app_admin_voters_votersmanager_votertoken",
@@ -118,7 +118,7 @@
       "file_type": "code",
       "norm_label": "votertoken",
       "source_file": "src/app/admin/voters/VotersManager.tsx",
-      "source_location": "L23"
+      "source_location": "L22"
     },
     {
       "id": "src_lib_actions_vote_offlinesyncitem",
@@ -197,6 +197,45 @@
       "norm_label": "syncresult",
       "source_file": "src/lib/offline/syncVotes.ts",
       "source_location": "L18"
+    },
+    {
+      "id": "src_app_results_interfaces_interfaceshell_interfaceshellprops",
+      "label": "InterfaceShellProps",
+      "_callable": true,
+      "_callable_class": true,
+      "_origin": "ast",
+      "community": 11,
+      "community_name": "ResultsClient.tsx",
+      "file_type": "code",
+      "norm_label": "interfaceshellprops",
+      "source_file": "src/app/results/interfaces/InterfaceShell.tsx",
+      "source_location": "L86"
+    },
+    {
+      "id": "src_app_results_useliveresults_useliveresultsreturn",
+      "label": "UseLiveResultsReturn",
+      "_callable": true,
+      "_callable_class": true,
+      "_origin": "ast",
+      "community": 11,
+      "community_name": "ResultsClient.tsx",
+      "file_type": "code",
+      "norm_label": "useliveresultsreturn",
+      "source_file": "src/app/results/useLiveResults.ts",
+      "source_location": "L29"
+    },
+    {
+      "id": "src_app_results_usesystemconfig_rawconfig",
+      "label": "RawConfig",
+      "_callable": true,
+      "_callable_class": true,
+      "_origin": "ast",
+      "community": 11,
+      "community_name": "ResultsClient.tsx",
+      "file_type": "code",
+      "norm_label": "rawconfig",
+      "source_file": "src/app/results/useSystemConfig.ts",
+      "source_location": "L24"
     },
     {
       "id": "src_app_admin_analytics_analyticsdashboard_analyticsdashboardprops",
@@ -290,26 +329,13 @@
       "source_location": "L3"
     },
     {
-      "id": "src_lib_actions_auth_authresponse",
-      "label": "AuthResponse",
-      "_callable": true,
-      "_callable_class": true,
-      "_origin": "ast",
-      "community": 3,
-      "community_name": "VoteWizard.tsx",
-      "file_type": "code",
-      "norm_label": "authresponse",
-      "source_file": "src/lib/actions/auth.ts",
-      "source_location": "L7"
-    },
-    {
       "id": "src_components_themeprovider_theme",
       "label": "Theme",
       "_callable": true,
       "_callable_class": true,
       "_origin": "ast",
-      "community": 6,
-      "community_name": "app/layout.tsx",
+      "community": 3,
+      "community_name": "VoteWizard.tsx",
       "file_type": "code",
       "norm_label": "theme",
       "source_file": "src/components/ThemeProvider.tsx",
@@ -321,11 +347,24 @@
       "_callable": true,
       "_callable_class": true,
       "_origin": "ast",
-      "community": 6,
-      "community_name": "app/layout.tsx",
+      "community": 3,
+      "community_name": "VoteWizard.tsx",
       "file_type": "code",
       "norm_label": "themecontexttype",
       "source_file": "src/components/ThemeProvider.tsx",
+      "source_location": "L7"
+    },
+    {
+      "id": "src_lib_actions_auth_authresponse",
+      "label": "AuthResponse",
+      "_callable": true,
+      "_callable_class": true,
+      "_origin": "ast",
+      "community": 3,
+      "community_name": "VoteWizard.tsx",
+      "file_type": "code",
+      "norm_label": "authresponse",
+      "source_file": "src/lib/actions/auth.ts",
       "source_location": "L7"
     },
     {
@@ -420,19 +459,6 @@
       "source_location": "L24"
     },
     {
-      "id": "src_app_results_interfaces_interfaceshell_interfaceshellprops",
-      "label": "InterfaceShellProps",
-      "_callable": true,
-      "_callable_class": true,
-      "_origin": "ast",
-      "community": 8,
-      "community_name": "BalloonInterface.tsx",
-      "file_type": "code",
-      "norm_label": "interfaceshellprops",
-      "source_file": "src/app/results/interfaces/InterfaceShell.tsx",
-      "source_location": "L86"
-    },
-    {
       "id": "src_app_results_resultsclient_resultsclientprops",
       "label": "ResultsClientProps",
       "_callable": true,
@@ -470,32 +496,6 @@
       "norm_label": "livevoteevent",
       "source_file": "src/app/results/useLiveResults.ts",
       "source_location": "L22"
-    },
-    {
-      "id": "src_app_results_useliveresults_useliveresultsreturn",
-      "label": "UseLiveResultsReturn",
-      "_callable": true,
-      "_callable_class": true,
-      "_origin": "ast",
-      "community": 8,
-      "community_name": "BalloonInterface.tsx",
-      "file_type": "code",
-      "norm_label": "useliveresultsreturn",
-      "source_file": "src/app/results/useLiveResults.ts",
-      "source_location": "L29"
-    },
-    {
-      "id": "src_app_results_usesystemconfig_rawconfig",
-      "label": "RawConfig",
-      "_callable": true,
-      "_callable_class": true,
-      "_origin": "ast",
-      "community": 8,
-      "community_name": "BalloonInterface.tsx",
-      "file_type": "code",
-      "norm_label": "rawconfig",
-      "source_file": "src/app/results/useSystemConfig.ts",
-      "source_location": "L24"
     },
     {
       "id": "src_app_results_usesystemconfig_resultsconfig",
@@ -604,31 +604,7 @@
       "file_type": "code",
       "norm_label": "votersmanager()",
       "source_file": "src/app/admin/voters/VotersManager.tsx",
-      "source_location": "L35"
-    },
-    {
-      "id": "src_app_api_results_stats_route_get",
-      "label": "GET()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 0,
-      "community_name": "createClient",
-      "file_type": "code",
-      "norm_label": "get()",
-      "source_file": "src/app/api/results-stats/route.ts",
-      "source_location": "L7"
-    },
-    {
-      "id": "src_app_results_page_publicresultspage",
-      "label": "PublicResultsPage()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 0,
-      "community_name": "createClient",
-      "file_type": "code",
-      "norm_label": "publicresultspage()",
-      "source_file": "src/app/results/page.tsx",
-      "source_location": "L8"
+      "source_location": "L34"
     },
     {
       "id": "src_app_verify_page_publicverifypage",
@@ -679,18 +655,6 @@
       "source_location": "L21"
     },
     {
-      "id": "src_lib_actions_admin_resetindividualtoken",
-      "label": "resetIndividualToken()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 0,
-      "community_name": "createClient",
-      "file_type": "code",
-      "norm_label": "resetindividualtoken()",
-      "source_file": "src/lib/actions/admin.ts",
-      "source_location": "L274"
-    },
-    {
       "id": "src_lib_actions_admin_resetvotingdata",
       "label": "resetVotingData()",
       "_callable": true,
@@ -727,6 +691,18 @@
       "source_location": "L139"
     },
     {
+      "id": "src_lib_actions_vote_syncofflinevotesbatch",
+      "label": "syncOfflineVotesBatch()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 0,
+      "community_name": "createClient",
+      "file_type": "code",
+      "norm_label": "syncofflinevotesbatch()",
+      "source_file": "src/lib/actions/vote.ts",
+      "source_location": "L84"
+    },
+    {
       "id": "src_lib_actions_vote_verifyvotetoken",
       "label": "verifyVoteToken()",
       "_callable": true,
@@ -736,7 +712,7 @@
       "file_type": "code",
       "norm_label": "verifyvotetoken()",
       "source_file": "src/lib/actions/vote.ts",
-      "source_location": "L206"
+      "source_location": "L188"
     },
     {
       "id": "src_lib_supabase_server_createadminclient",
@@ -763,16 +739,16 @@
       "source_location": "L4"
     },
     {
-      "id": "src_lib_actions_vote_syncofflinevotesbatch",
-      "label": "syncOfflineVotesBatch()",
+      "id": "src_middleware_middleware",
+      "label": "middleware()",
       "_callable": true,
       "_origin": "ast",
-      "community": 1,
-      "community_name": "syncVotes.ts",
+      "community": 0,
+      "community_name": "createClient",
       "file_type": "code",
-      "norm_label": "syncofflinevotesbatch()",
-      "source_file": "src/lib/actions/vote.ts",
-      "source_location": "L102"
+      "norm_label": "middleware()",
+      "source_file": "src/middleware.ts",
+      "source_location": "L4"
     },
     {
       "id": "src_lib_offline_offlinequeue_clearsynced",
@@ -797,18 +773,6 @@
       "norm_label": "getofflinequeue()",
       "source_file": "src/lib/offline/offlineQueue.ts",
       "source_location": "L55"
-    },
-    {
-      "id": "src_lib_offline_offlinequeue_getpendingqueue",
-      "label": "getPendingQueue()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 1,
-      "community_name": "syncVotes.ts",
-      "file_type": "code",
-      "norm_label": "getpendingqueue()",
-      "source_file": "src/lib/offline/offlineQueue.ts",
-      "source_location": "L50"
     },
     {
       "id": "src_lib_offline_offlinequeue_marksynced",
@@ -905,6 +869,246 @@
       "norm_label": "syncofflinevotes()",
       "source_file": "src/lib/offline/syncVotes.ts",
       "source_location": "L67"
+    },
+    {
+      "id": "src_app_results_interfaces_ballooninterface_poprevealballoon_run",
+      "label": "run()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 11,
+      "community_name": "ResultsClient.tsx",
+      "file_type": "code",
+      "norm_label": "run()",
+      "source_file": "src/app/results/interfaces/BalloonInterface.tsx",
+      "source_location": "L137"
+    },
+    {
+      "id": "src_app_results_interfaces_interfaceshell_cartooncloud",
+      "label": "CartoonCloud()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 11,
+      "community_name": "ResultsClient.tsx",
+      "file_type": "code",
+      "norm_label": "cartooncloud()",
+      "source_file": "src/app/results/interfaces/InterfaceShell.tsx",
+      "source_location": "L20"
+    },
+    {
+      "id": "src_app_results_interfaces_interfaceshell_grassstrip",
+      "label": "GrassStrip()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 11,
+      "community_name": "ResultsClient.tsx",
+      "file_type": "code",
+      "norm_label": "grassstrip()",
+      "source_file": "src/app/results/interfaces/InterfaceShell.tsx",
+      "source_location": "L49"
+    },
+    {
+      "id": "src_app_results_interfaces_interfaceshell_interfaceshell",
+      "label": "InterfaceShell()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 11,
+      "community_name": "ResultsClient.tsx",
+      "file_type": "code",
+      "norm_label": "interfaceshell()",
+      "source_file": "src/app/results/interfaces/InterfaceShell.tsx",
+      "source_location": "L101"
+    },
+    {
+      "id": "src_app_results_page_publicresultspage",
+      "label": "PublicResultsPage()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 11,
+      "community_name": "ResultsClient.tsx",
+      "file_type": "code",
+      "norm_label": "publicresultspage()",
+      "source_file": "src/app/results/page.tsx",
+      "source_location": "L8"
+    },
+    {
+      "id": "src_app_results_resultsclient_resultsclient",
+      "label": "ResultsClient()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 11,
+      "community_name": "ResultsClient.tsx",
+      "file_type": "code",
+      "norm_label": "resultsclient()",
+      "source_file": "src/app/results/ResultsClient.tsx",
+      "source_location": "L20"
+    },
+    {
+      "id": "src_app_results_sounds_getctx",
+      "label": "getCtx()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 11,
+      "community_name": "ResultsClient.tsx",
+      "file_type": "code",
+      "norm_label": "getctx()",
+      "source_file": "src/app/results/sounds.ts",
+      "source_location": "L11"
+    },
+    {
+      "id": "src_app_results_sounds_ismuted",
+      "label": "isMuted()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 11,
+      "community_name": "ResultsClient.tsx",
+      "file_type": "code",
+      "norm_label": "ismuted()",
+      "source_file": "src/app/results/sounds.ts",
+      "source_location": "L32"
+    },
+    {
+      "id": "src_app_results_sounds_muteaudio",
+      "label": "muteAudio()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 11,
+      "community_name": "ResultsClient.tsx",
+      "file_type": "code",
+      "norm_label": "muteaudio()",
+      "source_file": "src/app/results/sounds.ts",
+      "source_location": "L28"
+    },
+    {
+      "id": "src_app_results_sounds_playballoonpop",
+      "label": "playBalloonPop()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 11,
+      "community_name": "ResultsClient.tsx",
+      "file_type": "code",
+      "norm_label": "playballoonpop()",
+      "source_file": "src/app/results/sounds.ts",
+      "source_location": "L76"
+    },
+    {
+      "id": "src_app_results_sounds_playcountertick",
+      "label": "playCounterTick()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 11,
+      "community_name": "ResultsClient.tsx",
+      "file_type": "code",
+      "norm_label": "playcountertick()",
+      "source_file": "src/app/results/sounds.ts",
+      "source_location": "L146"
+    },
+    {
+      "id": "src_app_results_sounds_playinterfaceswitch",
+      "label": "playInterfaceSwitch()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 11,
+      "community_name": "ResultsClient.tsx",
+      "file_type": "code",
+      "norm_label": "playinterfaceswitch()",
+      "source_file": "src/app/results/sounds.ts",
+      "source_location": "L107"
+    },
+    {
+      "id": "src_app_results_sounds_playtone",
+      "label": "playTone()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 11,
+      "community_name": "ResultsClient.tsx",
+      "file_type": "code",
+      "norm_label": "playtone()",
+      "source_file": "src/app/results/sounds.ts",
+      "source_location": "L36"
+    },
+    {
+      "id": "src_app_results_sounds_playvoteburst",
+      "label": "playVoteBurst()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 11,
+      "community_name": "ResultsClient.tsx",
+      "file_type": "code",
+      "norm_label": "playvoteburst()",
+      "source_file": "src/app/results/sounds.ts",
+      "source_location": "L71"
+    },
+    {
+      "id": "src_app_results_sounds_unlockaudio",
+      "label": "unlockAudio()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 11,
+      "community_name": "ResultsClient.tsx",
+      "file_type": "code",
+      "norm_label": "unlockaudio()",
+      "source_file": "src/app/results/sounds.ts",
+      "source_location": "L20"
+    },
+    {
+      "id": "src_app_results_useliveresults_generaterealtimetoken",
+      "label": "generateRealtimeToken()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 11,
+      "community_name": "ResultsClient.tsx",
+      "file_type": "code",
+      "norm_label": "generaterealtimetoken()",
+      "source_file": "src/app/results/useLiveResults.ts",
+      "source_location": "L37"
+    },
+    {
+      "id": "src_app_results_useliveresults_useliveresults",
+      "label": "useLiveResults()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 11,
+      "community_name": "ResultsClient.tsx",
+      "file_type": "code",
+      "norm_label": "useliveresults()",
+      "source_file": "src/app/results/useLiveResults.ts",
+      "source_location": "L50"
+    },
+    {
+      "id": "src_app_results_usesystemconfig_parseconfig",
+      "label": "parseConfig()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 11,
+      "community_name": "ResultsClient.tsx",
+      "file_type": "code",
+      "norm_label": "parseconfig()",
+      "source_file": "src/app/results/useSystemConfig.ts",
+      "source_location": "L34"
+    },
+    {
+      "id": "src_app_results_usesystemconfig_usesystemconfig",
+      "label": "useSystemConfig()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 11,
+      "community_name": "ResultsClient.tsx",
+      "file_type": "code",
+      "norm_label": "usesystemconfig()",
+      "source_file": "src/app/results/useSystemConfig.ts",
+      "source_location": "L55"
+    },
+    {
+      "id": "src_lib_supabase_client_createclient",
+      "label": "createClient()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 11,
+      "community_name": "ResultsClient.tsx",
+      "file_type": "code",
+      "norm_label": "createclient()",
+      "source_file": "src/lib/supabase/client.ts",
+      "source_location": "L3"
     },
     {
       "id": "public_sw_cachefirstsafe",
@@ -1049,18 +1253,6 @@
       "norm_label": "validateuuid()",
       "source_file": "src/lib/utils/validate.ts",
       "source_location": "L28"
-    },
-    {
-      "id": "src_middleware_middleware",
-      "label": "middleware()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 2,
-      "community_name": "package.json",
-      "file_type": "code",
-      "norm_label": "middleware()",
-      "source_file": "src/middleware.ts",
-      "source_location": "L4"
     },
     {
       "id": "src_app_api_ping_route_get",
@@ -1279,6 +1471,18 @@
       "source_location": "L39"
     },
     {
+      "id": "src_lib_offline_offlinequeue_getpendingqueue",
+      "label": "getPendingQueue()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 3,
+      "community_name": "VoteWizard.tsx",
+      "file_type": "code",
+      "norm_label": "getpendingqueue()",
+      "source_file": "src/lib/offline/offlineQueue.ts",
+      "source_location": "L50"
+    },
+    {
       "id": "src_lib_offline_offlinequeue_pendingcount",
       "label": "pendingCount()",
       "_callable": true,
@@ -1396,7 +1600,7 @@
       "file_type": "code",
       "norm_label": "ballooninterface()",
       "source_file": "src/app/results/interfaces/BalloonInterface.tsx",
-      "source_location": "L437"
+      "source_location": "L406"
     },
     {
       "id": "src_app_results_interfaces_ballooninterface_confettilayer",
@@ -1480,7 +1684,7 @@
       "file_type": "code",
       "norm_label": "poppedballoon()",
       "source_file": "src/app/results/interfaces/BalloonInterface.tsx",
-      "source_location": "L401"
+      "source_location": "L370"
     },
     {
       "id": "src_app_results_interfaces_ballooninterface_poprevealballoon",
@@ -1493,18 +1697,6 @@
       "norm_label": "poprevealballoon()",
       "source_file": "src/app/results/interfaces/BalloonInterface.tsx",
       "source_location": "L126"
-    },
-    {
-      "id": "src_app_results_interfaces_ballooninterface_poprevealballoon_run",
-      "label": "run()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 8,
-      "community_name": "BalloonInterface.tsx",
-      "file_type": "code",
-      "norm_label": "run()",
-      "source_file": "src/app/results/interfaces/BalloonInterface.tsx",
-      "source_location": "L137"
     },
     {
       "id": "src_app_results_interfaces_ballooninterface_revealballoonshape",
@@ -1591,102 +1783,6 @@
       "source_location": "L32"
     },
     {
-      "id": "src_app_results_interfaces_interfaceshell_cartooncloud",
-      "label": "CartoonCloud()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 8,
-      "community_name": "BalloonInterface.tsx",
-      "file_type": "code",
-      "norm_label": "cartooncloud()",
-      "source_file": "src/app/results/interfaces/InterfaceShell.tsx",
-      "source_location": "L20"
-    },
-    {
-      "id": "src_app_results_interfaces_interfaceshell_grassstrip",
-      "label": "GrassStrip()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 8,
-      "community_name": "BalloonInterface.tsx",
-      "file_type": "code",
-      "norm_label": "grassstrip()",
-      "source_file": "src/app/results/interfaces/InterfaceShell.tsx",
-      "source_location": "L49"
-    },
-    {
-      "id": "src_app_results_interfaces_interfaceshell_interfaceshell",
-      "label": "InterfaceShell()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 8,
-      "community_name": "BalloonInterface.tsx",
-      "file_type": "code",
-      "norm_label": "interfaceshell()",
-      "source_file": "src/app/results/interfaces/InterfaceShell.tsx",
-      "source_location": "L101"
-    },
-    {
-      "id": "src_app_results_resultsclient_resultsclient",
-      "label": "ResultsClient()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 8,
-      "community_name": "BalloonInterface.tsx",
-      "file_type": "code",
-      "norm_label": "resultsclient()",
-      "source_file": "src/app/results/ResultsClient.tsx",
-      "source_location": "L20"
-    },
-    {
-      "id": "src_app_results_sounds_getctx",
-      "label": "getCtx()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 8,
-      "community_name": "BalloonInterface.tsx",
-      "file_type": "code",
-      "norm_label": "getctx()",
-      "source_file": "src/app/results/sounds.ts",
-      "source_location": "L11"
-    },
-    {
-      "id": "src_app_results_sounds_ismuted",
-      "label": "isMuted()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 8,
-      "community_name": "BalloonInterface.tsx",
-      "file_type": "code",
-      "norm_label": "ismuted()",
-      "source_file": "src/app/results/sounds.ts",
-      "source_location": "L32"
-    },
-    {
-      "id": "src_app_results_sounds_muteaudio",
-      "label": "muteAudio()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 8,
-      "community_name": "BalloonInterface.tsx",
-      "file_type": "code",
-      "norm_label": "muteaudio()",
-      "source_file": "src/app/results/sounds.ts",
-      "source_location": "L28"
-    },
-    {
-      "id": "src_app_results_sounds_playballoonpop",
-      "label": "playBalloonPop()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 8,
-      "community_name": "BalloonInterface.tsx",
-      "file_type": "code",
-      "norm_label": "playballoonpop()",
-      "source_file": "src/app/results/sounds.ts",
-      "source_location": "L76"
-    },
-    {
       "id": "src_app_results_sounds_playballoonrise",
       "label": "playBalloonRise()",
       "_callable": true,
@@ -1699,30 +1795,6 @@
       "source_location": "L65"
     },
     {
-      "id": "src_app_results_sounds_playcountertick",
-      "label": "playCounterTick()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 8,
-      "community_name": "BalloonInterface.tsx",
-      "file_type": "code",
-      "norm_label": "playcountertick()",
-      "source_file": "src/app/results/sounds.ts",
-      "source_location": "L146"
-    },
-    {
-      "id": "src_app_results_sounds_playinterfaceswitch",
-      "label": "playInterfaceSwitch()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 8,
-      "community_name": "BalloonInterface.tsx",
-      "file_type": "code",
-      "norm_label": "playinterfaceswitch()",
-      "source_file": "src/app/results/sounds.ts",
-      "source_location": "L107"
-    },
-    {
       "id": "src_app_results_sounds_playreveal",
       "label": "playReveal()",
       "_callable": true,
@@ -1733,102 +1805,6 @@
       "norm_label": "playreveal()",
       "source_file": "src/app/results/sounds.ts",
       "source_location": "L137"
-    },
-    {
-      "id": "src_app_results_sounds_playtone",
-      "label": "playTone()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 8,
-      "community_name": "BalloonInterface.tsx",
-      "file_type": "code",
-      "norm_label": "playtone()",
-      "source_file": "src/app/results/sounds.ts",
-      "source_location": "L36"
-    },
-    {
-      "id": "src_app_results_sounds_playvoteburst",
-      "label": "playVoteBurst()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 8,
-      "community_name": "BalloonInterface.tsx",
-      "file_type": "code",
-      "norm_label": "playvoteburst()",
-      "source_file": "src/app/results/sounds.ts",
-      "source_location": "L71"
-    },
-    {
-      "id": "src_app_results_sounds_unlockaudio",
-      "label": "unlockAudio()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 8,
-      "community_name": "BalloonInterface.tsx",
-      "file_type": "code",
-      "norm_label": "unlockaudio()",
-      "source_file": "src/app/results/sounds.ts",
-      "source_location": "L20"
-    },
-    {
-      "id": "src_app_results_useliveresults_generaterealtimetoken",
-      "label": "generateRealtimeToken()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 8,
-      "community_name": "BalloonInterface.tsx",
-      "file_type": "code",
-      "norm_label": "generaterealtimetoken()",
-      "source_file": "src/app/results/useLiveResults.ts",
-      "source_location": "L37"
-    },
-    {
-      "id": "src_app_results_useliveresults_useliveresults",
-      "label": "useLiveResults()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 8,
-      "community_name": "BalloonInterface.tsx",
-      "file_type": "code",
-      "norm_label": "useliveresults()",
-      "source_file": "src/app/results/useLiveResults.ts",
-      "source_location": "L50"
-    },
-    {
-      "id": "src_app_results_usesystemconfig_parseconfig",
-      "label": "parseConfig()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 8,
-      "community_name": "BalloonInterface.tsx",
-      "file_type": "code",
-      "norm_label": "parseconfig()",
-      "source_file": "src/app/results/useSystemConfig.ts",
-      "source_location": "L34"
-    },
-    {
-      "id": "src_app_results_usesystemconfig_usesystemconfig",
-      "label": "useSystemConfig()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 8,
-      "community_name": "BalloonInterface.tsx",
-      "file_type": "code",
-      "norm_label": "usesystemconfig()",
-      "source_file": "src/app/results/useSystemConfig.ts",
-      "source_location": "L55"
-    },
-    {
-      "id": "src_lib_supabase_client_createclient",
-      "label": "createClient()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 8,
-      "community_name": "BalloonInterface.tsx",
-      "file_type": "code",
-      "norm_label": "createclient()",
-      "source_file": "src/lib/supabase/client.ts",
-      "source_location": "L3"
     },
     {
       "id": "scripts_generate_tokens_generatetoken",
@@ -2009,72 +1985,6 @@
       "source_location": "L1"
     },
     {
-      "id": "src_app_api_results_stats_route",
-      "label": "results-stats/route.ts",
-      "_origin": "ast",
-      "community": 0,
-      "community_name": "createClient",
-      "file_type": "code",
-      "norm_label": "results-stats/route.ts",
-      "source_file": "src/app/api/results-stats/route.ts",
-      "source_location": "L1"
-    },
-    {
-      "id": "src_app_api_results_stats_route_dynamic",
-      "label": "dynamic",
-      "_origin": "ast",
-      "community": 0,
-      "community_name": "createClient",
-      "file_type": "code",
-      "norm_label": "dynamic",
-      "source_file": "src/app/api/results-stats/route.ts",
-      "source_location": "L4"
-    },
-    {
-      "id": "src_app_api_results_stats_route_revalidate",
-      "label": "revalidate",
-      "_origin": "ast",
-      "community": 0,
-      "community_name": "createClient",
-      "file_type": "code",
-      "norm_label": "revalidate",
-      "source_file": "src/app/api/results-stats/route.ts",
-      "source_location": "L5"
-    },
-    {
-      "id": "src_app_results_page",
-      "label": "results/page.tsx",
-      "_origin": "ast",
-      "community": 0,
-      "community_name": "createClient",
-      "file_type": "code",
-      "norm_label": "results/page.tsx",
-      "source_file": "src/app/results/page.tsx",
-      "source_location": "L1"
-    },
-    {
-      "id": "src_app_results_page_dynamic",
-      "label": "dynamic",
-      "_origin": "ast",
-      "community": 0,
-      "community_name": "createClient",
-      "file_type": "code",
-      "norm_label": "dynamic",
-      "source_file": "src/app/results/page.tsx",
-      "source_location": "L5"
-    },
-    {
-      "id": "src_app_results_page_revalidate",
-      "label": "revalidate",
-      "_origin": "ast",
-      "community": 0,
-      "community_name": "createClient",
-      "file_type": "code",
-      "norm_label": "revalidate",
-      "source_file": "src/app/results/page.tsx",
-      "source_location": "L6"
-    },
-    {
       "id": "src_app_verify_page",
       "label": "verify/page.tsx",
       "_origin": "ast",
@@ -2119,6 +2029,50 @@
       "source_location": "L1"
     },
     {
+      "id": "src_middleware",
+      "label": "middleware.ts",
+      "_origin": "ast",
+      "community": 0,
+      "community_name": "createClient",
+      "file_type": "code",
+      "norm_label": "middleware.ts",
+      "source_file": "src/middleware.ts",
+      "source_location": "L1"
+    },
+    {
+      "id": "src_middleware_config",
+      "label": "config",
+      "_origin": "ast",
+      "community": 0,
+      "community_name": "createClient",
+      "file_type": "code",
+      "norm_label": "config",
+      "source_file": "src/middleware.ts",
+      "source_location": "L96"
+    },
+    {
+      "id": "ref_framer_motion",
+      "label": "framer-motion",
+      "_origin": "ast",
+      "community": 0,
+      "community_name": "createClient",
+      "file_type": "concept",
+      "norm_label": "framer-motion",
+      "source_file": "package.json",
+      "source_location": "L15"
+    },
+    {
+      "id": "ref_lucide_react",
+      "label": "lucide-react",
+      "_origin": "ast",
+      "community": 0,
+      "community_name": "createClient",
+      "file_type": "concept",
+      "norm_label": "lucide-react",
+      "source_file": "package.json",
+      "source_location": "L16"
+    },
+    {
       "id": "ref_next",
       "label": "next",
       "_origin": "ast",
@@ -2128,6 +2082,28 @@
       "norm_label": "next",
       "source_file": "package.json",
       "source_location": "L17"
+    },
+    {
+      "id": "ref_papaparse",
+      "label": "papaparse",
+      "_origin": "ast",
+      "community": 0,
+      "community_name": "createClient",
+      "file_type": "concept",
+      "norm_label": "papaparse",
+      "source_file": "package.json",
+      "source_location": "L18"
+    },
+    {
+      "id": "ref_supabase_ssr",
+      "label": "@supabase/ssr",
+      "_origin": "ast",
+      "community": 0,
+      "community_name": "createClient",
+      "file_type": "concept",
+      "norm_label": "@supabase/ssr",
+      "source_file": "package.json",
+      "source_location": "L13"
     },
     {
       "id": "src_lib_offline_offlinequeue",
@@ -2249,6 +2225,116 @@
       "norm_label": "theme_color",
       "source_file": "public/manifest.json",
       "source_location": "L8"
+    },
+    {
+      "id": "src_app_results_interfaces_interfaceshell",
+      "label": "InterfaceShell.tsx",
+      "_origin": "ast",
+      "community": 11,
+      "community_name": "ResultsClient.tsx",
+      "file_type": "code",
+      "norm_label": "interfaceshell.tsx",
+      "source_file": "src/app/results/interfaces/InterfaceShell.tsx",
+      "source_location": "L1"
+    },
+    {
+      "id": "src_app_results_interfaces_interfaceshell_clouds",
+      "label": "CLOUDS",
+      "_origin": "ast",
+      "community": 11,
+      "community_name": "ResultsClient.tsx",
+      "file_type": "code",
+      "norm_label": "clouds",
+      "source_file": "src/app/results/interfaces/InterfaceShell.tsx",
+      "source_location": "L13"
+    },
+    {
+      "id": "src_app_results_page",
+      "label": "results/page.tsx",
+      "_origin": "ast",
+      "community": 11,
+      "community_name": "ResultsClient.tsx",
+      "file_type": "code",
+      "norm_label": "results/page.tsx",
+      "source_file": "src/app/results/page.tsx",
+      "source_location": "L1"
+    },
+    {
+      "id": "src_app_results_page_dynamic",
+      "label": "dynamic",
+      "_origin": "ast",
+      "community": 11,
+      "community_name": "ResultsClient.tsx",
+      "file_type": "code",
+      "norm_label": "dynamic",
+      "source_file": "src/app/results/page.tsx",
+      "source_location": "L5"
+    },
+    {
+      "id": "src_app_results_page_revalidate",
+      "label": "revalidate",
+      "_origin": "ast",
+      "community": 11,
+      "community_name": "ResultsClient.tsx",
+      "file_type": "code",
+      "norm_label": "revalidate",
+      "source_file": "src/app/results/page.tsx",
+      "source_location": "L6"
+    },
+    {
+      "id": "src_app_results_resultsclient",
+      "label": "ResultsClient.tsx",
+      "_origin": "ast",
+      "community": 11,
+      "community_name": "ResultsClient.tsx",
+      "file_type": "code",
+      "norm_label": "resultsclient.tsx",
+      "source_file": "src/app/results/ResultsClient.tsx",
+      "source_location": "L1"
+    },
+    {
+      "id": "src_app_results_sounds",
+      "label": "sounds.ts",
+      "_origin": "ast",
+      "community": 11,
+      "community_name": "ResultsClient.tsx",
+      "file_type": "code",
+      "norm_label": "sounds.ts",
+      "source_file": "src/app/results/sounds.ts",
+      "source_location": "L1"
+    },
+    {
+      "id": "src_app_results_useliveresults",
+      "label": "useLiveResults.ts",
+      "_origin": "ast",
+      "community": 11,
+      "community_name": "ResultsClient.tsx",
+      "file_type": "code",
+      "norm_label": "useliveresults.ts",
+      "source_file": "src/app/results/useLiveResults.ts",
+      "source_location": "L1"
+    },
+    {
+      "id": "src_app_results_usesystemconfig",
+      "label": "useSystemConfig.ts",
+      "_origin": "ast",
+      "community": 11,
+      "community_name": "ResultsClient.tsx",
+      "file_type": "code",
+      "norm_label": "usesystemconfig.ts",
+      "source_file": "src/app/results/useSystemConfig.ts",
+      "source_location": "L1"
+    },
+    {
+      "id": "src_lib_supabase_client",
+      "label": "client.ts",
+      "_origin": "ast",
+      "community": 11,
+      "community_name": "ResultsClient.tsx",
+      "file_type": "code",
+      "norm_label": "client.ts",
+      "source_file": "src/lib/supabase/client.ts",
+      "source_location": "L1"
     },
     {
       "id": "public_sw",
@@ -2702,28 +2788,6 @@
       "source_location": "L3"
     },
     {
-      "id": "src_middleware",
-      "label": "middleware.ts",
-      "_origin": "ast",
-      "community": 2,
-      "community_name": "package.json",
-      "file_type": "code",
-      "norm_label": "middleware.ts",
-      "source_file": "src/middleware.ts",
-      "source_location": "L1"
-    },
-    {
-      "id": "src_middleware_config",
-      "label": "config",
-      "_origin": "ast",
-      "community": 2,
-      "community_name": "package.json",
-      "file_type": "code",
-      "norm_label": "config",
-      "source_file": "src/middleware.ts",
-      "source_location": "L96"
-    },
-    {
       "id": "ref_eslint",
       "label": "eslint",
       "_origin": "ast",
@@ -2757,17 +2821,6 @@
       "source_location": "L25"
     },
     {
-      "id": "ref_papaparse",
-      "label": "papaparse",
-      "_origin": "ast",
-      "community": 2,
-      "community_name": "package.json",
-      "file_type": "concept",
-      "norm_label": "papaparse",
-      "source_file": "package.json",
-      "source_location": "L18"
-    },
-    {
       "id": "ref_postcss",
       "label": "postcss",
       "_origin": "ast",
@@ -2799,17 +2852,6 @@
       "norm_label": "react-is",
       "source_file": "package.json",
       "source_location": "L21"
-    },
-    {
-      "id": "ref_supabase_ssr",
-      "label": "@supabase/ssr",
-      "_origin": "ast",
-      "community": 2,
-      "community_name": "package.json",
-      "file_type": "concept",
-      "norm_label": "@supabase/ssr",
-      "source_file": "package.json",
-      "source_location": "L13"
     },
     {
       "id": "ref_tailwindcss",
@@ -2901,12 +2943,12 @@
     },
     {
       "id": "src_app_api_ping_route",
-      "label": "ping/route.ts",
+      "label": "route.ts",
       "_origin": "ast",
       "community": 26,
       "community_name": "route.ts",
       "file_type": "code",
-      "norm_label": "ping/route.ts",
+      "norm_label": "route.ts",
       "source_file": "src/app/api/ping/route.ts",
       "source_location": "L1"
     },
@@ -3010,6 +3052,28 @@
       "source_location": "L1"
     },
     {
+      "id": "src_components_themeprovider",
+      "label": "ThemeProvider.tsx",
+      "_origin": "ast",
+      "community": 3,
+      "community_name": "VoteWizard.tsx",
+      "file_type": "code",
+      "norm_label": "themeprovider.tsx",
+      "source_file": "src/components/ThemeProvider.tsx",
+      "source_location": "L1"
+    },
+    {
+      "id": "src_components_themeprovider_themecontext",
+      "label": "ThemeContext",
+      "_origin": "ast",
+      "community": 3,
+      "community_name": "VoteWizard.tsx",
+      "file_type": "code",
+      "norm_label": "themecontext",
+      "source_file": "src/components/ThemeProvider.tsx",
+      "source_location": "L13"
+    },
+    {
       "id": "src_components_themetoggle",
       "label": "ThemeToggle.tsx",
       "_origin": "ast",
@@ -3041,28 +3105,6 @@
       "norm_label": "auth.ts",
       "source_file": "src/lib/actions/auth.ts",
       "source_location": "L1"
-    },
-    {
-      "id": "ref_framer_motion",
-      "label": "framer-motion",
-      "_origin": "ast",
-      "community": 3,
-      "community_name": "VoteWizard.tsx",
-      "file_type": "concept",
-      "norm_label": "framer-motion",
-      "source_file": "package.json",
-      "source_location": "L15"
-    },
-    {
-      "id": "ref_lucide_react",
-      "label": "lucide-react",
-      "_origin": "ast",
-      "community": 3,
-      "community_name": "VoteWizard.tsx",
-      "file_type": "concept",
-      "norm_label": "lucide-react",
-      "source_file": "package.json",
-      "source_location": "L16"
     },
     {
       "id": "ref_react",
@@ -3340,28 +3382,6 @@
       "source_location": "L1"
     },
     {
-      "id": "src_components_themeprovider",
-      "label": "ThemeProvider.tsx",
-      "_origin": "ast",
-      "community": 6,
-      "community_name": "app/layout.tsx",
-      "file_type": "code",
-      "norm_label": "themeprovider.tsx",
-      "source_file": "src/components/ThemeProvider.tsx",
-      "source_location": "L1"
-    },
-    {
-      "id": "src_components_themeprovider_themecontext",
-      "label": "ThemeContext",
-      "_origin": "ast",
-      "community": 6,
-      "community_name": "app/layout.tsx",
-      "file_type": "code",
-      "norm_label": "themecontext",
-      "source_file": "src/components/ThemeProvider.tsx",
-      "source_location": "L13"
-    },
-    {
       "id": "src_hooks_useserviceworker",
       "label": "useServiceWorker.ts",
       "_origin": "ast",
@@ -3568,83 +3588,6 @@
       "file_type": "code",
       "norm_label": "barchartinterface.tsx",
       "source_file": "src/app/results/interfaces/BarChartInterface.tsx",
-      "source_location": "L1"
-    },
-    {
-      "id": "src_app_results_interfaces_interfaceshell",
-      "label": "InterfaceShell.tsx",
-      "_origin": "ast",
-      "community": 8,
-      "community_name": "BalloonInterface.tsx",
-      "file_type": "code",
-      "norm_label": "interfaceshell.tsx",
-      "source_file": "src/app/results/interfaces/InterfaceShell.tsx",
-      "source_location": "L1"
-    },
-    {
-      "id": "src_app_results_interfaces_interfaceshell_clouds",
-      "label": "CLOUDS",
-      "_origin": "ast",
-      "community": 8,
-      "community_name": "BalloonInterface.tsx",
-      "file_type": "code",
-      "norm_label": "clouds",
-      "source_file": "src/app/results/interfaces/InterfaceShell.tsx",
-      "source_location": "L13"
-    },
-    {
-      "id": "src_app_results_resultsclient",
-      "label": "ResultsClient.tsx",
-      "_origin": "ast",
-      "community": 8,
-      "community_name": "BalloonInterface.tsx",
-      "file_type": "code",
-      "norm_label": "resultsclient.tsx",
-      "source_file": "src/app/results/ResultsClient.tsx",
-      "source_location": "L1"
-    },
-    {
-      "id": "src_app_results_sounds",
-      "label": "sounds.ts",
-      "_origin": "ast",
-      "community": 8,
-      "community_name": "BalloonInterface.tsx",
-      "file_type": "code",
-      "norm_label": "sounds.ts",
-      "source_file": "src/app/results/sounds.ts",
-      "source_location": "L1"
-    },
-    {
-      "id": "src_app_results_useliveresults",
-      "label": "useLiveResults.ts",
-      "_origin": "ast",
-      "community": 8,
-      "community_name": "BalloonInterface.tsx",
-      "file_type": "code",
-      "norm_label": "useliveresults.ts",
-      "source_file": "src/app/results/useLiveResults.ts",
-      "source_location": "L1"
-    },
-    {
-      "id": "src_app_results_usesystemconfig",
-      "label": "useSystemConfig.ts",
-      "_origin": "ast",
-      "community": 8,
-      "community_name": "BalloonInterface.tsx",
-      "file_type": "code",
-      "norm_label": "usesystemconfig.ts",
-      "source_file": "src/app/results/useSystemConfig.ts",
-      "source_location": "L1"
-    },
-    {
-      "id": "src_lib_supabase_client",
-      "label": "client.ts",
-      "_origin": "ast",
-      "community": 8,
-      "community_name": "BalloonInterface.tsx",
-      "file_type": "code",
-      "norm_label": "client.ts",
-      "source_file": "src/lib/supabase/client.ts",
       "source_location": "L1"
     },
     {
@@ -4525,18 +4468,6 @@
     },
     {
       "source": "src_app_admin_voters_votersmanager_votersmanager",
-      "target": "src_lib_actions_admin_resetindividualtoken",
-      "relation": "calls",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "context": "call",
-      "source_file": "src/app/admin/voters/VotersManager.tsx",
-      "source_location": "L54",
-      "weight": 1.0
-    },
-    {
-      "source": "src_app_admin_voters_votersmanager_votersmanager",
       "target": "src_lib_actions_admin_generatevotertokens",
       "relation": "calls",
       "_origin": "ast",
@@ -4544,31 +4475,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "src/app/admin/voters/VotersManager.tsx",
-      "source_location": "L84",
-      "weight": 1.0
-    },
-    {
-      "source": "src_app_api_results_stats_route_get",
-      "target": "src_lib_supabase_server_createadminclient",
-      "relation": "calls",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "context": "call",
-      "source_file": "src/app/api/results-stats/route.ts",
-      "source_location": "L10",
-      "weight": 1.0
-    },
-    {
-      "source": "src_app_api_results_stats_route_get",
-      "target": "src_lib_supabase_server_createclient",
-      "relation": "calls",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "context": "call",
-      "source_file": "src/app/api/results-stats/route.ts",
-      "source_location": "L28",
+      "source_location": "L55",
       "weight": 1.0
     },
     {
@@ -4664,7 +4571,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "src/app/results/interfaces/BalloonInterface.tsx",
-      "source_location": "L466",
+      "source_location": "L435",
       "weight": 1.0
     },
     {
@@ -4676,7 +4583,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "src/app/results/interfaces/BalloonInterface.tsx",
-      "source_location": "L478",
+      "source_location": "L447",
       "weight": 1.0
     },
     {
@@ -4688,7 +4595,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "src/app/results/interfaces/BalloonInterface.tsx",
-      "source_location": "L479",
+      "source_location": "L448",
       "weight": 1.0
     },
     {
@@ -4700,7 +4607,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "src/app/results/interfaces/BalloonInterface.tsx",
-      "source_location": "L488",
+      "source_location": "L460",
       "weight": 1.0
     },
     {
@@ -4712,7 +4619,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "src/app/results/interfaces/BalloonInterface.tsx",
-      "source_location": "L563",
+      "source_location": "L535",
       "weight": 1.0
     },
     {
@@ -4724,7 +4631,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "src/app/results/interfaces/BalloonInterface.tsx",
-      "source_location": "L573",
+      "source_location": "L545",
       "weight": 1.0
     },
     {
@@ -4736,7 +4643,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "src/app/results/interfaces/BalloonInterface.tsx",
-      "source_location": "L583",
+      "source_location": "L555",
       "weight": 1.0
     },
     {
@@ -4748,7 +4655,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "src/app/results/interfaces/BalloonInterface.tsx",
-      "source_location": "L592",
+      "source_location": "L564",
       "weight": 1.0
     },
     {
@@ -4760,7 +4667,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "src/app/results/interfaces/BalloonInterface.tsx",
-      "source_location": "L612",
+      "source_location": "L584",
       "weight": 1.0
     },
     {
@@ -4772,7 +4679,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "src/app/results/interfaces/BalloonInterface.tsx",
-      "source_location": "L615",
+      "source_location": "L587",
       "weight": 1.0
     },
     {
@@ -4868,7 +4775,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "src/app/results/interfaces/BalloonInterface.tsx",
-      "source_location": "L404",
+      "source_location": "L373",
       "weight": 1.0
     },
     {
@@ -5137,18 +5044,6 @@
     },
     {
       "source": "src_app_results_page_publicresultspage",
-      "target": "src_lib_supabase_server_createadminclient",
-      "relation": "calls",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "context": "call",
-      "source_file": "src/app/results/page.tsx",
-      "source_location": "L34",
-      "weight": 1.0
-    },
-    {
-      "source": "src_app_results_page_publicresultspage",
       "target": "src_app_results_resultsclient_resultsclient",
       "relation": "calls",
       "_origin": "ast",
@@ -5156,7 +5051,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "src/app/results/page.tsx",
-      "source_location": "L69",
+      "source_location": "L45",
       "weight": 1.0
     },
     {
@@ -5468,7 +5363,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "src/app/(voter)/vote/VoteWizard.tsx",
-      "source_location": "L1051",
+      "source_location": "L1014",
       "weight": 1.0
     },
     {
@@ -5528,7 +5423,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "src/app/(voter)/vote/VoteWizard.tsx",
-      "source_location": "L337",
+      "source_location": "L321",
       "weight": 1.0
     },
     {
@@ -5540,7 +5435,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "src/app/(voter)/vote/VoteWizard.tsx",
-      "source_location": "L367",
+      "source_location": "L351",
       "weight": 1.0
     },
     {
@@ -5552,7 +5447,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "src/app/(voter)/vote/VoteWizard.tsx",
-      "source_location": "L449",
+      "source_location": "L429",
       "weight": 1.0
     },
     {
@@ -5564,7 +5459,31 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "src/app/(voter)/vote/VoteWizard.tsx",
-      "source_location": "L487",
+      "source_location": "L466",
+      "weight": 1.0
+    },
+    {
+      "source": "src_app_voter_vote_votewizard_votewizard",
+      "target": "src_components_themetoggle_themetoggle",
+      "relation": "calls",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": "src/app/(voter)/vote/VoteWizard.tsx",
+      "source_location": "L503",
+      "weight": 1.0
+    },
+    {
+      "source": "src_app_voter_vote_votewizard_votewizard",
+      "target": "src_components_nawalogo_nawalogo",
+      "relation": "calls",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": "src/app/(voter)/vote/VoteWizard.tsx",
+      "source_location": "L513",
       "weight": 1.0
     },
     {
@@ -5577,30 +5496,6 @@
       "context": "call",
       "source_file": "src/app/(voter)/vote/VoteWizard.tsx",
       "source_location": "L53",
-      "weight": 1.0
-    },
-    {
-      "source": "src_app_voter_vote_votewizard_votewizard",
-      "target": "src_components_themetoggle_themetoggle",
-      "relation": "calls",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "context": "call",
-      "source_file": "src/app/(voter)/vote/VoteWizard.tsx",
-      "source_location": "L539",
-      "weight": 1.0
-    },
-    {
-      "source": "src_app_voter_vote_votewizard_votewizard",
-      "target": "src_components_nawalogo_nawalogo",
-      "relation": "calls",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "context": "call",
-      "source_file": "src/app/(voter)/vote/VoteWizard.tsx",
-      "source_location": "L549",
       "weight": 1.0
     },
     {
@@ -5685,30 +5580,6 @@
       "context": "call",
       "source_file": "src/lib/actions/admin.ts",
       "source_location": "L58",
-      "weight": 1.0
-    },
-    {
-      "source": "src_lib_actions_admin_resetindividualtoken",
-      "target": "src_lib_supabase_server_createclient",
-      "relation": "calls",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "context": "call",
-      "source_file": "src/lib/actions/admin.ts",
-      "source_location": "L276",
-      "weight": 1.0
-    },
-    {
-      "source": "src_lib_actions_admin_resetindividualtoken",
-      "target": "src_lib_supabase_server_createadminclient",
-      "relation": "calls",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "context": "call",
-      "source_file": "src/lib/actions/admin.ts",
-      "source_location": "L284",
       "weight": 1.0
     },
     {
@@ -5804,7 +5675,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "src/lib/actions/vote.ts",
-      "source_location": "L54",
+      "source_location": "L53",
       "weight": 1.0
     },
     {
@@ -5816,7 +5687,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "src/lib/actions/vote.ts",
-      "source_location": "L111",
+      "source_location": "L93",
       "weight": 1.0
     },
     {
@@ -5828,7 +5699,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "src/lib/actions/vote.ts",
-      "source_location": "L112",
+      "source_location": "L94",
       "weight": 1.0
     },
     {
@@ -5840,7 +5711,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "src/lib/actions/vote.ts",
-      "source_location": "L216",
+      "source_location": "L198",
       "weight": 1.0
     },
     {
@@ -6249,19 +6120,6 @@
       "context": "generic_arg",
       "source_file": "src/app/results/useSystemConfig.ts",
       "source_location": "L20",
-      "weight": 1.0
-    },
-    {
-      "source": "src_app_results_page_publicresultspage",
-      "target": "src_lib_supabase_server",
-      "relation": "imports_from",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "context": "import",
-      "deferred": true,
-      "source_file": "src/app/results/page.tsx",
-      "source_location": "L33",
       "weight": 1.0
     },
     {
@@ -6790,42 +6648,6 @@
       "context": "import",
       "source_file": "src/app/admin/voters/VotersManager.tsx",
       "source_location": "L5",
-      "weight": 1.0
-    },
-    {
-      "source": "src_app_admin_voters_votersmanager",
-      "target": "src_lib_actions_admin_resetindividualtoken",
-      "relation": "imports",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "context": "import",
-      "source_file": "src/app/admin/voters/VotersManager.tsx",
-      "source_location": "L5",
-      "weight": 1.0
-    },
-    {
-      "source": "src_app_api_results_stats_route",
-      "target": "src_lib_supabase_server_createadminclient",
-      "relation": "imports",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "context": "import",
-      "source_file": "src/app/api/results-stats/route.ts",
-      "source_location": "L2",
-      "weight": 1.0
-    },
-    {
-      "source": "src_app_api_results_stats_route",
-      "target": "src_lib_supabase_server_createclient",
-      "relation": "imports",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "context": "import",
-      "source_file": "src/app/api/results-stats/route.ts",
-      "source_location": "L2",
       "weight": 1.0
     },
     {
@@ -8337,7 +8159,7 @@
       "confidence_score": 1.0,
       "context": "import",
       "source_file": "src/app/admin/voters/VotersManager.tsx",
-      "source_location": "L21",
+      "source_location": "L20",
       "weight": 1.0
     },
     {
@@ -8398,30 +8220,6 @@
       "context": "import",
       "source_file": "src/app/admin/voters/VotersManager.tsx",
       "source_location": "L7",
-      "weight": 1.0
-    },
-    {
-      "source": "src_app_api_results_stats_route",
-      "target": "ref_next",
-      "relation": "imports_from",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "context": "import",
-      "source_file": "src/app/api/results-stats/route.ts",
-      "source_location": "L1",
-      "weight": 1.0
-    },
-    {
-      "source": "src_app_api_results_stats_route",
-      "target": "src_lib_supabase_server",
-      "relation": "imports_from",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "context": "import",
-      "source_file": "src/app/api/results-stats/route.ts",
-      "source_location": "L2",
       "weight": 1.0
     },
     {
@@ -10459,7 +10257,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "src/app/admin/voters/VotersManager.tsx",
-      "source_location": "L23",
+      "source_location": "L22",
       "weight": 1.0
     },
     {
@@ -10470,7 +10268,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "src/app/admin/voters/VotersManager.tsx",
-      "source_location": "L31",
+      "source_location": "L30",
       "weight": 1.0
     },
     {
@@ -10481,7 +10279,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "src/app/admin/voters/VotersManager.tsx",
-      "source_location": "L35",
+      "source_location": "L34",
       "weight": 1.0
     },
     {
@@ -10526,39 +10324,6 @@
       "confidence_score": 1.0,
       "source_file": "src/app/api/ping/route.ts",
       "source_location": "L4",
-      "weight": 1.0
-    },
-    {
-      "source": "src_app_api_results_stats_route",
-      "target": "src_app_api_results_stats_route_dynamic",
-      "relation": "contains",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "source_file": "src/app/api/results-stats/route.ts",
-      "source_location": "L4",
-      "weight": 1.0
-    },
-    {
-      "source": "src_app_api_results_stats_route",
-      "target": "src_app_api_results_stats_route_revalidate",
-      "relation": "contains",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "source_file": "src/app/api/results-stats/route.ts",
-      "source_location": "L5",
-      "weight": 1.0
-    },
-    {
-      "source": "src_app_api_results_stats_route",
-      "target": "src_app_api_results_stats_route_get",
-      "relation": "contains",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "source_file": "src/app/api/results-stats/route.ts",
-      "source_location": "L7",
       "weight": 1.0
     },
     {
@@ -10838,6 +10603,17 @@
     },
     {
       "source": "src_app_results_interfaces_ballooninterface",
+      "target": "src_app_results_interfaces_ballooninterface_poppedballoon",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/app/results/interfaces/BalloonInterface.tsx",
+      "source_location": "L370",
+      "weight": 1.0
+    },
+    {
+      "source": "src_app_results_interfaces_ballooninterface",
       "target": "src_app_results_interfaces_ballooninterface_revealrole",
       "relation": "contains",
       "_origin": "ast",
@@ -10849,13 +10625,13 @@
     },
     {
       "source": "src_app_results_interfaces_ballooninterface",
-      "target": "src_app_results_interfaces_ballooninterface_poppedballoon",
+      "target": "src_app_results_interfaces_ballooninterface_ballooninterface",
       "relation": "contains",
       "_origin": "ast",
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "src/app/results/interfaces/BalloonInterface.tsx",
-      "source_location": "L401",
+      "source_location": "L406",
       "weight": 1.0
     },
     {
@@ -10867,17 +10643,6 @@
       "confidence_score": 1.0,
       "source_file": "src/app/results/interfaces/BalloonInterface.tsx",
       "source_location": "L41",
-      "weight": 1.0
-    },
-    {
-      "source": "src_app_results_interfaces_ballooninterface",
-      "target": "src_app_results_interfaces_ballooninterface_ballooninterface",
-      "relation": "contains",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "source_file": "src/app/results/interfaces/BalloonInterface.tsx",
-      "source_location": "L437",
       "weight": 1.0
     },
     {
@@ -11630,17 +11395,6 @@
     },
     {
       "source": "src_lib_actions_admin",
-      "target": "src_lib_actions_admin_resetindividualtoken",
-      "relation": "contains",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "source_file": "src/lib/actions/admin.ts",
-      "source_location": "L274",
-      "weight": 1.0
-    },
-    {
-      "source": "src_lib_actions_admin",
       "target": "src_lib_actions_admin_generatesecuretoken",
       "relation": "contains",
       "_origin": "ast",
@@ -11696,17 +11450,6 @@
     },
     {
       "source": "src_lib_actions_vote",
-      "target": "src_lib_actions_vote_syncofflinevotesbatch",
-      "relation": "contains",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "source_file": "src/lib/actions/vote.ts",
-      "source_location": "L102",
-      "weight": 1.0
-    },
-    {
-      "source": "src_lib_actions_vote",
       "target": "src_lib_actions_vote_verificationresponse",
       "relation": "contains",
       "_origin": "ast",
@@ -11724,7 +11467,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "src/lib/actions/vote.ts",
-      "source_location": "L206",
+      "source_location": "L188",
       "weight": 1.0
     },
     {
@@ -11769,6 +11512,17 @@
       "confidence_score": 1.0,
       "source_file": "src/lib/actions/vote.ts",
       "source_location": "L7",
+      "weight": 1.0
+    },
+    {
+      "source": "src_lib_actions_vote",
+      "target": "src_lib_actions_vote_syncofflinevotesbatch",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/lib/actions/vote.ts",
+      "source_location": "L84",
       "weight": 1.0
     },
     {
@@ -12526,5 +12280,5 @@
     }
   ],
   "hyperedges": [],
-  "built_at_commit": "cf4aa110db539eca227bb767bf7ee0253efbe03e"
+  "built_at_commit": "26409d477b4b593537b6d8f9ff02ed24485004b1"
 }
