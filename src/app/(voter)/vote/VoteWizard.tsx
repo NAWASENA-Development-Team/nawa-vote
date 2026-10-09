@@ -485,7 +485,7 @@ export default function VoteWizard({
       );
 
       const res = await Promise.race([
-        castSplitVote(selectedKetua.id, selectedWakil1.id, selectedWakil2.id),
+        castSplitVote(selectedKetua.id, selectedWakil1.id, selectedWakil2.id, voterToken),
         timeoutPromise,
       ]);
 

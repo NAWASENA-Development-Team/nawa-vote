@@ -59,9 +59,9 @@ export async function loginVoterToken(token: string): Promise<AuthResponse> {
       return { success: false, error: 'Token ini sudah digunakan untuk memberikan suara!' };
     }
 
-    // Set secure voter cookies
+    // Set secure voter cookies (httpOnly: false allows client JS to clear them offline)
     cookies().set('nawa_voter_token', cleanToken, {
-      httpOnly: true,
+      httpOnly: false,
       secure: process.env.NODE_ENV === 'production',
       sameSite: 'lax',
       path: '/',
@@ -69,7 +69,7 @@ export async function loginVoterToken(token: string): Promise<AuthResponse> {
     });
 
     cookies().set('nawa_voter_id', voter.id, {
-      httpOnly: true,
+      httpOnly: false,
       secure: process.env.NODE_ENV === 'production',
       sameSite: 'lax',
       path: '/',
