@@ -139,13 +139,3 @@ export async function logout(): Promise<void> {
   
   redirect('/');
 }
-
-/**
- * Clear voter cookies only without redirecting
- */
-export async function logoutVoter(): Promise<{ success: boolean }> {
-  cookies().delete('nawa_voter_token');
-  cookies().delete('nawa_voter_id');
-  return { success: true };
-}
-

@@ -3,7 +3,7 @@
 import React, { useState, useEffect, useCallback, useRef } from 'react';
 import { useRouter } from 'next/navigation';
 import { castSplitVote } from '@/lib/actions/vote';
-import { loginVoterToken, logout, logoutVoter } from '@/lib/actions/auth';
+import { loginVoterToken, logout } from '@/lib/actions/auth';
 import { createClient } from '@/lib/supabase/client';
 import CandidateCard, { Candidate } from '@/components/CandidateCard';
 import Link from 'next/link';
@@ -271,14 +271,13 @@ export default function VoteWizard({
   };
 
   const handleCancelSession = async () => {
-    handleNextVoter();
     if (isOnline) {
       try {
-        await logoutVoter();
-      } catch (err) {
-        console.error('Logout error:', err);
-      }
+        await logout();
+        return;
+      } catch {}
     }
+    handleNextVoter();
   };
 
   const handleCopyCode = (text: string) => {
