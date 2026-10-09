@@ -43,14 +43,36 @@ export async function castSplitVote(
 ): Promise<VoteResponse> {
   try {
     const voterToken = cookies().get('nawa_voter_token')?.value;
-    const voterId = cookies().get('nawa_voter_id')?.value;
+    let voterId = cookies().get('nawa_voter_id')?.value;
     const ip = headers().get('x-forwarded-for') || headers().get('x-real-ip') || 'unknown';
 
     if (!voterToken || !voterId) {
       return { success: false, error: 'Sesi voting tidak valid atau telah berakhir.' };
     }
 
+    const isUuid = (val?: string) =>
+      typeof val === 'string' &&
+      /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(val);
+
     const supabase = createClient();
+
+    // If voterId is not a valid UUID (e.g. offline placeholder, token string, or corrupted cookie),
+    // resolve the actual voter UUID from the voters table using voterToken.
+    if (!isUuid(voterId)) {
+      const { data: voter, error: vErr } = await supabase
+        .from('voters')
+        .select('id, has_voted')
+        .eq('token', voterToken.trim().toUpperCase())
+        .maybeSingle();
+
+      if (vErr || !voter) {
+        return { success: false, error: 'Token pemilih tidak valid atau tidak terdaftar.' };
+      }
+      if (voter.has_voted) {
+        return { success: false, error: 'Token ini sudah digunakan untuk memberikan suara.' };
+      }
+      voterId = voter.id;
+    }
 
     // Call the revised RPC split vote function
     const { data: voteToken, error: rpcError } = await supabase.rpc('submit_split_vote', {
